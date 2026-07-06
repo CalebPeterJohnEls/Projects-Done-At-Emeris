@@ -58,8 +58,6 @@ A collection of projects completed throughout my studies at **Emeris** (previous
 | `PROG6112` | [Programming Exam Q1](https://github.com/CalebPeterJohnEls/Projects-Done-At-Emeris/blob/main/Prog6112%20Programming%20exam%20q1.zip) | BCIS Year 2/3 — Programming | C#, MVC, SQL |
 | `PROG6112` | [Programming Exam Q2](https://github.com/CalebPeterJohnEls/Projects-Done-At-Emeris/blob/main/Prog6112%20Programming%20Exam%20q2.zip) | BCIS Year 2/3 — Programming | C#, MVC, SQL |
 
-> 💡 Double-check the `PROG6112` modules against your Year 2 vs Year 3 breakdown above — GitHub doesn't show which year each one belongs to, so update the table once you confirm. Consider unzipping each project into its own folder (instead of `.zip` files) so the code is browsable directly on GitHub, and adding a short description inside each project folder.
-
 ---
 
 ## 🚀 About This Repository
