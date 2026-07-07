@@ -1,0 +1,125 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+/*Table row*/
+/*tr:nth-child(even) {
+    background-color: aliceblue;
+    color: black;
+}
+
+tr:nth-child(odd) {
+    background-color: palegreen;
+    color: black;
+}*/
+
+tr:hover {
+    background-color: lightgreen;
+}
+
+thead {
+    background-color: darkcyan;
+    text-align: center;
+    font-size: 20px;
+    color: black; /*Add color to header text*/
+}
+
+tbody {
+    text-align: center;
+    font-size: 15px;
+}
+
+/*This gives your table rounded Corners*/
+table {
+    width: 100%;
+    border-spacing: 0; /*Keeps Celss tight together*/
+    overflow: hidden; /*This makes sure that the contenbt (sharp corners gone)*/
+    border-radius: 10px;
+}
+/*Heading*/
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+ 
+}
+/*Buttons*/
+.btn {
+    background-color: darkcyan;
+    color: lightgreen;
+    border: none;
+    margin-bottom;10px;
+    text-decoration: none; /*Removes hyperlink*/
+}
+
+    .btn.hover {
+        background-color: darkblue;
+        color: white;
+    }
+/*Create Form*/
+
+/*Input Fields*/
+
+/*Once again w3Schools can help with this*/
+
+input[type=text], input[type=number] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+  
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+    input[type=text]:focus, input[type=number]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+
+/*Take down, will explain the next step */
+
+.form-container {
+    padding: 16px;
+    margin: auto;
+    max-width: 600px;
+}
+/*Button for Create Form*/
+
+signupbtn {
+    background-color: darkblue;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+    signupbtn:hover {
+        opacity: 1;
+        background-color: lightblue;
+    }
+
+.clearfix::after {
+    content: "";
+    clear: both;
+}

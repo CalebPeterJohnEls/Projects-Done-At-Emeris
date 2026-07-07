@@ -1,0 +1,235 @@
+name: Advanced CI/CD Integration Pipeline
+
+on:
+  push:
+    branches: [ "main","master" ]
+  pull_request:
+    branches: [ "main","master" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  REGISTRY: ghcr.io
+  IMAGE_OWNER: emecpe
+
+jobs:
+  # JOB 1: Evaluates codebase syntax, formatting, and warnings early
+  code-quality:
+    name: 🛡️ Code Quality & Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+          cache: true
+          cache-dependency-path: '**/*.csproj'
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Static Code Analysis
+        run: dotnet build --configuration Release --no-restore /warnaserror
+
+      - name: Run Unit and Integration Tests
+        run: dotnet test --configuration Release --no-build --verbosity normal
+        env:
+          ASPNETCORE_ENVIRONMENT: Testing
+
+  # JOB 2: Builds Docker images on the fast GitHub runner and pushes to ghcr.io
+  compile-and-build:
+    name: 🏗️ Docker Build & Push to Registry
+    runs-on: ubuntu-latest
+    needs: code-quality
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Build and Push API Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./apiGLMS/apiGLMS/Dockerfile
+          push: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
+          tags: ghcr.io/${{ env.IMAGE_OWNER }}/glms-api:latest
+
+      - name: Build and Push MVC Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./mvcGLMS/Dockerfile
+          push: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' }}
+          tags: ghcr.io/${{ env.IMAGE_OWNER }}/glms-mvc:latest
+
+  # JOB 3: Launches local dependency topologies and handles cross-integration validations
+  integration-testing:
+    name: 🧪 System Integration Verification
+    runs-on: ubuntu-latest
+    needs: compile-and-build
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Build and Launch Application Mesh
+        run: docker compose up -d
+
+      - name: Grace Period for Database Boot
+        run: |
+          echo "Giving Microsoft SQL Server 30 seconds to complete table setups..."
+          sleep 30
+
+      - name: Wait for API Readiness
+        run: |
+          echo "Waiting for GLMS API to wake up at http://localhost:8080..."
+          timeout 60s sh -c 'until curl -sf http://localhost:8080/api/clients > /dev/null; do echo "API not ready, retrying..."; sleep 3; done'
+          echo "GLMS API is up and running"
+
+      - name: Integration Step 1 - Seed Data via API
+        run: |
+          echo "Posting a new client payload to the database..."
+          curl -X POST http://localhost:8080/api/clients \
+            -H "Content-Type: application/json" \
+            -d '{"name":"CI Test Client","contactDetails":"ci@test.com","region":"Gauteng"}' \
+            --fail --verbose
+
+      - name: Integration Step 2 - Verify GET /api/contracts Returns 200
+        run: |
+          echo "Querying GET /api/contracts..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/contracts)
+          echo "Response: HTTP $STATUS"
+          [ "$STATUS" = "200" ] || (echo "ERROR: Expected 200, got $STATUS" && exit 1)
+          echo "SUCCESS: /api/contracts returned 200 OK"
+
+      - name: Integration Step 3 - Verify GET /api/clients Returns 200
+        run: |
+          echo "Querying GET /api/clients..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/clients)
+          echo "Response: HTTP $STATUS"
+          [ "$STATUS" = "200" ] || (echo "ERROR: Expected 200, got $STATUS" && exit 1)
+          echo "SUCCESS: /api/clients returned 200 OK"
+
+      - name: Integration Step 4 - Verify GET /api/servicerequests Returns 200
+        run: |
+          echo "Querying GET /api/servicerequests..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/servicerequests)
+          echo "Response: HTTP $STATUS"
+          [ "$STATUS" = "200" ] || (echo "ERROR: Expected 200, got $STATUS" && exit 1)
+          echo "SUCCESS: /api/servicerequests returned 200 OK"
+
+      - name: Tear Down Mesh and Logs
+        if: always()
+        run: |
+          docker compose logs > all-container-debug.log
+          docker compose down --volumes
+
+  # JOB 4: Droplet pulls pre-built images from ghcr.io and starts them — no building needed
+  cd-deployment:
+    name: 🚀 Production Cloud Deployment
+    runs-on: ubuntu-latest
+    needs: integration-testing
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    environment: Production
+    steps:
+      - name: Deploy via SSH to DigitalOcean Droplet
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DO_DROPLET_IP }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          username: root
+          timeout: 60s
+          command_timeout: 10m
+          script: |
+            PROJECT_DIR="prog7311-2026-poe-CalebPeterJohnEls"
+
+            export GIT_SSH_COMMAND="ssh -i /root/.ssh/id_ed25519 -o IdentitiesOnly=yes"
+
+            if [ -d "$PROJECT_DIR" ]; then
+              cd "$PROJECT_DIR"
+              echo "Syncing remote context safely..."
+              git fetch --all
+              git reset --hard origin/${{ github.ref_name }}
+              git pull
+            else
+              echo "Initializing remote directory for EMECPE/prog7311-2026-poe-CalebPeterJohnEls..."
+              git clone git@github.com:EMECPE/prog7311-2026-poe-CalebPeterJohnEls.git "$PROJECT_DIR"
+              cd "$PROJECT_DIR"
+            fi
+
+            echo "Logging into GitHub Container Registry..."
+            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            echo "Pulling latest pre-built images from registry..."
+            docker compose pull
+
+            echo "Stopping active container clusters..."
+            docker compose down
+
+            echo "Starting containers from pulled images..."
+            docker compose up -d
+
+            echo "Deployment executed successfully!"
+
+  # JOB 5: Connects over the public internet to verify the deployment is accessible globally
+  post-deployment-smoke-test:
+    name: 🔍 Live Cloud Smoke Verification
+    runs-on: ubuntu-latest
+    needs: cd-deployment
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    steps:
+      - name: Settle Environments
+        run: |
+          echo "Allowing containers 60 seconds to fully complete initial production boot cycles..."
+          sleep 60
+
+      - name: Verify Public REST API Gateway (Port 8080)
+        run: |
+          echo "Testing public connection to GLMS API over port 8080..."
+          API_URL="http://${{ secrets.DO_DROPLET_IP }}:8080/api/clients"
+
+          API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 10 "$API_URL")
+          echo "API Response: HTTP $API_STATUS"
+
+          if [ "$API_STATUS" = "200" ]; then
+            echo "✅ PASSED: GLMS backend REST API is live and responding externally!"
+          else
+            echo "❌ FAILED: GLMS API responded with unexpected status $API_STATUS."
+            exit 1
+          fi
+
+      - name: Verify Public MVC User Interface (Port 80)
+        run: |
+          echo "Testing public connection to GLMS MVC front-end over port 80..."
+          MVC_URL="http://${{ secrets.DO_DROPLET_IP }}:80"
+
+          MVC_HEADERS=$(curl -sI --connect-timeout 10 "$MVC_URL")
+          echo "$MVC_HEADERS"
+
+          if echo "$MVC_HEADERS" | grep -qE "200 OK|302 Found|302 Moved"; then
+            echo "✅ PASSED: GLMS MVC application is public and handling connections!"
+          else
+            echo "❌ FAILED: GLMS MVC application refused external connection handshakes."
+            exit 1
+          fi

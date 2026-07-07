@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>apiGLMS</name>
+    </assembly>
+    <members>
+        <member name="T:apiGLMS.Controllers.AuthController">
+            <summary>
+            Handles login and registration. Returns a JWT on success.
+            Called by the MVC AccountController — not used directly by end users.
+            </summary>
+        </member>
+        <member name="M:apiGLMS.Controllers.AuthController.Login(apiGLMS.Controllers.AuthRequest)">
+            <summary>Validates credentials and returns a JWT.</summary>
+        </member>
+        <member name="M:apiGLMS.Controllers.AuthController.Register(apiGLMS.Controllers.RegisterRequest)">
+            <summary>Creates a new user account and returns a JWT.</summary>
+        </member>
+        <member name="T:apiGLMS.Controllers.ContractsController">
+            <summary>
+            Manages contract records — create, read, update, delete, and status changes.
+            </summary>
+        </member>
+        <member name="M:apiGLMS.Controllers.ContractsController.GetAll(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String)">
+            <summary>
+            Returns all contracts, with optional date-range and status filters.
+            </summary>
+            <param name="startDate">Only return contracts whose StartDate is on or after this value.</param>
+            <param name="endDate">Only return contracts whose EndDate is on or before this value.</param>
+            <param name="status">Partial, case-insensitive match against the Status field.</param>
+            <returns>A JSON array of matching contracts (includes Client data).</returns>
+            <response code="200">Returns the filtered list of contracts.</response>
+        </member>
+        <member name="M:apiGLMS.Controllers.ContractsController.GetById(System.Int32)">
+            <summary>
+            Returns a single contract by its ID, including the Client and all linked ServiceRequests.
+            </summary>
+            <param name="id">The contract's primary key.</param>
+            <returns>A single contract object.</returns>
+            <response code="200">Contract found and returned.</response>
+            <response code="404">No contract exists with that ID.</response>
+        </member>
+        <member name="M:apiGLMS.Controllers.ContractsController.Create(apiGLMS.Models.Contract)">
+             <summary>
+             Creates a new contract record.
+             </summary>
+             <remarks>
+             The <c>SignedAgreementPath</c> field should be populated separately via the
+             MVC file-upload flow; it is optional here and can be left null or supplied
+             as a previously stored path string.
+            
+             Sample request body:
+            
+                 POST /api/contracts
+                 {
+                   "clientId": 3,
+                   "startDate": "2026-01-01",
+                   "endDate":   "2026-12-31",
+                   "status":    "Draft",
+                   "serviceLevel": "Gold"
+                 }
+             </remarks>
+             <param name="contract">Contract data in the request body (JSON).</param>
+             <returns>The newly created contract, with its generated ID.</returns>
+             <response code="201">Contract created successfully.</response>
+             <response code="400">Validation failed — see the errors object.</response>
+        </member>
+        <member name="M:apiGLMS.Controllers.ContractsController.Update(System.Int32,apiGLMS.Models.Contract)">
+            <summary>
+            Fully replaces an existing contract record with new data.
+            </summary>
+            <param name="id">The primary key of the contract to update.</param>
+            <param name="contract">The replacement contract data (JSON). Must include the matching Id.</param>
+            <response code="204">Update was successful; no body is returned.</response>
+            <response code="400">Validation failed.</response>
+            <response code="404">No contract with that ID exists.</response>
+        </member>
+        <member name="M:apiGLMS.Controllers.ContractsController.UpdateStatus(System.Int32,System.String)">
+             <summary>
+             Updates only the Status field of a contract (e.g. approve or decline).
+             </summary>
+             <remarks>
+             Send the new status as a plain JSON string:
+            
+                 PATCH /api/contracts/7/status
+                 "Approved"
+            
+             Common values: <c>Draft</c>, <c>Active</c>, <c>Approved</c>, <c>Declined</c>, <c>Expired</c>.
+             </remarks>
+             <param name="id">The contract's primary key.</param>
+             <param name="status">The new status string.</param>
+             <response code="204">Status updated.</response>
+             <response code="400">Status value was empty.</response>
+             <response code="404">No contract with that ID.</response>
+        </member>
+        <member name="M:apiGLMS.Controllers.ContractsController.UpdateAgreementPath(System.Int32,System.String)">
+             <summary>
+             Updates the SignedAgreementPath after the MVC layer has handled the physical file upload.
+             </summary>
+             <remarks>
+             The MVC app uploads the PDF, saves it to wwwroot/uploads, then calls this endpoint
+             to persist the resulting path in the database.
+            
+                 PATCH /api/contracts/7/agreement-path
+                 "/uploads/abc123_signed.pdf"
+             </remarks>
+             <param name="id">The contract's primary key.</param>
+             <param name="path">The relative server path to the stored PDF.</param>
+             <response code="204">Path updated.</response>
+             <response code="400">Path value was empty.</response>
+             <response code="404">No contract with that ID.</response>
+        </member>
+        <member name="M:apiGLMS.Controllers.ContractsController.Delete(System.Int32)">
+            <summary>
+            Permanently removes a contract record from the database.
+            Note: the associated PDF file (if any) must be deleted separately by the MVC layer.
+            </summary>
+            <param name="id">The primary key of the contract to delete.</param>
+            <response code="204">Deleted successfully.</response>
+            <response code="404">No contract with that ID.</response>
+        </member>
+        <member name="T:apiGLMS.Migrations.AddUserNameSurname">
+            <inheritdoc />
+        </member>
+        <member name="M:apiGLMS.Migrations.AddUserNameSurname.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:apiGLMS.Migrations.AddUserNameSurname.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:apiGLMS.Migrations.AddUserNameSurname.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

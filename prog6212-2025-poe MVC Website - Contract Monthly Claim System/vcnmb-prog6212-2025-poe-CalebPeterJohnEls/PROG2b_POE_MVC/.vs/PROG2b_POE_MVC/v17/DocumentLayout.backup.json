@@ -1,0 +1,609 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\models\\claims.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\models\\claims.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\claimspdfdocumentcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\claimspdfdocumentcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\controllers\\claimscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\controllers\\claimscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\claims\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\claims\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\hr\\registeruser.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\hr\\registeruser.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\hr\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\hr\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\controllers\\hrcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\controllers\\hrcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\coordinator\\verification.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\coordinator\\verification.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\hr\\edituser.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\hr\\edituser.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\models\\hr.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\models\\hr.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\claims\\claimstatus.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\claims\\claimstatus.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\controllers\\managercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\controllers\\managercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\manager\\approval.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\manager\\approval.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\models\\register.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\models\\register.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\claims\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\claims\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\controllers\\coordinatorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\controllers\\coordinatorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\coordinator\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\coordinator\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\prog2b_poe_mvc.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\prog2b_poe_mvc.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\models\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10063AE9-A7AC-4AC8-8A43-EC256BF87A91}|TestProject\\TestProject.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\testproject\\test1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10063AE9-A7AC-4AC8-8A43-EC256BF87A91}|TestProject\\TestProject.csproj|solutionrelative:testproject\\test1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\wwwroot\\claimdocs\\legal info.txt.enc||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\wwwroot\\claimdocs\\legal info.txt.enc||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\manager\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\manager\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10063AE9-A7AC-4AC8-8A43-EC256BF87A91}|TestProject\\TestProject.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\testproject\\mstestsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10063AE9-A7AC-4AC8-8A43-EC256BF87A91}|TestProject\\TestProject.csproj|solutionrelative:testproject\\mstestsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|c:\\users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-calebpeterjohnels\\prog2b_poe_mvc\\prog2b_poe_mvc\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6355791-C242-44F0-BFBA-94C0627E671A}|PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj|solutionrelative:prog2b_poe_mvc\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ClaimsPDFDocumentcs.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\ClaimsPDFDocumentcs.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\ClaimsPDFDocumentcs.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\ClaimsPDFDocumentcs.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\ClaimsPDFDocumentcs.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAkwHgAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T12:39:07.113Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ClaimsController.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\ClaimsController.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Controllers\\ClaimsController.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\ClaimsController.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Controllers\\ClaimsController.cs",
+              "ViewState": "AgIAAPQAAAAAAAAAAAAcwAIBAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T18:40:46.009Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Claims\\Create.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Claims\\Create.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Claims\\Create.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Claims\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-20T18:04:02.756Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Verification.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Coordinator\\Verification.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Coordinator\\Verification.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Coordinator\\Verification.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Coordinator\\Verification.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-18T12:48:41.984Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Program.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Program.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Program.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Program.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAgwEQAAACNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T17:41:45.571Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RegisterUser.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\HR\\RegisterUser.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\HR\\RegisterUser.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\HR\\RegisterUser.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\HR\\RegisterUser.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAADcAAABpAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-15T13:51:17.942Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\HR\\Index.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\HR\\Index.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\HR\\Index.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\HR\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-15T13:51:45.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Claims.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\Claims.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Models\\Claims.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\Claims.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Models\\Claims.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAQwBEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T17:57:03.158Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-18T13:03:33.384Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "EditUser.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\HR\\EditUser.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\HR\\EditUser.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\HR\\EditUser.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\HR\\EditUser.cshtml",
+              "ViewState": "AgIAAAoAAAAAAAAAAADwvzcAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-16T13:44:37.26Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "HRController.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\HRController.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Controllers\\HRController.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\HRController.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Controllers\\HRController.cs",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAuwKsAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-16T13:42:40.809Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwC0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-15T11:26:52.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T19:17:52.739Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-15T12:27:22.796Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAH4AAAAAAAAAAAAAAJAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-16T18:50:19.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "HR.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\HR.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Models\\HR.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\HR.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Models\\HR.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-16T13:41:24.291Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ClaimStatus.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Claims\\ClaimStatus.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Claims\\ClaimStatus.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Claims\\ClaimStatus.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Claims\\ClaimStatus.cshtml",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAB4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-15T18:38:18.971Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ManagerController.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\ManagerController.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Controllers\\ManagerController.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\ManagerController.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Controllers\\ManagerController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGoAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-20T17:49:44.596Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Approval.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Manager\\Approval.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Manager\\Approval.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Manager\\Approval.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Manager\\Approval.cshtml",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAB8AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-20T17:49:07.632Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Login.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\Login.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Models\\Login.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\Login.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Models\\Login.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAACNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-15T11:15:48.565Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Register.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\Register.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Models\\Register.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\Register.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Models\\Register.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAUwCIAAACNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-15T11:16:02.937Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\User.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\User.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAACNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-15T11:15:16.024Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Claims\\Index.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Claims\\Index.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Claims\\Index.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Claims\\Index.cshtml",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-15T18:25:56.513Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "CoordinatorController.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\CoordinatorController.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Controllers\\CoordinatorController.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Controllers\\CoordinatorController.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Controllers\\CoordinatorController.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAIwBwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T18:41:26.882Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Coordinator\\Index.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Coordinator\\Index.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Coordinator\\Index.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Coordinator\\Index.cshtml",
+              "ViewState": "AgIAADgAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-15T18:26:35.607Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "PROG2b_POE_MVC.csproj",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj",
+              "RelativeToolTip": "PROG2b_POE_MVC\\PROG2b_POE_MVC.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-16T10:30:58.583Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Models\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Models\\ApplicationDbContext.cs",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Models\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAmwA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-16T14:14:36.07Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Test1.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\TestProject\\Test1.cs",
+              "RelativeDocumentMoniker": "TestProject\\Test1.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\TestProject\\Test1.cs",
+              "RelativeToolTip": "TestProject\\Test1.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowEAAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T12:41:54.445Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\appsettings.json",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\appsettings.json",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\appsettings.json",
+              "RelativeToolTip": "PROG2b_POE_MVC\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-16T12:23:59.168Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Manager\\Index.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Manager\\Index.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Manager\\Index.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Manager\\Index.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAIBJwCkAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-20T17:50:49.17Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "LEGAL INFO.txt.enc",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\wwwroot\\claimDocs\\LEGAL INFO.txt.enc",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\wwwroot\\claimDocs\\LEGAL INFO.txt.enc",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\wwwroot\\claimDocs\\LEGAL INFO.txt.enc",
+              "RelativeToolTip": "PROG2b_POE_MVC\\wwwroot\\claimDocs\\LEGAL INFO.txt.enc",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-10-28T11:55:08.371Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Home\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\Home\\Privacy.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\Home\\Privacy.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\Home\\Privacy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T19:16:37.18Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "PROG2b_POE_MVC\\wwwroot\\css\\site.css",
+              "ViewState": "AgIAAEIAAAAAAAAAAIBJwFYAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-18T13:21:47.316Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "MSTestSettings.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\TestProject\\MSTestSettings.cs",
+              "RelativeDocumentMoniker": "TestProject\\MSTestSettings.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\TestProject\\MSTestSettings.cs",
+              "RelativeToolTip": "TestProject\\MSTestSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T12:46:19.29Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "bootstrap-grid.css",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+              "RelativeToolTip": "PROG2b_POE_MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+              "ViewState": "AgIAAGUBAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-18T13:21:34.697Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "PROG2b_POE_MVC\\Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\source\\repos\\vcnmb-prog6212-2025-poe-CalebPeterJohnEls\\PROG2b_POE_MVC\\PROG2b_POE_MVC\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "PROG2b_POE_MVC\\Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-16T18:50:08.198Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

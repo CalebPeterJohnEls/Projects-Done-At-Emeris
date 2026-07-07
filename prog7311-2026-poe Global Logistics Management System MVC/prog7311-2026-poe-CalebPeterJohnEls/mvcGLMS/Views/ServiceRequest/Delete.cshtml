@@ -1,0 +1,100 @@
+@model mvcGLMS.Models.ServiceRequest
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+
+    <div class="col-md-6 text-center">
+
+        <h1>Delete</h1>
+        <h4>Are you sure you want to delete this?</h4>
+        <hr />
+
+        <dl class="row text-start">
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.Contract)
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model?.Contract != null)
+                {
+                    @Model.Contract.Id
+                }
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.CostUSD)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.CostUSD)
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.CostZAR)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.CostZAR)
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="d-flex justify-content-center gap-2">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a asp-action="Index" class="btn btn-success">Back</a>
+            </div>
+        </form>
+
+        <hr />
+
+        <!-- REFERENCES -->
+        <!--
+        (Troelsen, and Japikse, 2022; IIE Emeris School of Computer Science, 2025a; IIE Emeris School of Computer Science, 2025b; The IIE. 2026;
+        W3Schools, 2025a; W3Schools, 2025b; W3Schools, 2025c)
+
+        • ersoma, 2017. CurrencyConverter – Views/Home/_Converter.cshtml. [online] Available at: https://github.com/ersoma/CurrencyConverter/blob/master/CurrencyConverter/Views/Home/_Converter.cshtml [Accessed 22 April 2026].
+
+        • IIE Emeris School of Computer Science, 2025a. CLDV6211 - Playlist. [video online] Available at: https://www.youtube.com/playlist?list=PL480DYS-b_kevhFsiTpPIB2RzhKPig4iK [Accessed 18 March 2025].
+
+        • IIE Emeris School of Computer Science, 2025b. CLDV6212 - Playlist. [video online] Available at: https://www.youtube.com/playlist?list=PL480DYS-b_kcZiyuCyHolh6Nad8J_Xnk7 [Accessed 20 September 2025].
+
+        • IIE, 2025. Information System 2C [INSY7213 Module Manual]. The Independent Institute of Education: Unpublished.
+
+        • The IIE. 2026. PROGRAMMING 3A [PROG7311 Module Manual]. The Independent Institute of Education: Unpublished.
+
+        • Microsoft, 2025. IDocument Interface (org.w3c.dom). [online] Available at: https://learn.microsoft.com/en-us/dotnet/api/org.w3c.dom.idocument?view=net-android-35.0 [Accessed 22 April 2026].
+
+        • Microsoft, 2026a. CultureInfo Class. [online] Available at: https://learn.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo?view=net-10.0 [Accessed 20 April 2026].
+
+        • Microsoft, 2026b. RangeAttribute Class. [online] Available at: https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.rangeattribute?view=net-9.0 [Accessed 22 April 2026].
+
+        • Microsoft, 2026c. Testing ASP.NET Core MVC Apps. [online] Available at: https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/testing?view=aspnetcore-10.0 [Accessed 19 April 2026].
+
+        • Microsoft, 2026d. Unit Testing C# with xUnit. [online] Available at: https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-csharp-with-xunit [Accessed 22 April 2026].
+
+        • Microsoft, 2026e. Upload files in ASP.NET Core. [online] Available at: https://www.oreilly.com/library/view/asp-net-cookbook/0596003781/ch14s04.html [Accessed 22 April 2026].
+
+        • Stack Overflow, 2018. Get Exchange Rate From Currency Converter API in C#. [online] Available at: https://stackoverflow.com/questions/53341259/get-exchange-rate-from-currency-converter-api-in-c-sharp [Accessed 22 April 2026].
+
+        • W3Schools, 2025c. JavaScript Fetch API. [online] Available at: https://www.w3schools.com/js/js_api_fetch.asp [Accessed 20 April 2026].
+        -->
+    </div>
+</div>

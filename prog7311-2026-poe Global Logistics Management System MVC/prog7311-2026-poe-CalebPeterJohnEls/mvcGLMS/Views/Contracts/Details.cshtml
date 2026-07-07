@@ -1,0 +1,157 @@
+@model mvcGLMS.Models.Contract
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+
+    <div class="col-md-6 text-center">
+
+        <h1>Details</h1>
+        <h4>Contract</h4>
+        <hr />
+
+        <dl class="row text-start">
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.Client)
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model?.Client != null)
+                {
+                    @Model.Client.Name
+                }
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.EndDate)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.EndDate)
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.ServiceLevel)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.ServiceLevel)
+            </dd>
+
+            <dt class="col-sm-4 fw-bold">
+                @Html.DisplayNameFor(model => model.SignedAgreementPath)
+            </dt>
+            <dd class="col-sm-8">
+                @if (!string.IsNullOrEmpty(Model?.SignedAgreementPath))
+                {
+                    <a href="@Url.Content(Model!.SignedAgreementPath)" target="_blank" class="btn btn-primary btn-sm">
+                        View Contract
+                    </a>
+                }
+                else
+                {
+                    <p>NO DOCUMENT</p>
+                }
+            </dd>
+
+        </dl>
+
+        @*(Troelsen, and Japikse, 2022; The IIE. 2026; Refactoring Guru, 2024b; TutorialsPoint, 2026; W3Schools, 2025c.)
+        Service Requests section: demonstrates the Contract to ServiceRequest Composite structure*@
+        <h4 class="mt-4 mb-3 text-start">Service Requests</h4>
+
+        @if (Model?.ServiceRequests != null && Model.ServiceRequests.Any())
+        {
+            <table class="table table-sm table-hover shadow-sm bg-light rounded">
+                <thead class="table-light">
+                    <tr style="font-size: 0.9rem;">
+                        <th style="background-color: lightgreen">Description</th>
+                        <th style="background-color: lightgreen">USD</th>
+                        <th style="background-color: lightgreen">ZAR</th>
+                        <th style="background-color: lightgreen">Status</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 0.9rem;">
+                @foreach (var sr in Model.ServiceRequests)
+                {
+                    <tr>
+                        <td>@sr.Description</td>
+                        <td>
+                            @sr.CostUSD.ToString("C", new System.Globalization.CultureInfo("en-US"))
+                        </td>
+                        <td>
+                            @sr.CostZAR.ToString("C", new System.Globalization.CultureInfo("en-ZA"))
+                        </td>
+                        <td>
+                            @{
+                                var statusClass = sr.Status == "Completed" ? "bg-success" :
+                                                  sr.Status == "Pending" ? "bg-warning text-dark" :
+                                                  "bg-secondary";
+                            }
+                            <span class="badge @statusClass" style="font-size: 0.75rem;">
+                                @sr.Status
+                            </span>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info mt-2 p-2" style="font-size: 0.9rem;">
+                No service requests found for this contract.
+            </div>
+        }
+
+        <div class="d-flex justify-content-center gap-2 mt-3">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-success">Edit</a>
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+
+        <hr />
+
+        <!-- REFERENCES -->
+        <!--
+        (Troelsen, and Japikse, 2022; IIE Emeris School of Computer Science, 2025a; IIE Emeris School of Computer Science, 2025b; The IIE. 2026;
+        W3Schools, 2025a; W3Schools, 2025b;W3Schools, 2025c)
+        - IIE Emeris School of Computer Science, 2025a. CLDV6211 - Playlist. [video online] Available at: <https://www.youtube.com/playlist?list=PL480DYS-b_kevhFsiTpPIB2RzhKPig4iK> [Accessed 18 March 2025].
+        - IIE Emeris School of Computer Science, 2025b. CLDV6212 - Playlist. [video online] Available at: <https://www.youtube.com/playlist?list=PL480DYS-b_kcZiyuCyHolh6Nad8J_Xnk7> [Accessed 20 September 2025].
+        - IIE, 2025. Information System 2C [INSY7213 Module Manual]. The Independent Institute of Education: Unpublished.
+        - The IIE. 2026. PROGRAMMING 3A [PROG7311 Module Manual]. The Independent Institute of Education: Unpublished.
+        - Microsoft, 2025. IDocument Interface (org.w3c.dom). [online] Available at: < https://learn.microsoft.com/en-us/dotnet/api/org.w3c.dom.idocument?view=net-android-35.0 > [Accessed 22 April 2026].
+        - Microsoft, 2026a. CultureInfo Class. [online] Available at: <https://learn.microsoft.com/en-us/dotnet/api/system.globalization.cultureinfo?view=net-10.0> [Accessed 20 April 2026].
+        - Microsoft, 2026b. RangeAttribute Class. [online] Available at: <https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.rangeattribute?view=net-9.0> [Accessed 22 April 2026].
+        - Microsoft, 2026c. Testing ASP.NET Core MVC Apps. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/testing?view=aspnetcore-10.0> [Accessed 19 April 2026].
+        - Microsoft, 2026d. Unit Testing C# with xUnit. [online] Available at: <https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-csharp-with-xunit> [Accessed 22 April 2026].
+        - Microsoft, 2026e. Upload files in ASP.NET Core. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads >[Accessed 10 April 2026].
+        - Mozilla Developer Network, 2026. Response.json(). [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/API/Response/json> [Accessed 10 April 2026].
+        - O'Reilly Media, 2004. Overriding Currency Formatting. Chapter 14, Section 4. Available at: <https://www.oreilly.com/library/view/asp-net-cookbook/0596003781/ch14s04.html> [Accessed 22 April 2026].
+        - Refactoring Guru, 2024a. Strategy Design Pattern. [online] Available at: <https://refactoring.guru/design-patterns/strategy> [Accessed 15 April 2026].
+        - Refactoring Guru, 2024b. Composite Design Pattern. [online] Available at: <https://refactoring.guru/design-patterns/composite> [Accessed 15 March 2026].
+        - Stack Overflow, 2010a. Format string by CultureInfo. [online] Available at: <https://stackoverflow.com/questions/1266093/format-string-by-cultureinfo> [Accessed 10 April 2026].
+        - Stack Overflow, 2010b. Date range search filter functionality in ASP.NET MVC 5. [online] Available at: <https://stackoverflow.com/questions/46218160/date-range-search-filter-functionality-in-asp-net-mvc-5> [Accessed 10 April 2026].
+        - Stack Overflow, 2016. How to update uploaded file and delete the old one in ASP.NET MVC. [online] Available at: <https://stackoverflow.com/questions/31335380/how-to-update-uploaded-file-and-delete-the-old-one-in-asp-net-mvc> [Accessed15 April 2026].
+        - Stack Overflow, 2018. Get Exchange Rate From Currency Converter API in C#. [online] Available at: https://stackoverflow.com/questions/53341259/get-exchange-rate-from-currency-converter-api-in-c-sharp [Accessed 22 April 2026].
+        -    The Open Group, 2025. Razor C# Logic. [online] Available at: <https://www.w3schools.com/asp/razor_cs_logic.asp> [Accessed 20 April 2026].
+        - Troelsen, A. and Japikse, P., 2022. Pro C# 10 with .NET 6: Foundational principles and practices in programming 8th ed. New York: Apress.
+        - W3Schools, 2025a. CSS Tutorial. [online] Available at: <https://www.w3schools.com/css/> [Accessed 20 April 2026].
+        - W3Schools, 2025b. HTML Tutorial. [online] Available at: <https://www.w3schools.com/Html/> [Accessed 20 April 2026].
+        - W3Schools, 2025c. JavaScript Fetch API. [online] Available at: <https://www.w3schools.com/js/js_api_fetch.asp> [Accessed 20 April 2026].
+        -->
+    </div>
+</div>

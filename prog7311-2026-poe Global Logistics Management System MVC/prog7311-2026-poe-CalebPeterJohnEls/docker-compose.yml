@@ -1,0 +1,58 @@
+services:
+  glms-db-service:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: glms-db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Password1!"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - db_data:/var/opt/mssql
+    restart: unless-stopped
+    networks:
+      - glms-network
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'Password1!' -C -Q 'SELECT 1'"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+
+  api-service:
+    image: ghcr.io/emecpe/glms-api:latest
+    container_name: api-glms-service
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__DefaultConnection: "Server=glms-db;Database=GLMSnew;User Id=sa;Password=Password1!;TrustServerCertificate=True;MultipleActiveResultSets=true"
+    ports:
+      - "8080:8080"
+    depends_on:
+      glms-db-service:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - glms-network
+
+  mvc-service:
+    image: ghcr.io/emecpe/glms-mvc:latest
+    container_name: mvc-glms-service
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+      ApiSettings__BaseUrl: "http://api-service:8080/api"
+      ConnectionStrings__DefaultConnection: "Server=glms-db;Database=GLMSnew;User Id=sa;Password=Password1!;TrustServerCertificate=True;MultipleActiveResultSets=true"
+    ports:
+      - "80:8080"
+    depends_on:
+      - api-service
+    restart: unless-stopped
+    networks:
+      - glms-network
+
+networks:
+  glms-network:
+    driver: bridge
+
+volumes:
+  db_data:

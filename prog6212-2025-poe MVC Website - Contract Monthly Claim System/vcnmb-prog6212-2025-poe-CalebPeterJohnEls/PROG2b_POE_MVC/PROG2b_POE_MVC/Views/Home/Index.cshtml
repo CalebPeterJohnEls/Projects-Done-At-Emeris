@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<center><img src="~/Logo/logo.png" alt="Logo" width="150" height="150" /></center>
+<!--Image of logo-->
+<!--(Flaticon, 2025;W3Schools, 2025)-->
+
+
+
+   @if (!string.IsNullOrEmpty(Context.Session.GetString("Username"))) /*Calls Role from sessions in Account controller and declares it as a variable*/
+   /*If a user is logged in, the welcome message will include their username*/
+                        {
+<div class="text-center">
+        <h1 class="display-4">Welcome, @Context.Session.GetString("Username"), to the</h1>
+    <h1 class="display-4">Contract Monthly Claim System (CMCS) </h1>
+   
+</div>
+                        }
+                        else{
+
+    <div class="text-center">
+        <h1 class="display-4">Welcome to the</h1>
+        <h1 class="display-4">Contract Monthly Claim System (CMCS) </h1>
+
+    </div>
+
+                        }
+
+<!-- (Troelsen, and Japikse, 2022)-->
+<!--References:
+Flaticon, 2025. Claim icon. [electronic print].Available at: https://www.flaticon.com/free-icon/claim_18494001?k=1763560184639 [Accessed 20 November 2025].
+Troelsen, A. and Japikse, P., 2022. Pro C# 10 with .NET 6: Foundational principles and practices in programming 8th ed. New York: Apress.
+W3Schools, 2025. HTML <picture> element. [online] Available at: https://www.w3schools.com/html/html_images_picture.asp [Accessed 20 November 2025].
+
+-->
