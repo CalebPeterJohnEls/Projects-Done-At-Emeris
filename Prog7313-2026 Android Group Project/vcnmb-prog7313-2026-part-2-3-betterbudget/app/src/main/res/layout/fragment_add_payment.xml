@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/addPaymentPanel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="16dp"
+        app:cardBackgroundColor="#CC000000"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.85">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/tvAddPaymentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD PAYMENT METHOD"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/josefin_sans_bold" />
+
+            <Spinner
+                android:id="@+id/spinnerPaymentType"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="24dp"
+                android:background="#FFFFFF"
+                android:entries="@array/payment_type_options" />
+
+            <EditText
+                android:id="@+id/edtPaymentName"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:background="#FFFFFF"
+                android:hint="Payment Name (e.g., Visa ending in 1234)"
+                android:padding="8dp"
+                android:textColor="#000000" />
+
+            <EditText
+                android:id="@+id/edtPaymentNumber"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:background="#FFFFFF"
+                android:hint="Card/Account Number"
+                android:inputType="number"
+                android:padding="8dp"
+                android:textColor="#000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtExpiryMonth"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="#FFFFFF"
+                    android:hint="Expiry Month (MM)"
+                    android:inputType="number"
+                    android:padding="8dp"
+                    android:textColor="#000000" />
+
+                <EditText
+                    android:id="@+id/edtExpiryYear"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="#FFFFFF"
+                    android:hint="Expiry Year (YYYY)"
+                    android:inputType="number"
+                    android:padding="8dp"
+                    android:textColor="#000000" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/chkDefault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Set as default payment method"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnSavePayment"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#2C8E7E"
+                android:fontFamily="@font/josefin_sans_bold"
+                android:text="SAVE"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#41A466"
+                android:fontFamily="@font/josefin_sans_bold"
+                android:text="CANCEL"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,901 @@
+*, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Lato', Arial, sans-serif;
+            background-color: #ffffff !important;
+            color: #2b2f30;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #top-bar {
+            height: 52px;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            padding: 0 16px 0 64px;
+            border-bottom: 2px solid #3ED9DB;
+            flex-shrink: 0;
+            z-index: 20;
+        }
+
+        #top-bar .brand {
+            font-family: 'Fredoka One', 'Lato', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #3ED9DB;
+            letter-spacing: 1px;
+            text-decoration: none;
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        #top-bar .user-info {
+            font-size: 15px;
+            color: rgba(43, 47, 48, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #top-bar .user-info span {
+            color: #1fa3a5;
+            font-weight: 700;
+        }
+
+        #page-wrapper {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            height: calc(100vh - 52px);
+        }
+
+        #sidenav {
+            width: 220px;
+            min-width: 220px;
+            height: 100%;
+            background-color: #FAFDFD;
+            border-right: 1px solid #E3F6F6;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-shrink: 0;
+            z-index: 15;
+            transition: width 0.3s ease, min-width 0.3s ease;
+        }
+
+        #sidenav.min {
+            width: 56px;
+            min-width: 56px;
+        }
+
+        .nav-section-label {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(43, 47, 48, 0.35);
+            padding: 18px 18px 6px 18px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        #sidenav.min .nav-section-label {
+            opacity: 0;
+        }
+
+        #sidenav ul {
+            list-style: none;
+            padding: 4px 0;
+        }
+
+        #sidenav ul li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            color: rgba(43, 47, 48, 0.7);
+            text-decoration: none;
+            font-size: 13.5px;
+            white-space: nowrap;
+            border-left: 3px solid transparent;
+            position: relative;
+        }
+
+        #sidenav ul li a:hover {
+            color: #1fa3a5;
+            background: #F0FBFB;
+            border-left-color: #3ED9DB;
+            text-decoration: none;
+        }
+
+        #sidenav ul li a.active {
+            color: #1fa3a5;
+            background: #E9FBFC;
+            border-left-color: #3ED9DB;
+            font-weight: 700;
+        }
+
+        #sidenav ul li a i {
+            font-size: 16px;
+            flex-shrink: 0;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-label {
+            overflow: hidden;
+        }
+
+        #sidenav.min .nav-label {
+            opacity: 0;
+            width: 0;
+        }
+
+        #sidenav.min ul li a::after {
+            content: attr(data-label);
+            position: absolute;
+            left: 58px;
+            background: #ffffff;
+            color: #1fa3a5;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 100;
+            border: 1px solid #3ED9DB;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        #sidenav.min ul li a:hover::after {
+            opacity: 1;
+        }
+
+        .nav-divider {
+            border: none;
+            border-top: 1px solid #E3F6F6;
+            margin: 8px 16px;
+        }
+
+        .nav-spacer {
+            flex: 1;
+        }
+
+        #sidenav-toggle {
+            position: fixed;
+            left: 12px;
+            top: 12px;
+            z-index: 30;
+            background: transparent;
+            color: rgba(43, 47, 48, 0.55);
+            border: none;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        #sidenav-toggle:hover {
+            color: #1fa3a5;
+            background: #F0FBFB;
+        }
+
+        #main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px 32px 60px 32px;
+        }
+
+        .footer {
+            font-size: 12px;
+            color: rgba(43, 47, 48, 0.35);
+            padding: 10px 32px;
+            border-top: 1px solid #E3F6F6;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        #nav-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            #sidenav {
+                position: fixed;
+                left: -220px;
+                top: 0;
+                height: 100%;
+                z-index: 20;
+                min-width: 220px;
+                width: 220px;
+            }
+
+            #sidenav.mobile-open {
+                left: 0;
+            }
+
+            #nav-overlay.visible {
+                display: block;
+            }
+
+            #main-content {
+                padding: 16px 16px 60px 16px;
+            }
+        }
+
+        
+/* ===== Shared inner-page components (added) ===== */
+
+.fia-section {
+    max-width: 880px;
+    margin: 0 auto 48px auto;
+    padding: 0 24px;
+}
+
+.fia-section h2 {
+    font-family: 'Fredoka One', 'Lato', sans-serif;
+    color: #3ED9DB;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fia-section h2 i {
+    font-size: 18px;
+}
+
+.fia-section p {
+    color: #3f4547;
+    line-height: 1.7;
+    font-size: 15px;
+    max-width: 720px;
+    margin-bottom: 12px;
+}
+
+.fia-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 18px;
+}
+
+.fia-card {
+    background: #F5FDFD;
+    border: 1px solid #CFF2F3;
+    border-top: 3px solid #3ED9DB;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.fia-card h3 {
+    font-family: 'Fredoka One', 'Lato', sans-serif;
+    color: #23292b;
+    font-size: 13.5px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.fia-card p, .fia-card ul {
+    color: #4c5254;
+    font-size: 13.5px;
+    line-height: 1.7;
+}
+
+.fia-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.fia-card ul li::before {
+    content: "\2022";
+    color: #3ED9DB;
+    margin-right: 8px;
+    font-weight: 700;
+}
+
+.fia-inner {
+    font-family: 'Lato', Arial, sans-serif;
+    color: #2b2f30;
+}
+
+.fia-page-header {
+    max-width: 880px;
+    margin: 0 auto 28px auto;
+}
+
+.fia-page-header h1 {
+    font-family: 'Fredoka One', 'Lato', sans-serif;
+    color: #3ED9DB;
+    font-size: 26px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.fia-page-header p {
+    color: #5b6265;
+    font-size: 14px;
+    max-width: 640px;
+    line-height: 1.6;
+}
+
+.fia-stat-value {
+    font-family: 'Fredoka One', 'Lato', sans-serif;
+    font-size: 26px;
+    color: #1fa3a5;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.fia-stat-label {
+    font-size: 12px;
+    color: #5b6265;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.fia-table-wrap {
+    background: #F5FDFD;
+    border: 1px solid #CFF2F3;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin-bottom: 8px;
+}
+
+table.fia-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    min-width: 560px;
+}
+
+.fia-table th {
+    text-align: left;
+    background: #EAFBFB;
+    color: #1fa3a5;
+    padding: 12px 16px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.fia-table td {
+    padding: 12px 16px;
+    border-top: 1px solid #E3F6F6;
+    color: #3f4547;
+    vertical-align: top;
+}
+
+.fia-table tr:hover td {
+    background: #FAFEFE;
+}
+
+.fia-badge {
+    display: inline-block;
+    padding: 4px 11px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.fia-badge-green { background: #E4F9EC; color: #1a9c53; }
+.fia-badge-yellow { background: #FFF6DD; color: #9c7a1a; }
+.fia-badge-red { background: #FDEAEA; color: #c0392b; }
+.fia-badge-teal { background: #E9FBFC; color: #1fa3a5; }
+
+.fia-note {
+    background: #F5FDFD;
+    border-left: 4px solid #3ED9DB;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    color: #4c5254;
+    max-width: 720px;
+    margin-top: 4px;
+}
+
+.fia-contract-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #F5FDFD;
+    border-left: 4px solid #3ED9DB;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.fia-contract-item i.doc-icon {
+    font-size: 18px;
+    color: #3ED9DB;
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+}
+
+.fia-contract-item .body {
+    flex: 1;
+    min-width: 200px;
+}
+
+.fia-contract-item .body strong {
+    display: block;
+    font-size: 14.5px;
+    color: #23292b;
+    margin-bottom: 3px;
+}
+
+.fia-contract-item .body span {
+    font-size: 13px;
+    color: #5b6265;
+}
+
+.fia-btn {
+    display: inline-block;
+    background: #3ED9DB;
+    color: #ffffff !important;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.fia-btn:hover { background: #1fa3a5; }
+
+.fia-btn-outline {
+    display: inline-block;
+    background: transparent;
+    border: 1.5px solid #3ED9DB;
+    color: #1fa3a5 !important;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 7px 15px;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.fia-price-card {
+    background: linear-gradient(135deg, #3ED9DB 0%, #2bc4c6 100%);
+    border-radius: 14px;
+    padding: 28px 30px;
+    color: #ffffff;
+    max-width: 420px;
+    margin-bottom: 24px;
+}
+
+.fia-price-card .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: 0.9;
+}
+
+.fia-price-card .amount {
+    font-family: 'Fredoka One', 'Lato', sans-serif;
+    font-size: 40px;
+    margin: 6px 0 2px 0;
+}
+
+.fia-price-card .sub {
+    font-size: 13px;
+    opacity: 0.95;
+}
+
+.fia-price-card hr {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.35);
+    margin: 16px 0;
+}
+
+.fia-price-card {
+    max-width: 420px;
+}
+
+.fia-payment-top-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.fia-payment-top-row .fia-price-card,
+.fia-payment-top-row .fia-bank-card-wrap {
+    margin-bottom: 0;
+    flex: 1 1 300px;
+}
+
+.fia-bank-card-wrap .pay-hint {
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: #1fa3a5;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ===== Mock bank card (Payment Methods page) ===== */
+
+.fia-bank-card-wrap {
+    max-width: 340px;
+    cursor: pointer;
+}
+
+.fia-bank-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 16px;
+    padding: 20px 22px;
+    background: linear-gradient(135deg, #3ED9DB 0%, #1fa3a5 100%);
+    box-shadow: 0 10px 24px rgba(31, 163, 165, 0.25);
+    color: #ffffff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fia-bank-card-wrap:hover .fia-bank-card,
+.fia-bank-card-wrap:focus-visible .fia-bank-card {
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0 16px 34px rgba(31, 163, 165, 0.35);
+    outline: none;
+}
+
+.mock-chip {
+    font-size: 26px;
+    display: block;
+    margin-top: 4px;
+    opacity: 0.9;
+    transform: rotate(90deg);
+}
+
+.mock-chip-signal {
+    font-size: 15px;
+    display: block;
+    opacity: 0.85;
+}
+
+.mock-card-number {
+    font-family: 'Fredoka One', 'Lato', sans-serif;
+    font-size: 19px;
+    letter-spacing: 3px;
+    margin: 22px 0 18px 0;
+}
+
+.mock-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+.mock-card-label {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    margin-bottom: 3px;
+}
+
+.mock-card-value {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.mock-card-brand {
+    font-size: 30px;
+    opacity: 0.95;
+}
+
+/* ===== Fullscreen flip-card payment overlay ===== */
+
+#payment-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(15, 32, 33, 0.55);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#payment-overlay.active {
+    display: flex;
+}
+
+#payment-overlay.flipped {
+    opacity: 1;
+}
+
+.payment-flip-card {
+    width: min(94vw, 460px);
+    perspective: 1800px;
+}
+
+.payment-flip-card .flip-inner {
+    position: relative;
+    width: 100%;
+    min-height: 560px;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.45, 0.05, 0.15, 1);
+}
+
+#payment-overlay.flipped .payment-flip-card .flip-inner {
+    transform: rotateY(180deg);
+}
+
+.payment-flip-card .face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 22px;
+    padding: 30px;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+
+.payment-flip-card .front-face {
+    background: linear-gradient(135deg, #3ED9DB 0%, #1fa3a5 100%);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.payment-flip-card .back-face {
+    background: #ffffff;
+    color: #2b2f30;
+    transform: rotateY(180deg);
+    overflow-y: auto;
+}
+
+.mock-chip.light,
+.mock-chip-signal.light {
+    color: #ffffff;
+}
+
+.overlay-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.overlay-close:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.overlay-close.dark {
+    background: #F0FBFB;
+    color: #1fa3a5;
+}
+
+.overlay-close.dark:hover {
+    background: #E3F6F6;
+}
+
+.payment-form-title {
+    font-family: 'Fredoka One', 'Lato', sans-serif;
+    color: #1fa3a5;
+    font-size: 19px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0 6px 0;
+}
+
+.payment-form-sub {
+    font-size: 13px;
+    color: #5b6265;
+    margin-bottom: 22px;
+}
+
+.payment-form-sub strong {
+    color: #23292b;
+}
+
+.payment-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.payment-field span {
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #5b6265;
+}
+
+.payment-field input {
+    border: 1.5px solid #CFF2F3;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Lato', Arial, sans-serif;
+    color: #2b2f30;
+    background: #F5FDFD;
+}
+
+.payment-field input:focus {
+    outline: none;
+    border-color: #3ED9DB;
+    background: #ffffff;
+}
+
+.payment-field-row {
+    display: flex;
+    gap: 14px;
+}
+
+.payment-field-row .payment-field {
+    flex: 1;
+}
+
+.payment-submit-btn {
+    width: 100%;
+    text-align: center;
+    padding: 12px 16px;
+    font-size: 13.5px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.payment-form-note {
+    font-size: 11.5px;
+    color: rgba(43, 47, 48, 0.5);
+    text-align: center;
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .payment-flip-card .face {
+        padding: 24px 20px;
+    }
+}
+
+.fia-portal-switch {
+    display: flex;
+    gap: 4px;
+    background: #F0FBFB;
+    border-radius: 999px;
+    padding: 3px;
+    margin-right: 18px;
+}
+
+.fia-portal-switch a {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: rgba(43, 47, 48, 0.55);
+    white-space: nowrap;
+}
+
+.fia-portal-switch a.active {
+    background: #3ED9DB;
+    color: #ffffff;
+}
+
+.fia-progress-row {
+    margin-bottom: 16px;
+}
+
+.fia-progress-row .top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.fia-progress-row .top strong {
+    color: #23292b;
+}
+
+.fia-progress-row .top span {
+    color: #1fa3a5;
+    font-weight: 700;
+}
+
+.fia-progress-track {
+    background: #E3F6F6;
+    border-radius: 999px;
+    height: 10px;
+    overflow: hidden;
+}
+
+.fia-progress-fill {
+    background: linear-gradient(90deg, #3ED9DB, #1fa3a5);
+    height: 100%;
+    border-radius: 999px;
+}
+
+.fia-stance-card {
+    background: #F5FDFD;
+    border: 1px solid #CFF2F3;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+}
+
+.fia-stance-card .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.fia-stance-card .head strong {
+    font-size: 14.5px;
+    color: #23292b;
+}
+
+.fia-joint-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #4c5254;
+    padding: 6px 0;
+    border-top: 1px solid #E3F6F6;
+}
+
+.fia-joint-row:first-of-type {
+    border-top: none;
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_row="@integer/material_motion_duration_long_1"
+    android:background="@drawable/bbbackground"
+    tools:menu="@menu/menu">
+
+    <Button
+        android:id="@+id/btnAddCategory2"
+        android:layout_width="202dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginEnd="149dp"
+        android:layout_marginBottom="620dp"
+        android:backgroundTint="#4DC9A9"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:includeFontPadding="true"
+        android:padding="0dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="12dp"
+        android:text="+ Add Goals"
+        android:textSize="24sp"
+        app:cornerRadius="10dp"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:iconSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="232dp"
+        android:layout_marginBottom="694dp"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:text="GOALS"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.458" />
+
+    <View
+        android:id="@+id/vwExpenses"
+        android:layout_width="375dp"
+        android:layout_height="497dp"
+        android:background="#4DC9A9"
+        app:cornerRadius="10dp"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="117dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navBar"
+        android:layout_width="412dp"
+        android:layout_height="83dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="647dp"
+        android:layout_marginBottom="1dp"
+        android:background="@null"
+        android:clickable="true"
+        android:fontFamily="@font/josefin_sans_bold"
+        app:backgroundTint="#4DC9A9"
+        app:flow_horizontalAlign="center"
+        app:horizontalItemTextAppearanceActive="@style/Base.Theme.BetterBudget_POE"
+        app:itemActiveIndicatorStyle="@style/TextAppearance.Compat.Notification"
+        app:itemBackground="#4DC9A9"
+        app:itemGravity="center"
+        app:itemHorizontalTranslationEnabled="true"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="#FFFFFF"
+        app:labelFontScalingEnabled="true"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="372dp"
+        android:layout_height="255dp"
+        tools:layout_editor_absoluteX="22dp"
+        tools:layout_editor_absoluteY="117dp" />
+
+    <FrameLayout
+        android:layout_width="407dp"
+        android:layout_height="647dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="-1dp">
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

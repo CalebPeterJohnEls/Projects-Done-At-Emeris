@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "399242979260",
+    "firebase_url": "https://betterbudget-fbf48-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "betterbudget-fbf48",
+    "storage_bucket": "betterbudget-fbf48.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399242979260:android:9f7f90a9cc26d6ec3dedb9",
+        "android_client_info": {
+          "package_name": "com.example.betterbudget_poe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQouiQCe2SgzNjEESnm5jyn5FHZwLHBZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399242979260:android:d0f756fa1ab270013dedb9",
+        "android_client_info": {
+          "package_name": "com.example.exspencetest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQouiQCe2SgzNjEESnm5jyn5FHZwLHBZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:padding="16dp"
+    tools:context=".AddExpenseFragment">
+
+    <!-- CARD CONTAINER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#CC000000"
+        android:padding="16dp"
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal">
+
+        <!-- TITLE -->
+        <TextView
+            android:id="@+id/txtAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/josefin_sans_bold"
+            android:text="EDIT PROFILE"
+            android:textColor="#EFEAEA"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/tdUsername"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:background="#FFFFFF"
+            android:fontFamily="@font/josefin_sans"
+            android:hint="Username"
+            android:inputType="textNoSuggestions"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+
+        <EditText
+            android:id="@+id/tdName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:background="#FFFFFF"
+            android:fontFamily="@font/josefin_sans"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+
+        <EditText
+            android:id="@+id/tdSurname"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:background="#FFFFFF"
+            android:fontFamily="@font/josefin_sans"
+            android:hint="Surname"
+            android:inputType="textPersonName"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+
+
+
+        <!-- DATE https://www.geeksforgeeks.org/android/datepicker-in-android/-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date of Birth"
+            android:textColor="#EFEAEA"
+            android:textSize="14sp"
+            android:paddingBottom="4dp"/>
+
+        <FrameLayout
+            android:layout_width="376dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:clipChildren="true">
+
+            <DatePicker
+                android:id="@+id/tdDate"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:layout_gravity="top|center_horizontal"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner" />
+        </FrameLayout>
+
+
+
+        <Spinner
+            android:id="@+id/tdCurrency"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:background="#FFFFFF"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+
+
+        <EditText
+            android:id="@+id/tdEmail"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:background="#FFFFFF"
+            android:fontFamily="@font/josefin_sans"
+            android:hint="Email"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+
+        <!-- IMAGE PREVIEW -->
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imagePreview"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:src="@drawable/goodmanpfp"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/CircularImageStyle"
+            app:strokeColor="#4DC9A9"
+            app:strokeWidth="2dp" />
+
+
+        <Button
+            android:id="@+id/btnAddImage"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#4DC9A9"
+            android:fontFamily="@font/josefin_sans_bold"
+            android:text="Add Image" />
+
+        <!-- SAVE -->
+        <Button
+            android:id="@+id/btnSaveInfo"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#4DC9A9"
+            android:fontFamily="@font/josefin_sans_bold"
+            android:text="Save"
+            android:textColor="#FFFFFF" />
+
+        <!-- CANCEL -->
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:backgroundTint="#4DC9A9"
+            android:fontFamily="@font/josefin_sans_bold"
+            android:text="Cancel" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Dark panel -->
+    <View
+        android:id="@+id/addFundsPanel"
+        android:layout_width="360dp"
+        android:layout_height="500dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginEnd="26dp"
+        android:background="#CC000000" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tvAddFundsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:text="ADD FUNDS"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <!-- Payment method label -->
+    <TextView
+        android:id="@+id/lblPaymentMethod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/addFundsPanel"
+        android:layout_below="@+id/tvAddFundsTitle"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/josefin_sans"
+        android:text="Payment Method"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
+
+    <!-- Payment method spinner -->
+    <Spinner
+        android:id="@+id/spinnerPayments"
+        android:layout_width="310dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/lblPaymentMethod"
+        android:layout_alignStart="@+id/addFundsPanel"
+        android:layout_alignEnd="@+id/addFundsPanel"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="25dp"
+        android:background="#FAFAFA" />
+
+    <!-- No payment methods message -->
+    <TextView
+        android:id="@+id/tvNoPayments"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/addFundsPanel"
+        android:layout_below="@+id/lblPaymentMethod"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/josefin_sans"
+        android:text="No payment methods saved. Please add one first."
+        android:textColor="#FFAAAA"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <!-- Amount input -->
+    <EditText
+        android:id="@+id/etFundsAmount"
+        android:layout_width="310dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/addFundsPanel"
+        android:layout_alignEnd="@+id/addFundsPanel"
+        android:layout_below="@+id/spinnerPayments"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="25dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/josefin_sans"
+        android:hint="Amount to add (e.g. 500)"
+        android:inputType="numberDecimal"
+        android:padding="8dp"
+        android:textColor="#000000" />
+
+    <!-- Add Funds button -->
+    <Button
+        android:id="@+id/btnAddFunds"
+        android:layout_width="277dp"
+        android:layout_height="58dp"
+        android:layout_alignStart="@+id/addFundsPanel"
+        android:layout_alignEnd="@+id/addFundsPanel"
+        android:layout_below="@+id/etFundsAmount"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="34dp"
+        android:backgroundTint="#2C8E7E"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:text="ADD FUNDS"
+        android:textColor="#FFFFFF" />
+
+    <!-- Cancel button -->
+    <Button
+        android:id="@+id/btnCancelFunds"
+        android:layout_width="280dp"
+        android:layout_height="56dp"
+        android:layout_alignStart="@+id/addFundsPanel"
+        android:layout_alignEnd="@+id/addFundsPanel"
+        android:layout_below="@+id/btnAddFunds"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="39dp"
+        android:backgroundTint="#41A466"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:text="CANCEL"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>

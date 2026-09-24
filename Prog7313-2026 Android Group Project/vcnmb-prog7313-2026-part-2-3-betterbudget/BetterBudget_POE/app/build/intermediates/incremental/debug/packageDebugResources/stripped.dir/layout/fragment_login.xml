@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loginScreen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bbbackground"
+    tools:context=".LoginFragment">
+
+    <!-- Dark panel -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView3"
+        android:name="com.example.betterbudget_poe.LoginFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/loginPanel"
+        android:layout_width="331dp"
+        android:layout_height="564dp"
+        android:background="#CC000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.85" />
+
+    <!-- Logo -->
+
+    <!-- Title -->
+
+    <!-- Subtitle -->
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="88dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="234dp"
+        android:layout_marginBottom="450dp"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:text="LOGIN"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/loginPanel"
+        app:layout_constraintStart_toStartOf="@id/loginPanel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Email -->
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/josefin_sans"
+        android:text="BETTER BUDGET"
+        android:textColor="#E0E0E0"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="142dp"
+        tools:layout_editor_absoluteY="270dp" />
+
+    <EditText
+        android:id="@+id/tbEmail"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/josefin_sans"
+        android:hint="Email Address"
+        android:padding="8dp"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@id/loginPanel"
+        app:layout_constraintStart_toStartOf="@id/loginPanel"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle" />
+
+    <!-- Username -->
+    <EditText
+        android:id="@+id/tbUsername"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/josefin_sans"
+        android:hint="Username"
+        android:padding="8dp"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@id/loginPanel"
+        app:layout_constraintStart_toStartOf="@id/loginPanel"
+        app:layout_constraintTop_toBottomOf="@id/tbEmail" />
+
+    <!-- Password -->
+    <EditText
+        android:id="@+id/tbPassword"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/josefin_sans"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@id/loginPanel"
+        app:layout_constraintStart_toStartOf="@id/loginPanel"
+        app:layout_constraintTop_toBottomOf="@id/tbUsername" />
+
+    <!-- Login Button -->
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="277dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#2C8E7E"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:text="LOGIN"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@id/loginPanel"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/loginPanel"
+        app:layout_constraintTop_toBottomOf="@id/tbPassword" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="280dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+
+        android:backgroundTint="#41A466"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:text="SIGN UP"
+
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@id/loginPanel"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/loginPanel"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="162dp"
+        android:layout_height="118dp"
+        android:layout_marginStart="114dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="517dp"
+        android:src="@drawable/betterbudgetlogo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

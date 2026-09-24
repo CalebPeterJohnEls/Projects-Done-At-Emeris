@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="244dp"
+        android:layout_height="207dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="482dp"
+        android:src="@mipmap/first"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="216dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="97dp"
+        android:layout_marginTop="351dp"
+        android:layout_marginEnd="98dp"
+        android:layout_marginBottom="313dp"
+        android:backgroundTint="#2C8E7E"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:text="LOGIN"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:cornerRadius="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="221dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="97dp"
+        android:layout_marginTop="452dp"
+        android:layout_marginEnd="93dp"
+        android:layout_marginBottom="207dp"
+        android:backgroundTint="#41A466"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:text="SIGN UP"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:cornerRadius="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="302dp"
+        android:layout_height="103dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="228dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginBottom="414dp"
+        android:fontFamily="@font/josefin_sans_bold"
+        android:text="WELCOME TO BETTERBUDGET"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
