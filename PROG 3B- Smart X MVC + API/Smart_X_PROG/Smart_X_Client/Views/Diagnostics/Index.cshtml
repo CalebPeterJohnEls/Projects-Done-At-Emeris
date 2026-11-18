@@ -1,0 +1,341 @@
+﻿
+@using Smart_X_Client.Models
+@using Microsoft.AspNetCore.Html
+
+@*
+    The Diagnostics page renders the sample deployment tree returned by the
+    API and displays whether the deployment tree passed validation.
+
+    RenderNode() recursively traverses the DeploymentNode hierarchy and
+    generates HTML for each node. Recursion allows the method to process
+    nodes at different levels of the deployment tree without requiring a
+    separate method for each possible depth (Code-Maze, 2026).
+
+    The recursive structure is applied to the DeploymentNode hierarchy,
+    which follows the Composite design pattern where individual nodes and
+    groups of nodes can be treated consistently (Refactoring Guru, 2024).
+
+    Bootstrap cards are used to group the diagnostics content, while
+    Bootstrap badges provide visual indicators for configured and
+    unconfigured nodes (Bootstrap, 2026a; Bootstrap, 2026d).
+
+    Razor syntax allows C# logic to be embedded into the view and used to
+    dynamically generate the deployment tree (Microsoft, 2026v).
+
+    Custom CSS is used to improve the presentation, spacing and readability
+    of the generated deployment tree (W3Schools, 2025a).
+*@
+
+@{
+    ViewData["Title"] = "Diagnostics";
+
+    var tree = ViewBag.Tree as DeploymentNode;
+}
+
+<style>
+
+    /*
+            Custom CSS improves the presentation of the diagnostics page while
+            Bootstrap components continue to provide the main layout
+            (Bootstrap, 2026d; W3Schools, 2025a).
+        */
+
+    .diagnostics-page {
+        padding-top: 35px;
+        padding-bottom: 50px;
+    }
+
+    .diagnostics-header {
+        margin-bottom: 25px;
+    }
+
+        .diagnostics-header h1 {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .diagnostics-header p {
+            color: #adb5bd;
+            margin-bottom: 0;
+        }
+
+    .diagnostics-card {
+        background-color: #1f2226;
+        border: 1px solid #343a40;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    }
+
+        .diagnostics-card .card-header {
+            background-color: #2f8fdb;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+        }
+
+            .diagnostics-card .card-header h5 {
+                font-weight: 600;
+            }
+
+        .diagnostics-card .card-body {
+            padding: 25px;
+        }
+
+    .tree-container {
+        background-color: #181a1d;
+        border: 1px solid #343a40;
+        border-radius: 10px;
+        padding: 20px;
+        overflow-x: auto;
+        font-family: Consolas, "Courier New", monospace;
+    }
+
+    .tree-node {
+        padding: 7px 10px;
+        margin-bottom: 4px;
+        border-radius: 6px;
+        white-space: nowrap;
+        transition: background-color 0.2s ease;
+    }
+
+        .tree-node:hover {
+            background-color: #292d32;
+        }
+
+    .node-name {
+        color: #f8f9fa;
+        font-weight: 600;
+    }
+
+    .node-type {
+        color: #adb5bd;
+    }
+
+    .tree-indent {
+        color: #6c757d;
+    }
+
+    .tree-badge {
+        margin-left: 8px;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .validation-result {
+        margin-top: 25px;
+        margin-bottom: 0;
+        border-radius: 10px;
+        padding: 15px 18px;
+        font-weight: 600;
+    }
+
+    .empty-tree {
+        color: #adb5bd;
+        text-align: center;
+        padding: 20px;
+    }
+
+</style>
+
+
+<div class="container diagnostics-page">
+
+    <div class="diagnostics-header">
+
+        <h1>
+            Diagnostics
+        </h1>
+
+        <p>
+            Deployment tree structure and validation status.
+        </p>
+
+    </div>
+
+
+    <!--
+        Bootstrap's card component groups the deployment tree and validation
+        information into one visual section (Bootstrap, 2026d).
+    -->
+
+    <div class="card diagnostics-card">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                Deployment Tree Validation
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            @if (tree != null)
+            {
+                <div class="tree-container">
+
+                    @RenderNode(tree, 0)
+
+                </div>
+            }
+            else
+            {
+                <div class="empty-tree">
+                    No deployment tree data is available.
+                </div>
+            }
+
+
+            <!--
+                The Bootstrap alert component provides a visual indication
+                of whether deployment validation succeeded or failed.
+            -->
+
+            <div class="alert @(ViewBag.IsValid ? "alert-success" : "alert-danger") validation-result">
+
+                @ViewBag.ValidationMessage
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@functions {
+
+    /*
+        Recursive Razor helper.
+
+        The method prints the current node and then recursively processes
+        each child node, increasing the depth by one for every level in the
+        hierarchy (Code-Maze, 2026).
+
+        This recursive structure is applied to the DeploymentNode hierarchy
+        using the Composite design pattern (Refactoring Guru, 2024).
+    */
+
+    private IHtmlContent RenderNode(DeploymentNode node, int depth)
+    {
+        /*
+            The depth value determines the amount of visual indentation
+            applied to the current node.
+        */
+
+        var indent =
+            new string('-', depth * 2);
+
+
+        /*
+            Bootstrap badges are used to visually distinguish configured
+            and unconfigured nodes (Bootstrap, 2026a).
+        */
+
+        var status =
+            node.IsConfigured
+                ? "bg-success"
+                : "bg-danger";
+
+
+        var label =
+            node.IsConfigured
+                ? "Configured"
+                : "Not Configured";
+
+
+        /*
+            The generated HTML contains the node name, node type and its
+            configuration status.
+        */
+
+        var html =
+            $"<div class=\"tree-node\">" +
+
+                $"<span class=\"tree-indent\">{indent}</span> " +
+
+                $"<span class=\"node-name\">{node.Name}</span> " +
+
+                $"<span class=\"node-type\">({node.NodeType})</span> " +
+
+                $"<span class=\"badge {status} tree-badge\">" +
+                    $"{label}" +
+                $"</span>" +
+
+            $"</div>";
+
+
+        /*
+            Recursively render each child node.
+
+            Each recursive call increases the depth by one so that child
+            nodes are visually separated from their parent nodes.
+        */
+
+        foreach (var child in node.Children)
+        {
+            html +=
+                RenderNode(
+                    child,
+                    depth + 1
+                ).ToString();
+        }
+
+
+        /*
+            HtmlString allows the generated markup to be rendered as HTML
+            rather than being displayed as escaped text
+            (Microsoft, 2026v).
+        */
+
+        return new HtmlString(html);
+    }
+
+}
+
+
+@*
+    REFERENCES:
+
+    Bootstrap, 2026a. Badges. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/badge/>
+    [Accessed 9 September 2026].
+
+    Bootstrap, 2026d. Cards. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/card/>
+    [Accessed 10 September 2026].
+
+    Code-Maze, 2026. C# Basics: Recursion. [online] Available at:
+    <https://code-maze.com/csharp-basics-recursion/>
+    [Accessed 9 September 2026].
+
+    Microsoft, 2026v. Razor syntax reference for ASP.NET Core.
+    [online] Available at:
+    <https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor>
+    [Accessed 9 September 2026].
+
+    Refactoring Guru, 2024. Composite Design Pattern. [online] Available at:
+    <https://refactoring.guru/design-patterns/composite>
+    [Accessed 15 March 2026].
+
+    W3Schools, 2025a. CSS Tutorial. [online] Available at:
+    <https://www.w3schools.com/css/>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025b. HTML Tutorial. [online] Available at:
+    <https://www.w3schools.com/Html/>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025c. JavaScript Fetch API. [online] Available at:
+    <https://www.w3schools.com/js/js_api_fetch.asp>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025d. Razor C# Logic. [online] Available at:
+    <https://www.w3schools.com/asp/razor_cs_logic.asp>
+    [Accessed 20 April 2026].
+*@

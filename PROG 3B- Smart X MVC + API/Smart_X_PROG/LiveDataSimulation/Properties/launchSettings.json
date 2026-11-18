@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LiveDataSimulation": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

@@ -1,0 +1,543 @@
+﻿@*
+   the master page shared by every view (set as
+    the default in _ViewStart.cshtml, Microsoft, 2026v). It provides the
+    collapsible side navigation, the top bar and the overall dark theme,
+    and renders each view's own content through @RenderBody() below.
+
+     the base styling and components come from the Bootstrap CSS/JS bundle
+    (Bootstrap, 2026b); the sidebar/nav icons come from the Font Awesome
+    icon font, loaded from a CDN (Font Awesome, 2026; Designer Who Codes,
+    2025); the collapsible/responsive sidebar itself follows the general
+    approach demonstrated in GreatStack (2022) and dev.to (paulallies,
+    2025); CSS Flexbox is used for the overall page layout (MDN, 2026g),
+    with "position: fixed/absolute" for the toggle button and tooltip
+    labels (MDN, 2026d); and a CSS media query collapses the sidebar into
+    an off-canvas panel on small screens (W3Schools, 2025a).
+*@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Smart-X</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <!-- Font Awesome icon font used for the sidebar/nav icons (Font Awesome, 2026). -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+    <style>
+
+            *, *::before, *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            html, body {
+                height: 100%;
+                overflow: hidden;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #16181c !important;
+                color: white;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #top-bar {
+                height: 52px;
+                background-color: #1f2226;
+                display: flex;
+                align-items: center;
+                padding: 0 16px 0 64px;
+                border-bottom: 1px solid rgba(77, 171, 247, 0.2);
+                flex-shrink: 0;
+                z-index: 20;
+            }
+
+                #top-bar .brand {
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: #4dabf7;
+                    letter-spacing: 2px;
+                    text-decoration: none;
+                    margin-right: auto;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                    #top-bar .brand i {
+                        color: #4dabf7;
+                        font-size: 18px;
+                    }
+
+                #top-bar .status-pill {
+                    font-size: 11px;
+                    color: #4dabf7;
+                    background: rgba(77, 171, 247, 0.12);
+                    border: 1px solid rgba(77, 171, 247, 0.3);
+                    border-radius: 20px;
+                    padding: 4px 12px;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    letter-spacing: 0.5px;
+                }
+
+                    #top-bar .status-pill .dot {
+                        width: 7px;
+                        height: 7px;
+                        border-radius: 50%;
+                        background: #4dabf7;
+                        box-shadow: 0 0 6px #4dabf7;
+                    }
+
+            #page-wrapper {
+                display: flex;
+                flex: 1;
+                overflow: hidden;
+                height: calc(100vh - 52px);
+            }
+
+            #sidenav {
+                width: 240px;
+                min-width: 240px;
+                height: 100%;
+                background-color: #1f2226;
+                border-right: 1px solid rgba(77, 171, 247, 0.12);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                flex-shrink: 0;
+                z-index: 15;
+                transition: width 0.3s ease, min-width 0.3s ease;
+            }
+
+                #sidenav.min {
+                    width: 56px;
+                    min-width: 56px;
+                }
+
+            .nav-section-label {
+                font-size: 10px;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: rgba(255,255,255,0.3);
+                padding: 18px 18px 6px 18px;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
+            #sidenav.min .nav-section-label {
+                opacity: 0;
+            }
+
+            #sidenav ul {
+                list-style: none;
+                padding: 4px 0;
+            }
+
+                #sidenav ul li a {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    padding: 10px 16px;
+                    color: rgba(255, 255, 255, 0.75);
+                    text-decoration: none;
+                    font-size: 13.5px;
+                    white-space: nowrap;
+                    border-left: 3px solid transparent;
+                    position: relative;
+                }
+
+                    #sidenav ul li a:hover {
+                        color: #4dabf7;
+                        background: rgba(77, 171, 247, 0.08);
+                        border-left-color: rgba(77, 171, 247, 0.4);
+                        text-decoration: none;
+                    }
+
+                    #sidenav ul li a.active {
+                        color: #4dabf7;
+                        background: rgba(77, 171, 247, 0.12);
+                        border-left-color: #4dabf7;
+                    }
+
+                    #sidenav ul li a.disabled {
+                        color: rgba(255, 255, 255, 0.3);
+                        cursor: not-allowed;
+                        pointer-events: none;
+                    }
+
+                        #sidenav ul li a.disabled .nav-tag {
+                            margin-left: auto;
+                            font-size: 9px;
+                            letter-spacing: 0.5px;
+                            text-transform: uppercase;
+                            background: rgba(255, 255, 255, 0.08);
+                            color: rgba(255, 255, 255, 0.4);
+                            padding: 2px 6px;
+                            border-radius: 3px;
+                        }
+
+            #sidenav.min ul li a.disabled .nav-tag {
+                display: none;
+            }
+
+            #sidenav ul li a i {
+                font-size: 16px;
+                flex-shrink: 0;
+                width: 20px;
+                text-align: center;
+            }
+
+            .nav-label {
+                overflow: hidden;
+            }
+
+            #sidenav.min .nav-label {
+                opacity: 0;
+                width: 0;
+            }
+
+            #sidenav.min ul li a::after {
+                content: attr(data-label);
+                position: absolute;
+                left: 58px;
+                background: #1a1d21;
+                color: #4dabf7;
+                font-size: 12px;
+                padding: 4px 10px;
+                border-radius: 4px;
+                white-space: nowrap;
+                pointer-events: auto;
+                opacity: 0;
+                z-index: 100;
+                border: 1px solid rgba(77, 171, 247, 0.25);
+            }
+
+            #sidenav.min ul li a:hover::after {
+                opacity: 1;
+            }
+
+            .nav-divider {
+                border: none;
+                border-top: 1px solid rgba(255,255,255,0.07);
+                margin: 8px 16px;
+            }
+
+            .nav-spacer {
+                flex: 1;
+            }
+
+            #sidenav-toggle {
+                position: fixed;
+                left: 12px;
+                top: 12px;
+                z-index: 30;
+                background: transparent;
+                color: rgba(255,255,255,0.6);
+                border: none;
+                width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                border-radius: 4px;
+                font-size: 16px;
+            }
+
+                #sidenav-toggle:hover {
+                    color: #4dabf7;
+                    background: rgba(77, 171, 247, 0.1);
+                }
+
+            #main-content {
+                flex: 1;
+                overflow-y: auto;
+                padding: 28px 32px 60px 32px;
+            }
+
+            .footer {
+                font-size: 12px;
+                color: rgba(255,255,255,0.35);
+                padding: 10px 32px;
+                border-top: 1px solid rgba(255,255,255,0.07);
+                flex-shrink: 0;
+                text-align: center;
+            }
+
+            h1 {
+                font-family: Arial;
+                color: #4dabf7;
+            }
+
+            a, a:visited {
+                color: white;
+                text-decoration: underline;
+            }
+
+                a:hover {
+                    color: #4dabf7;
+                }
+
+            table, td, tr {
+                border: 2px solid #2b2f36;
+                background-color: #1f2226;
+                color: white;
+            }
+
+                table th {
+                    background: #2f8fdb;
+                    color: white;
+                    text-transform: uppercase;
+                }
+
+            #nav-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 10;
+            }
+
+            /* Responsive breakpoint: below 768px the sidebar becomes an
+                           off-canvas panel toggled by #sidenav-toggle instead of a
+                           fixed column (W3Schools, 2025a). */
+            @@media (max-width: 768px) {
+                #sidenav {
+                    position: fixed;
+                    left: -240px;
+                    top: 0;
+                    height: 100%;
+                    z-index: 20;
+                    min-width: 240px;
+                    width: 240px;
+                }
+
+                    #sidenav.mobile-open {
+                        left: 0;
+                    }
+
+                #nav-overlay.visible {
+                    display: block;
+                }
+
+                #main-content {
+                    padding: 16px 16px 60px 16px;
+                }
+            }
+
+    </style>
+        <script>
+        // If the loading screen was already shown in this browser session,
+        // hide it from the start (sessionStorage lasts until the tab closes).
+        try {
+            if (sessionStorage.getItem('smartx-loaded')) {
+                document.documentElement.classList.add('no-splash');
+            }
+        } catch (e) { }
+    </script>
+</head>
+
+<body>
+    <!-- Loading screen: the animated loader comes from the shapes CSS loaders
+         collection (Afif, 2026) and is styled in site.css. In site.css the
+         screen's fade is switched off when the user has asked their device
+         for reduced motion (MDN, 2026h), while the loader itself keeps
+         animating so the page does not look frozen, following the W3C
+         guidance that essential animation is allowed and that motion should
+         be reduced rather than removed (W3C, 2026; EZUD, 2026). -->
+        <div id="splash" role="status" aria-live="polite">
+        <div class="splash-loader">
+            <div class="loader" aria-hidden="true"></div>
+        </div>
+        <div class="splash-title">SMART-X</div>
+        <div class="splash-sub" id="splash-sub">Starting the gateway...</div>
+    </div>
+    <div id="nav-overlay" onclick="closeMobileNav()"></div>
+
+    <button id="sidenav-toggle" onclick="toggleSidenav()" aria-label="Toggle navigation">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <header id="top-bar">
+        <a class="brand" asp-controller="Home" asp-action="Index">
+            <i class="fa fa-satellite-dish"></i>
+            SMART-X
+        </a>
+
+        <div class="status-pill">
+            <span class="dot"></span>
+            <span>Gateway Online</span>
+        </div>
+    </header>
+
+    <div id="page-wrapper">
+
+        <nav id="sidenav" aria-label="Main navigation">
+
+            <p class="nav-section-label">Menu</p>
+
+            <ul>
+                <li>
+                    <a asp-controller="Home" asp-action="Index"
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
+                       data-label="Home">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <span class="nav-label">Home</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-spacer"></div>
+
+            <p class="nav-section-label">Architectural Pillars</p>
+
+            <ul>
+                <li>
+                    <a asp-controller="Sensors" asp-action="Index"
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Sensors" ? "active" : "")"
+                       data-label="Sensor Ingestion">
+                        <i class="fa fa-microchip" aria-hidden="true"></i>
+                        <span class="nav-label">Sensor Data Ingestion</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="CommandStream" asp-action="Index"
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "CommandStream" ? "active" : "")"
+                       data-label="Command Stream">
+                        <i class="fa fa-terminal" aria-hidden="true"></i>
+                        <span class="nav-label">Command Stream &amp; History</span>
+                    </a>
+                </li>
+                                <li>
+                    <a asp-controller="Topology" asp-action="Index"
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Topology" ? "active" : "")"
+                       data-label="Network Topology">
+                        <i class="fa fa-project-diagram" aria-hidden="true"></i>
+                        <span class="nav-label">Network Topology &amp; Mesh</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Diagnostics" asp-action="Index"
+                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Diagnostics" ? "active" : "")"
+                       data-label="Diagnostics">
+                        <i class="fa fa-flask" aria-hidden="true"></i>
+                        <span class="nav-label">Diagnostics</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-spacer"></div>
+
+            <div style="height: 16px;"></div>
+
+        </nav>
+
+        <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+
+            <main id="main-content" role="main">
+                @RenderBody()
+            </main>
+
+            <footer class="footer">
+                &copy; 2026 - Smart-X IoT Ecosystem(ST10306162)
+            </footer>
+
+        </div>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        (function () {
+            var splash = document.getElementById('splash');
+            if (!splash) return;
+
+            var messages = ['Starting the gateway...', 'Connecting to the API...', 'Loading sensors...'];
+            var step = 0;
+            var sub = document.getElementById('splash-sub');
+            var rotate = setInterval(function () {
+                step = (step + 1) % messages.length;
+                if (sub) sub.textContent = messages[step];
+            }, 900);
+
+            // Remember when the screen was first drawn, not when navigation began.
+            var shownAt = performance.now();
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () { shownAt = performance.now(); });
+            });
+
+            function hideSplash() {
+                clearInterval(rotate);
+                splash.classList.add('splash-hide');
+                try { sessionStorage.setItem('smartx-loaded', '1'); } catch (e) { }
+                setTimeout(function () { splash.remove(); }, 600);
+            }
+
+            // Stay visible for at least 3 seconds after it was drawn.
+            window.addEventListener('load', function () {
+                var visibleFor = performance.now() - shownAt;
+                setTimeout(hideSplash, Math.max(0, 3000 - visibleFor));
+            });
+
+            // Safety net: never keep the screen up for more than 8 seconds.
+            setTimeout(hideSplash, 8000);
+        })();
+    </script>
+    <script>
+            // Toggles the sidebar between its full and minimised
+            // ("min") states on desktop, or slides it in/out as an
+            // off-canvas panel on mobile widths, following the
+            // responsive sidebar pattern in GreatStack (2022) and
+            // dev.to (paulallies, 2025).
+            function toggleSidenav() {
+                const nav = document.getElementById('sidenav');
+                const overlay = document.getElementById('nav-overlay');
+                if (window.innerWidth <= 768) {
+                    nav.classList.remove('min');
+                    nav.classList.toggle('mobile-open');
+                    overlay.classList.toggle('visible', nav.classList.contains('mobile-open'));
+                } else {
+                    nav.classList.remove('mobile-open');
+                    nav.classList.toggle('min');
+                }
+            }
+
+            function closeMobileNav() {
+                document.getElementById('sidenav').classList.remove('mobile-open');
+                document.getElementById('nav-overlay').classList.remove('visible');
+            }
+    </script>
+
+    <div id="page-scripts">
+        @await RenderSectionAsync("Scripts", required: false)
+    </div>
+
+</body>
+</html>
+
+@*
+    References:
+    Afif, T., 2026. The shapes CSS loaders collection. [online] Available at: <https://css-loaders.com/shapes/> [Accessed 13 November 2026].
+    Microsoft, 2026v. Razor syntax reference for ASP.NET Core. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor> [Accessed 9 September 2026].
+    Bootstrap, 2026b. Bootstrap Components. [online] Available at: <https://getbootstrap.com/docs/5.3/components/> [Accessed 8 September 2026].
+    Font Awesome, 2026. Icon search. [online] Available at: <https://fontawesome.com/search> [Accessed 20 April 2026].
+    Designer Who Codes, 2025. How to use Font Awesome with HTML / CSS (2025 Edition). [video online] Available at: <https://www.youtube.com/watch?v=mtA__aN2UJA> [Accessed 20 April 2026].
+    GreatStack, 2022. How To Make Side Navigation Menu Using HTML And CSS | Sidebar Menu Design. [video online] Available at: <https://www.youtube.com/watch?v=Fx_NpAPM-iU> [Accessed 20 April 2026].
+    dev.to (paulallies), 2025. Creating a Responsive Side Navigation Bar with HTML, CSS and JavaScript. [online] Available at: <https://dev.to/paulallies/creating-a-responsive-side-navigation-bar-with-html-css-and-javascript-3538> [Accessed 20 April 2026].
+    Mozilla Developer Network, 2026g. Basic concepts of flexbox. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox> [Accessed 9 September 2026].
+    Mozilla Developer Network, 2026d. position CSS property. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/CSS/position> [Accessed 9 September 2026].
+    Mozilla Developer Network, 2026h. prefers-reduced-motion. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion> [Accessed 13 November 2026].
+    W3C, 2026. Understanding SC 2.3.3: Animation from Interactions (Level AAA). [online] Available at: <https://w3c.github.io/wcag/understanding/animation-from-interactions> [Accessed 13 November 2026].
+    EZUD, 2026. Animation and Motion Accessibility: Designing for Reduced Motion Preferences. [online] Available at: <https://ezud.com/animation-motion-accessibility-reduced-motion> [Accessed 13 November 2026].
+    W3Schools, 2025a. CSS Tutorial. [online] Available at: <https://www.w3schools.com/css/> [Accessed 20 April 2026].
+*@

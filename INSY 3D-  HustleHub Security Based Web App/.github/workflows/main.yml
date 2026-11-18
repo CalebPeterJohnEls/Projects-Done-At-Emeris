@@ -1,0 +1,416 @@
+# HustleHub+ CI/CD pipeline
+# Every job must pass: no step is allowed to fail silently in this file.
+# Docker Hub publishing only runs on a push to main after every check passes.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Least privilege: workflow can only read the repository.
+permissions:
+  contents: read
+
+# A newer push cancels the older run of the same branch.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "24"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Backend: Newman API tests against a real server
+  # ---------------------------------------------------------------------------
+  backend:
+    name: Backend (Newman API tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.runCommand({ping:1}).ok'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      # Throwaway values used only for this CI run.
+      CONN_STRING: mongodb://localhost:27017/hustlehub_ci
+      JWT_SECRET: ci-only-jwt-secret-${{ github.run_id }}
+      TWOFA_ENC_KEY: 0000000000000000000000000000000000000000000000000000000000000000
+      FRONTEND_ORIGIN: https://localhost:5173
+      ADMIN_USERNAME: admin
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: Admin123!
+      DEMO_PASSWORD: Demo1234
+      # Node 20+ "happy eyeballs" hands Newman's DNS lookup a list of
+      # addresses, which its request library can't handle, giving
+      # "Invalid IP address: undefined" on every request. Disabling
+      # autoselection makes "localhost" resolve to a single address.
+      # Job-level, so both `npm test` and `npm run test:ratelimit` get it.
+      NODE_OPTIONS: --no-network-family-autoselection
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend packages
+        working-directory: backend
+        run: npm ci
+
+      # Generate fresh TLS certificates for the API and Newman.
+      - name: Generate localhost TLS certificates
+        run: |
+          openssl req -x509 -newkey rsa:2048 -nodes -days 2 \
+            -keyout ca.key -out ca.crt -subj "/CN=HustleHub CI CA"
+
+          openssl req -newkey rsa:2048 -nodes \
+            -keyout cert.key -out cert.csr -subj "/CN=localhost"
+
+          printf "subjectAltName=DNS:localhost,IP:127.0.0.1\n" > san.ext
+
+          openssl x509 -req -in cert.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
+            -days 2 -sha256 -extfile san.ext -out cert.crt
+
+      - name: Seed the admin account
+        working-directory: backend
+        run: node utils/seedAdmin.js
+
+      - name: Start the API
+        working-directory: backend
+        run: |
+          mkdir -p postman/results
+
+          AUTH_LIMIT=1000 BOOKING_LIMIT=1000 GENERAL_LIMIT=5000 ADMIN_LIMIT=1000 \
+            nohup node app.js > api.log 2>&1 &
+
+          echo $! > api.pid
+
+      - name: Wait for the API health check
+        run: |
+          for i in $(seq 1 40); do
+            if curl -fsS --cacert ca.crt https://localhost:3000/api/home/healthCheck > /dev/null; then
+              echo "API is up"
+              exit 0
+            fi
+
+            sleep 2
+          done
+
+          echo "API did not become healthy in time"
+          cat backend/api.log
+          exit 1
+
+      - name: Newman API tests
+        working-directory: backend
+        run: npm test
+
+      - name: Newman rate-limit test
+        working-directory: backend
+        run: |
+          # Restart with a tiny login limit so the counters start at zero.
+          kill "$(cat api.pid)"
+
+          # Wait until the old process has actually exited, instead of
+          # a fixed sleep, so port 3000 is free (avoids EADDRINUSE).
+          while kill -0 "$(cat api.pid)" 2>/dev/null; do
+            sleep 0.5
+          done
+
+          AUTH_LIMIT=3 nohup node app.js > api-limits.log 2>&1 &
+          echo $! > api.pid
+
+          for i in $(seq 1 40); do
+            if curl -fsS --cacert ../ca.crt https://localhost:3000/api/home/healthCheck > /dev/null; then
+              break
+            fi
+
+            sleep 2
+          done
+
+          npm run test:ratelimit
+
+      - name: Upload Newman reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-reports
+          path: backend/postman/results/
+          if-no-files-found: warn
+
+      - name: Show the API log if anything failed
+        if: failure()
+        run: |
+          tail -n 100 backend/api.log || true
+          tail -n 100 backend/api-limits.log || true
+
+  # ---------------------------------------------------------------------------
+  # Frontend: lint, tests and production build
+  # ---------------------------------------------------------------------------
+  frontend:
+    name: Frontend (lint, tests, build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend packages
+        working-directory: frontend
+        run: npm ci
+
+      - name: Lint
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Component tests (Vitest)
+        working-directory: frontend
+        run: npm test
+
+      - name: Production build
+        working-directory: frontend
+        run: npm run build
+
+  # ---------------------------------------------------------------------------
+  # Dependency audit: fail on high or critical production vulnerabilities
+  # ---------------------------------------------------------------------------
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Audit backend (production packages)
+        working-directory: backend
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Audit frontend (production packages)
+        working-directory: frontend
+        run: npm audit --omit=dev --audit-level=high
+
+  # ---------------------------------------------------------------------------
+  # CHANGE: Static analysis (SAST). Semgrep scans the backend and frontend
+  # source code without running it, looking for injection, unsafe eval,
+  # hard-coded secrets and other OWASP Top 10 patterns.
+  # ---------------------------------------------------------------------------
+  sast:
+    name: Static analysis (Semgrep)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep
+        run: |
+          mkdir -p sast-results
+
+          # Rule packs: JS, Node.js, OWASP Top 10 and hard-coded secrets.
+          # --error makes the job fail if any finding is reported.
+          # --metrics=off stops Semgrep sending usage data.
+          semgrep scan \
+            --metrics=off \
+            --config p/javascript \
+            --config p/nodejs \
+            --config p/owasp-top-ten \
+            --config p/secrets \
+            --exclude node_modules \
+            --exclude dist \
+            --text-output sast-results/semgrep.txt \
+            --json-output sast-results/semgrep.json \
+            --error \
+            backend frontend
+
+      # Keep the results as evidence, even when findings fail the job.
+      - name: Upload static analysis report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sast-report
+          path: sast-results/
+          if-no-files-found: warn
+
+  # ---------------------------------------------------------------------------
+  # Docker: build both images, start the stack and run smoke tests
+  # ---------------------------------------------------------------------------
+  docker:
+    name: Docker build and Compose smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # CHANGE: added sast so the stack is only built after static analysis passes.
+    needs: [backend, frontend, audit, sast]
+
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.runCommand({ping:1}).ok'"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build the backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: false
+          tags: hustlehub-backend:ci
+          cache-from: type=gha,scope=backend
+          cache-to: type=gha,scope=backend,mode=max
+
+      - name: Build the frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: false
+          tags: hustlehub-frontend:ci
+          build-args: |
+            VITE_API_URL=https://localhost:3000/api
+            VITE_API_ORIGIN=https://localhost:3000
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,scope=frontend,mode=max
+
+      - name: Generate localhost TLS certificates
+        run: |
+          openssl req -x509 -newkey rsa:2048 -nodes -days 2 \
+            -keyout ca.key -out ca.crt -subj "/CN=HustleHub CI CA"
+
+          openssl req -newkey rsa:2048 -nodes \
+            -keyout cert.key -out cert.csr -subj "/CN=localhost"
+
+          printf "subjectAltName=DNS:localhost,IP:127.0.0.1\n" > san.ext
+
+          openssl x509 -req -in cert.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
+            -days 2 -sha256 -extfile san.ext -out cert.crt
+
+          # Containers run as non-root users, so mounted files must be readable.
+          chmod 644 ca.crt cert.crt cert.key
+
+      - name: Create the backend .env for Compose
+        run: |
+          cat > backend/.env <<EOF
+          CONN_STRING=mongodb://host.docker.internal:27017/hustlehub_ci
+          JWT_SECRET=ci-only-jwt-secret-${{ github.run_id }}
+          TWOFA_ENC_KEY=0000000000000000000000000000000000000000000000000000000000000000
+          ADMIN_USERNAME=admin
+          ADMIN_EMAIL=admin@example.com
+          ADMIN_PASSWORD=Admin123!
+          DEMO_PASSWORD=Demo1234
+          EOF
+
+          mkdir -p logs
+          chmod 777 logs
+
+      - name: Start the stack with Docker Compose
+        run: docker compose up -d --build --wait --wait-timeout 240
+
+      - name: Smoke test the running containers
+        run: |
+          docker compose ps
+
+          curl -fsS --cacert ca.crt https://localhost:3000/api/home/healthCheck
+
+          curl -fsS --cacert ca.crt -o /dev/null https://localhost:5173/
+
+          # Check the security headers configured in nginx.conf.
+          curl -fsSI --cacert ca.crt https://localhost:5173/ | grep -i "x-content-type-options: nosniff"
+
+          curl -fsSI --cacert ca.crt https://localhost:5173/ | grep -i "x-frame-options: DENY"
+
+      - name: Show container logs if anything failed
+        if: failure()
+        run: docker compose logs --no-color --tail 100
+
+      - name: Stop the stack
+        if: always()
+        run: docker compose down -v
+
+  # ---------------------------------------------------------------------------
+  # Publish to Docker Hub: only on main after every check has passed.
+  # Required repository secrets:
+  # DOCKERHUB_USERNAME
+  # DOCKERHUB_TOKEN
+  # ---------------------------------------------------------------------------
+  publish:
+    name: Publish images to Docker Hub
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # CHANGE: added sast so nothing is published unless static analysis passed.
+    needs: [backend, frontend, audit, sast, docker]
+
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push the backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/hustlehub-backend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/hustlehub-backend:${{ github.sha }}
+          cache-from: type=gha,scope=backend
+
+      - name: Push the frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: true
+          build-args: |
+            VITE_API_URL=https://localhost:3000/api
+            VITE_API_ORIGIN=https://localhost:3000
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/hustlehub-frontend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/hustlehub-frontend:${{ github.sha }}
+          cache-from: type=gha,scope=frontend

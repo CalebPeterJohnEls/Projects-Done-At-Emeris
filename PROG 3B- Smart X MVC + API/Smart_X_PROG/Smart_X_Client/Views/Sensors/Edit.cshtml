@@ -1,0 +1,382 @@
+﻿
+@model Smart_X_Client.Models.Sensor
+
+@*
+    The edit form is used to update an existing sensor and is pre-populated
+    with the Sensor model passed from SensorsController.Edit().
+
+    ASP.NET Core Tag Helpers bind the form fields to the strongly typed
+    Sensor model and generate the appropriate HTML attributes
+    (Microsoft, 2026y).
+
+    The strongly typed model provides a structured way of representing the
+    sensor data and supports object-oriented programming principles
+    (Nakov and Kolev et al., 2013; Troelsen and Japikse, 2022).
+
+    Bootstrap components and form controls are used to provide a consistent
+    and responsive interface (Bootstrap, 2026b).
+
+    HTML form elements are used to collect and submit the updated sensor
+    information (W3Schools, 2025b).
+
+    Razor C# syntax is used to connect the view to the Sensor model and
+    dynamically generate the form fields (W3Schools, 2025d).
+*@
+
+@{
+    ViewData["Title"] = "Edit Sensor";
+}
+
+<style>
+    /*
+            Custom CSS is used to control the spacing, sizing, borders and
+            overall appearance of the edit form (W3Schools, 2025a).
+        */
+
+    .sensor-edit-page {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 15px;
+    }
+
+    .sensor-form-card {
+        width: 100%;
+        max-width: 620px;
+        background-color: #1f2226;
+        border: 1px solid #343a40;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .sensor-form-title {
+        text-align: center;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+
+    .sensor-form-subtitle {
+        text-align: center;
+        color: #adb5bd;
+        margin-bottom: 25px;
+        font-size: 0.95rem;
+    }
+
+    .sensor-form-card hr {
+        border-color: #343a40;
+        margin-bottom: 25px;
+    }
+
+    .sensor-form-group {
+        margin-bottom: 18px;
+    }
+
+        .sensor-form-group label {
+            display: block;
+            margin-bottom: 7px;
+            color: #f8f9fa;
+        }
+
+    .sensor-form-card .form-control,
+    .sensor-form-card .form-select {
+        background-color: #292d32;
+        color: white;
+        border: 1px solid #495057;
+        border-radius: 8px;
+        padding: 10px 12px;
+    }
+
+        .sensor-form-card .form-control:focus,
+        .sensor-form-card .form-select:focus {
+            background-color: #292d32;
+            color: white;
+            border-color: #4dabf7;
+            box-shadow: 0 0 0 0.2rem rgba(77, 171, 247, 0.2);
+        }
+
+        .sensor-form-card .form-select option {
+            background-color: #292d32;
+            color: white;
+        }
+
+    .validation-summary {
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin-bottom: 20px;
+        background-color: rgba(220, 53, 69, 0.12);
+    }
+
+    .field-validation-error {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.85rem;
+    }
+
+    .active-section {
+        background-color: #292d32;
+        border: 1px solid #343a40;
+        border-radius: 8px;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+    }
+
+        .active-section .form-check {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .active-section .form-check-input {
+            margin-top: 0;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .active-section .form-check-label {
+            color: #f8f9fa;
+            cursor: pointer;
+        }
+
+    .form-actions {
+        margin-top: 25px;
+    }
+
+    .save-btn {
+        padding: 11px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    .back-btn {
+        border-radius: 8px;
+        padding: 8px 18px;
+    }
+</style>
+
+<div class="sensor-edit-page">
+
+    <div class="sensor-form-card">
+
+        <h1 class="sensor-form-title">
+            Edit Sensor
+        </h1>
+
+        <p class="sensor-form-subtitle">
+            Update the registered sensor's information and status.
+        </p>
+
+        <hr />
+
+        <form asp-action="Edit"
+              asp-route-id="@Model.Id"
+              method="post">
+
+            <!--
+                Validation summary displays ModelState errors returned by
+                the controller when the update cannot be completed.
+            -->
+            <div asp-validation-summary="All"
+                 class="text-danger validation-summary">
+            </div>
+
+            <div class="sensor-form-group">
+
+                <label asp-for="DeviceIdentifier"
+                       class="control-label fw-bold">
+                </label>
+
+                <input asp-for="DeviceIdentifier"
+                       class="form-control" />
+
+                <span asp-validation-for="DeviceIdentifier"
+                      class="text-danger field-validation-error">
+                </span>
+
+            </div>
+
+            <div class="sensor-form-group">
+
+                <label asp-for="MacAddress"
+                       class="control-label fw-bold">
+                </label>
+
+                <input asp-for="MacAddress"
+                       class="form-control" />
+
+                <span asp-validation-for="MacAddress"
+                      class="text-danger field-validation-error">
+                </span>
+
+            </div>
+
+            <div class="sensor-form-group">
+
+                <label asp-for="Room"
+                       class="control-label fw-bold">
+                </label>
+
+                <input asp-for="Room"
+                       class="form-control" />
+
+                <span asp-validation-for="Room"
+                      class="text-danger field-validation-error">
+                </span>
+
+            </div>
+
+            <div class="sensor-form-group">
+
+                <label asp-for="Zone"
+                       class="control-label fw-bold">
+                </label>
+
+                <input asp-for="Zone"
+                       class="form-control" />
+
+                <span asp-validation-for="Zone"
+                      class="text-danger field-validation-error">
+                </span>
+
+            </div>
+
+            <div class="sensor-form-group">
+
+                <label asp-for="NodeId"
+                       class="control-label fw-bold">
+                </label>
+
+                <input asp-for="NodeId"
+                       class="form-control" />
+
+                <span asp-validation-for="NodeId"
+                      class="text-danger field-validation-error">
+                </span>
+
+            </div>
+
+            <div class="sensor-form-group">
+
+                <label asp-for="Category"
+                       class="control-label fw-bold">
+                </label>
+
+                <select asp-for="Category"
+                        class="form-select">
+
+                    <option value="Environmental">
+                        Environmental
+                    </option>
+
+                    <option value="PowerConsumption">
+                        Power Consumption
+                    </option>
+
+                    <option value="Actuator">
+                        Actuator
+                    </option>
+
+                </select>
+
+                <span asp-validation-for="Category"
+                      class="text-danger field-validation-error">
+                </span>
+
+            </div>
+
+            <!--
+                Bootstrap's form-check classes are used for the Active
+                checkbox (Bootstrap, 2026b).
+            -->
+            <div class="active-section">
+
+                <div class="form-check">
+
+                    <input asp-for="Active"
+                           class="form-check-input" />
+
+                    <label asp-for="Active"
+                           class="form-check-label fw-bold">
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+
+                <!--
+                    Bootstrap button styling is used for the primary save
+                    action (Bootstrap, 2026c).
+                -->
+                <div class="d-grid">
+
+                    <input type="submit"
+                           value="Save Changes"
+                           class="btn btn-success save-btn" />
+
+                </div>
+
+            </div>
+
+        </form>
+
+        <div class="text-center mt-4">
+
+            <a asp-action="Index"
+               class="btn btn-secondary back-btn">
+                Back to List
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+@*
+    REFERENCES:
+
+    Bootstrap, 2026b. Bootstrap Components. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/>
+    [Accessed 8 September 2026].
+
+    Bootstrap, 2026c. Buttons. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/buttons/>
+    [Accessed 9 September 2026].
+
+    Microsoft, 2026y. Tag Helpers in ASP.NET Core. [online] Available at:
+    <https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro>
+    [Accessed 8 September 2026].
+
+    Nakov, S. and Kolev, V. et al., 2013. Fundamentals of Computer
+    Programming with C#. Sofia. [ebook] Available at:
+    <https://www.introprogramming.info/wp-content/uploads/2013/07/Books/CSharpEn/Fundamentals-of-Computer-Programming-with-CSharp-Nakov-eBook-v2013.pdf>
+    [Accessed 9 September 2026].
+
+    The IIE, 2026. Programming 3A [PROG7311 Module Manual].
+    The Independent Institute of Education: Unpublished.
+
+    Troelsen, A. and Japikse, P., 2022. Pro C# 10 with .NET 6:
+    Foundational Principles and Practices in Programming. 8th ed.
+    New York: Apress.
+
+    W3Schools, 2025a. CSS Tutorial. [online] Available at:
+    <https://www.w3schools.com/css/>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025b. HTML Tutorial. [online] Available at:
+    <https://www.w3schools.com/Html/>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025c. JavaScript Fetch API. [online] Available at:
+    <https://www.w3schools.com/js/js_api_fetch.asp>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025d. Razor C# Logic. [online] Available at:
+    <https://www.w3schools.com/asp/razor_cs_logic.asp>
+    [Accessed 20 April 2026].
+*@

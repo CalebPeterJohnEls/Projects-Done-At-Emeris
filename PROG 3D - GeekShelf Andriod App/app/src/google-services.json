@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "434598467238",
+    "firebase_url": "https://geekshelfonline-default-rtdb.firebaseio.com",
+    "project_id": "geekshelfonline",
+    "storage_bucket": "geekshelfonline.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434598467238:android:7b4ec32052b1922c2cc667",
+        "android_client_info": {
+          "package_name": "com.example.gamelibrary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434598467238-lfn3bkpngprq8bl32tlkbjscconssd07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrcI9CiMWJXnmZbzK30nCfZkQowlv9ImQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434598467238-lfn3bkpngprq8bl32tlkbjscconssd07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434598467238:android:9c16ee96749456f82cc667",
+        "android_client_info": {
+          "package_name": "com.example.geekshelf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434598467238-jkr4clpr6mhr33qprmivhar7mag9cete.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.geekshelf",
+            "certificate_hash": "eea1fe26058f08d7e445ba5fb5d7ac42b9629ea0"
+          }
+        },
+        {
+          "client_id": "434598467238-lfn3bkpngprq8bl32tlkbjscconssd07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrcI9CiMWJXnmZbzK30nCfZkQowlv9ImQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434598467238-lfn3bkpngprq8bl32tlkbjscconssd07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

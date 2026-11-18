@@ -1,0 +1,39 @@
+{
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "express-validator": "^7.3.2",
+    "helmet": "^8.3.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.6.0",
+    "mongoose": "^9.9.4",
+    "nodemon": "^3.1.11",
+    "otplib": "^13.6.0",
+    "qrcode": "^1.5.4"
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "start:test": "cross-env AUTH_LIMIT=1000 BOOKING_LIMIT=1000 GENERAL_LIMIT=5000 ADMIN_LIMIT=1000 node app.js",
+    "start:limits": "cross-env AUTH_LIMIT=3 node app.js",
+    "test": "newman run postman/hustlehub.postman_collection.json -e postman/local.postman_environment.json --ssl-extra-ca-certs ../ca.crt --reporters cli,htmlextra --reporter-htmlextra-export postman/results/report.html",
+    "test:ratelimit": "newman run postman/hustlehub.ratelimit.postman_collection.json -e postman/local.postman_environment.json --ssl-extra-ca-certs ../ca.crt --reporters cli,htmlextra --reporter-htmlextra-export postman/results/ratelimit-report.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "newman": "^5.3.2",
+    "newman-reporter-htmlextra": "^1.22.5"
+  }
+}

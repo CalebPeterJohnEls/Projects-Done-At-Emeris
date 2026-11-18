@@ -1,0 +1,125 @@
+﻿@model Smart_X_Client.Models.Sensor
+@inject IConfiguration Configuration
+
+@*
+    a read-only detail view for a single sensor,
+    laid out with a definition list (<dl>/<dt>/<dd>) and Bootstrap's grid
+    utility classes for alignment (Bootstrap, 2026e).
+
+    The attachments are listed as links built from the API's public address,
+    which is read from configuration with @inject (Microsoft, 2026f), and
+    Path.GetFileName shows only the file name as the link text
+    (Microsoft, 2026t). A small form lets a file be attached to a sensor that
+    already exists, using a multipart/form-data upload (Microsoft, 2026z).
+*@
+
+@{
+    ViewData["Title"] = "Sensor Details";
+    var apiBaseUrl = (Configuration["ApiPublicUrl"] ?? Configuration["ApiBaseUrl"])?.TrimEnd('/');
+}
+
+<div class="container mt-4">
+
+    <div class="mx-auto" style="max-width: 700px;">
+
+        <h1 class="text-center">Sensor Details</h1>
+        <hr />
+
+        @if (TempData["UploadError"] != null)
+        {
+            <div class="alert alert-warning">
+                @TempData["UploadError"]
+            </div>
+        }
+
+        <dl class="row">
+
+            <dt class="col-sm-4 text-end">ID</dt>
+            <dd class="col-sm-8">@Model.Id</dd>
+
+            <dt class="col-sm-4 text-end">Device Identifier</dt>
+            <dd class="col-sm-8">@Model.DeviceIdentifier</dd>
+
+            <dt class="col-sm-4 text-end">MAC Address</dt>
+            <dd class="col-sm-8">@Model.MacAddress</dd>
+
+            <dt class="col-sm-4 text-end">Location</dt>
+            <dd class="col-sm-8">
+                @Model.Room / @Model.Zone / @Model.NodeId
+            </dd>
+
+            <dt class="col-sm-4 text-end">Category</dt>
+            <dd class="col-sm-8">@Model.Category</dd>
+
+            <dt class="col-sm-4 text-end">Status</dt>
+            <dd class="col-sm-8">
+                @(Model.Active ? "Active" : "Inactive")
+            </dd>
+
+            <dt class="col-sm-4 text-end">Attachments</dt>
+            <dd class="col-sm-8">
+
+                @if (Model.AttachmentPaths != null && Model.AttachmentPaths.Any())
+                {
+                    @foreach (var path in Model.AttachmentPaths)
+                    {
+                        <a href="@($"{apiBaseUrl}/{path}")"
+                           target="_blank"
+                           class="btn btn-primary btn-sm d-block w-auto mb-1">
+                            @System.IO.Path.GetFileName(path)
+                        </a>
+                    }
+                }
+                else
+                {
+                    <span class="text-secondary">No document</span>
+                }
+
+            </dd>
+
+        </dl>
+
+        <form asp-action="Attach"
+              asp-route-id="@Model.Id"
+              method="post"
+              enctype="multipart/form-data"
+              class="mt-3">
+
+            <label class="form-label fw-bold">
+                Attach Config / Log File
+            </label>
+
+            <input type="file"
+                   name="file"
+                   class="form-control mb-2" />
+
+            <button type="submit" class="btn btn-success btn-sm">
+                Attach file
+            </button>
+
+        </form>
+
+        <div class="text-center mt-4">
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn btn-primary">
+                Edit
+            </a>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Back to List
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+@*
+    References:
+    Bootstrap, 2026e. Grid system. [online] Available at: <https://getbootstrap.com/docs/5.3/layout/grid/> [Accessed 8 September 2026].
+    Microsoft, 2026f. Dependency injection into views in ASP.NET Core. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/mvc/views/dependency-injection> [Accessed 9 September 2026].
+    Microsoft, 2026t. Path.GetFileName Method (System.IO). [online] Available at: <https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilename> [Accessed 10 September 2026].
+    Microsoft, 2026z. Upload files in ASP.NET Core. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/mvc/models/file-uploads> [Accessed 10 April 2026].
+*@

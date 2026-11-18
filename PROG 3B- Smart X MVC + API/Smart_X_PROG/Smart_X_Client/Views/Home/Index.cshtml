@@ -1,0 +1,373 @@
+﻿
+@*
+    The landing page presents the three architectural pillars of the
+    Smart-X IoT Mesh Ecosystem using Bootstrap cards inside a responsive
+    grid.
+
+    Bootstrap's 12-column grid system is used through the row and
+    col-md-4 classes to create a responsive three-column layout
+    (Bootstrap, 2026e).
+
+    Bootstrap card components are used to group the information for each
+    architectural pillar, while Bootstrap buttons provide the interactive
+    controls (Bootstrap, 2026d; Bootstrap, 2026c).
+
+    The ASP.NET Core Anchor Tag Helper generates the appropriate links for
+    the Sensor section using the controller and action names rather than
+    requiring hard-coded URLs (Microsoft, 2026a).
+
+    HTML elements are used to structure the page content and navigation
+    areas (W3Schools, 2025b).
+
+    Custom CSS is used to improve the visual presentation, spacing,
+    responsiveness and appearance of the Bootstrap components
+    (W3Schools, 2025a).
+
+    The structured layout demonstrates the use of object-oriented and
+    component-based programming concepts by separating the system into
+    distinct functional areas (Nakov and Kolev et al., 2013;
+    Troelsen and Japikse, 2022).
+*@
+
+@{
+    ViewData["Title"] = "Smart-X Gateway";
+}
+
+<style>
+
+    /*
+            Custom styling is used to improve the appearance of the landing
+            page while retaining Bootstrap's responsive grid and card system
+            (Bootstrap, 2026e; W3Schools, 2025a).
+        */
+
+    .smart-x-page {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .smart-x-header {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+        .smart-x-header h1 {
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .smart-x-header p {
+            color: #adb5bd;
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+
+    .architecture-card {
+        height: 100%;
+        min-height: 280px;
+        border: 1px solid #343a40;
+        border-radius: 16px;
+        overflow: hidden;
+        background-color: #1f2226;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .architecture-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .architecture-card .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 32px 25px;
+        }
+
+    .architecture-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        background-color: #2f8fdb;
+        color: white;
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+
+    .architecture-card .card-title {
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f8f9fa;
+    }
+
+    .architecture-card .card-text {
+        color: #adb5bd;
+        line-height: 1.6;
+        max-width: 360px;
+        margin-bottom: 25px;
+    }
+
+    .architecture-card .btn {
+        min-width: 120px;
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 9px 20px;
+    }
+
+    /*
+            Disabled cards use a darker appearance to indicate that those
+            system features are not currently available.
+        */
+
+    .architecture-card.disabled-card {
+        background-color: #181a1d;
+        opacity: 0.75;
+    }
+
+        .architecture-card.disabled-card:hover {
+            transform: none;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        .architecture-card.disabled-card .architecture-icon {
+            background-color: #495057;
+        }
+
+        .architecture-card.disabled-card .card-title {
+            color: #adb5bd;
+        }
+
+    .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        background-color: #495057;
+        color: #dee2e6;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
+
+    .active-badge {
+        background-color: #198754;
+        color: white;
+    }
+
+</style>
+
+
+<div class="container smart-x-page">
+
+    <!--
+        The Bootstrap container and grid provide a responsive structure for
+        the landing page (Bootstrap, 2026e).
+    -->
+
+    <div class="smart-x-header">
+
+        <h1>
+            Smart-X IoT Mesh Ecosystem
+        </h1>
+
+        <p>
+            Select an architectural pillar to continue
+        </p>
+
+    </div>
+
+
+    <!--
+        Bootstrap's row and column classes create the responsive three-card
+        layout (Bootstrap, 2026e).
+    -->
+
+    <div class="row justify-content-center g-4">
+
+
+        <!-- SENSOR DATA INGESTION -->
+
+        <div class="col-md-4">
+
+            <!--
+                Bootstrap's card component is used to group the sensor
+                ingestion functionality into a single visual section
+                (Bootstrap, 2026d).
+            -->
+
+            <div class="card architecture-card">
+
+                <div class="card-body">
+
+                    <div class="architecture-icon">
+                        01
+                    </div>
+
+                    <span class="status-badge active-badge">
+                        AVAILABLE
+                    </span>
+
+                    <h4 class="card-title">
+                        Sensor Data Ingestion &amp; Telemetry
+                    </h4>
+
+                    <p class="card-text">
+                        Register sensors, ingest telemetry, and monitor
+                        live sensor status.
+                    </p>
+
+                    <!--
+                        The Anchor Tag Helper generates the appropriate
+                        URL for the Sensors controller and Index action
+                        (Microsoft, 2026a).
+                    -->
+
+                    <a asp-controller="Sensors"
+                       asp-action="Index"
+                       class="btn btn-success">
+                        Enter
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- COMMAND STREAM -->
+
+       <div class="col-md-4">
+
+    <div class="card architecture-card">
+
+        <div class="card-body">
+
+            <div class="architecture-icon">
+                02
+            </div>
+
+            <span class="status-badge active-badge">
+                AVAILABLE
+            </span>
+
+            <h4 class="card-title">
+                Real-Time Command Stream &amp; History
+            </h4>
+
+            <p class="card-text">
+                Monitor live device data, issue manual override
+                commands and review suggested actions.
+            </p>
+
+            <a asp-controller="CommandStream"
+               asp-action="Index"
+               class="btn btn-success">
+                Enter
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+                    <!--
+                        Bootstrap button styling is used to communicate
+                        that this functionality is currently unavailable
+                        (Bootstrap, 2026c).
+                    -->
+        <!-- NETWORK TOPOLOGY -->
+
+        <div class="col-md-4">
+
+            <div class="card architecture-card">
+
+                <div class="card-body">
+
+                    <div class="architecture-icon">
+                        03
+                    </div>
+
+                    <span class="status-badge active-badge">
+                        AVAILABLE
+                    </span>
+
+                    <h4 class="card-title">
+                        Network Topology &amp; Mesh Routing
+                    </h4>
+
+                    <p class="card-text">
+                        View the mesh network, track the most power-efficient
+                        route of a sensor to the gateway and search its
+                        historical telemetry by time range.
+                    </p>
+
+                    <a asp-controller="Topology"
+                       asp-action="Index"
+                       class="btn btn-success">
+                        Enter
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+@*
+    REFERENCES:
+
+    Bootstrap, 2026c. Buttons. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/buttons/>
+    [Accessed 9 September 2026].
+
+    Bootstrap, 2026d. Cards. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/card/>
+    [Accessed 10 September 2026].
+
+    Bootstrap, 2026e. Grid system. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/layout/grid/>
+    [Accessed 8 September 2026].
+
+    Microsoft, 2026a. Anchor Tag Helper in ASP.NET Core. [online]
+    Available at:
+    <https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper>
+    [Accessed 9 September 2026].
+
+    Nakov, S. and Kolev, V. et al., 2013. Fundamentals of Computer
+    Programming with C#. Sofia. [ebook] Available at:
+    <https://www.introprogramming.info/wp-content/uploads/2013/07/Books/CSharpEn/Fundamentals-of-Computer-Programming-with-CSharp-Nakov-eBook-v2013.pdf>
+    [Accessed 9 September 2026].
+
+    The IIE, 2026. Programming 3A [PROG7311 Module Manual].
+    The Independent Institute of Education: Unpublished.
+
+    Troelsen, A. and Japikse, P., 2022. Pro C# 10 with .NET 6:
+    Foundational Principles and Practices in Programming. 8th ed.
+    New York: Apress.
+
+    W3Schools, 2025a. CSS Tutorial. [online] Available at:
+    <https://www.w3schools.com/css/>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025b. HTML Tutorial. [online] Available at:
+    <https://www.w3schools.com/Html/>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025c. JavaScript Fetch API. [online] Available at:
+    <https://www.w3schools.com/js/js_api_fetch.asp>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025d. Razor C# Logic. [online] Available at:
+    <https://www.w3schools.com/asp/razor_cs_logic.asp>
+    [Accessed 20 April 2026].
+
+    *@

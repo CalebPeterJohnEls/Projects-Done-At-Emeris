@@ -1,0 +1,664 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.form-control:focus, .form-check-input:focus, .btn-link.nav-link:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+/* ================================================================
+   Smart-X buttons
+   ================================================================ */
+
+/* Shared shape and animation for every button. */
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
+}
+
+.btn-sm {
+    border-radius: 8px;
+    padding: 0.3rem 0.85rem;
+}
+
+.btn:hover:not(:disabled):not(.disabled) {
+    transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled):not(.disabled) {
+    transform: translateY(0);
+}
+
+/* A soft blue glow instead of the white ring when a button is focused. */
+.btn:focus,
+.btn:active:focus,
+.btn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.35);
+}
+
+/* Each outline button has an accent colour (red, green, blue values). The
+   rules below turn it into a tinted fill, a coloured border, and a solid
+   fill on hover. Bootstrap 5.3 builds buttons from --bs-btn-* variables, so
+   changing those variables is enough. */
+.btn-outline-secondary {
+    --btn-accent: 77, 171, 247;
+}
+
+.btn-outline-light {
+    --btn-accent: 222, 226, 230;
+}
+
+.btn-outline-success {
+    --btn-accent: 52, 199, 120;
+}
+
+.btn-outline-danger {
+    --btn-accent: 255, 107, 107;
+}
+
+.btn-outline-warning {
+    --btn-accent: 255, 193, 7;
+}
+
+.btn-outline-info {
+    --btn-accent: 56, 203, 229;
+}
+
+.btn-outline-secondary,
+.btn-outline-light,
+.btn-outline-success,
+.btn-outline-danger,
+.btn-outline-warning,
+.btn-outline-info {
+    --bs-btn-color: rgb(var(--btn-accent));
+    --bs-btn-bg: rgba(var(--btn-accent), 0.10);
+    --bs-btn-border-color: rgba(var(--btn-accent), 0.45);
+    --bs-btn-hover-color: #101318;
+    --bs-btn-hover-bg: rgb(var(--btn-accent));
+    --bs-btn-hover-border-color: rgb(var(--btn-accent));
+    --bs-btn-active-color: #101318;
+    --bs-btn-active-bg: rgba(var(--btn-accent), 0.85);
+    --bs-btn-active-border-color: rgba(var(--btn-accent), 0.85);
+    --bs-btn-disabled-color: rgba(var(--btn-accent), 0.45);
+    --bs-btn-disabled-bg: rgba(var(--btn-accent), 0.05);
+    --bs-btn-disabled-border-color: rgba(var(--btn-accent), 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+    .btn-outline-secondary:hover,
+    .btn-outline-light:hover,
+    .btn-outline-success:hover,
+    .btn-outline-danger:hover,
+    .btn-outline-warning:hover,
+    .btn-outline-info:hover {
+        box-shadow: 0 4px 14px rgba(var(--btn-accent), 0.35);
+    }
+
+/* The quick range buttons (Last 15 min, Last hour, Last 24 hours) become
+   pills with a small clock icon. */
+.btn[data-range] {
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+}
+
+    .btn[data-range]::before {
+        content: "\f017";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 400;
+        margin-right: 0.45rem;
+        opacity: 0.8;
+    }
+
+/* The small action buttons inside suggestions are pills too. */
+.btn[data-why],
+.btn[data-sug] {
+    border-radius: 999px;
+    padding: 0.2rem 0.8rem;
+}
+
+/* Solid buttons (Track, Query, ON, OFF) get a soft highlight and shadow. */
+.btn-success,
+.btn-danger,
+.btn-primary,
+.btn-info {
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 60%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+    .btn-success:hover {
+        box-shadow: 0 4px 14px rgba(25, 135, 84, 0.5);
+    }
+
+    .btn-danger:hover {
+        box-shadow: 0 4px 14px rgba(220, 53, 69, 0.5);
+    }
+
+    .btn-primary:hover {
+        box-shadow: 0 4px 14px rgba(13, 110, 253, 0.5);
+    }
+
+    .btn-info:hover {
+        box-shadow: 0 4px 14px rgba(13, 202, 240, 0.5);
+    }
+
+/* ================================================================
+   Smart-X cards (Command Stream and Topology pages)
+   ================================================================ */
+.card.bg-dark.border-secondary {
+    border-radius: 14px;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0));
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* The clickable counters at the top of the Command Stream page. */
+.card.cs-tile {
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+    .card.cs-tile:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(47, 143, 219, 0.25);
+    }
+
+/* ================================================================
+   Smart-X pop-up windows (Bootstrap modals)
+   ================================================================ */
+
+/* Darker, blurred background behind the pop-up. */
+.modal-backdrop {
+    --bs-backdrop-opacity: 0.65;
+    backdrop-filter: blur(4px);
+}
+
+/* The pop-up slides up and grows slightly as it fades in. */
+.modal.fade .modal-dialog {
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.28s ease-out;
+}
+
+.modal.show .modal-dialog {
+    transform: none;
+}
+
+.modal-content {
+    border-radius: 18px;
+    border: 1px solid rgba(77, 171, 247, 0.28) !important;
+    background-image: linear-gradient(180deg, #23272d 0%, #181b1f 100%);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(47, 143, 219, 0.12);
+    overflow: hidden;
+}
+
+/* Header with a blue accent bar on the left. */
+.modal-header {
+    position: relative;
+    padding: 1rem 1.4rem 1rem 1.6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: linear-gradient(90deg, rgba(47, 143, 219, 0.22), rgba(47, 143, 219, 0) 70%);
+}
+
+    .modal-header::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, #4dabf7, #2f8fdb);
+    }
+
+.modal-title {
+    color: #e9f3fc;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.modal-header .btn {
+    border-radius: 999px;
+    padding: 0.3rem 1rem;
+}
+
+.modal-body {
+    padding: 1.25rem 1.4rem 1.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #3a4a5c transparent;
+}
+
+    .modal-body::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+        background: #3a4a5c;
+        border-radius: 8px;
+    }
+
+    /* The explanation at the top of a pop-up looks like an info box. */
+    .modal-body > p.small {
+        background: rgba(77, 171, 247, 0.08);
+        border: 1px solid rgba(77, 171, 247, 0.18);
+        border-left: 3px solid #4dabf7;
+        border-radius: 10px;
+        padding: 0.75rem 0.9rem;
+        color: #b9c6d3 !important;
+    }
+
+    /* Section headings inside a pop-up. */
+    .modal-body h3.h6 {
+        color: #8fc4f3;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Cleaner tables inside a pop-up (replaces the heavy borders and the solid
+   blue header that the layout gives to every table). */
+    .modal-body .table {
+        --bs-table-bg: transparent;
+        --bs-table-color: #d7dee6;
+        margin-bottom: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .modal-body table,
+    .modal-body tr,
+    .modal-body th,
+    .modal-body td {
+        border: 0;
+        background-color: transparent;
+    }
+
+    .modal-body .table thead th {
+        background-color: rgba(77, 171, 247, 0.14);
+        color: #9fd0f7;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        padding: 0.55rem 0.7rem;
+        border-bottom: 1px solid rgba(77, 171, 247, 0.3);
+    }
+
+        .modal-body .table thead th:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        .modal-body .table thead th:last-child {
+            border-top-right-radius: 8px;
+        }
+
+    .modal-body .table td {
+        padding: 0.5rem 0.7rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .modal-body .table tbody tr:hover td {
+        background-color: rgba(77, 171, 247, 0.07);
+    }
+
+    /* The "Why was this suggested" details list. */
+    .modal-body dt {
+        color: #8fc4f3;
+        font-weight: 600;
+    }
+
+    .modal-body dd {
+        color: #d7dee6;
+    }
+
+/* People who prefer less motion get no sliding or lifting. */
+@media (prefers-reduced-motion: reduce) {
+    .btn,
+    .card.cs-tile,
+    .modal.fade .modal-dialog {
+        transition: none;
+        transform: none !important;
+    }
+}
+/* ================================================================
+   Smart-X loading screen
+   The loader animation is adapted from the "shapes" CSS loaders
+   collection (Afif, 2026). The reduced-motion handling follows the
+   prefers-reduced-motion media feature (MDN, 2026h) and the W3C
+   guidance on animation and motion (W3C, 2026).
+   ================================================================ */
+
+/* Full-screen cover shown while the page first loads. */
+#splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: radial-gradient(circle at 50% 40%, #1f2a36 0%, #16181c 65%);
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+    /* Added by JavaScript when loading is finished: fades the screen out. */
+    #splash.splash-hide {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+/* Set on the page before it paints when the screen was already shown in this
+   browser session, so it does not flash on every page change. */
+.no-splash #splash {
+    display: none;
+}
+
+.splash-loader {
+    transform: scale(1.8);
+    margin-bottom: 2.2rem;
+}
+
+.splash-title {
+    color: #4dabf7;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    padding-left: 0.35em; /* balances the spacing after the last letter */
+}
+
+.splash-sub {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    min-height: 1.2em;
+}
+
+/* The loader itself, adapted from Afif (2026). Change --loader-color to
+   recolour it. */
+.loader {
+    --loader-color: #4dabf7;
+    width: 40px;
+    aspect-ratio: 1;
+    color: var(--loader-color);
+    position: relative;
+    background: radial-gradient(10px, currentColor 94%, #0000);
+}
+
+    .loader:before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: radial-gradient(9px at bottom right, #0000 94%, currentColor) top left, radial-gradient(9px at bottom left, #0000 94%, currentColor) top right, radial-gradient(9px at top right, #0000 94%, currentColor) bottom left, radial-gradient(9px at top left, #0000 94%, currentColor) bottom right;
+        background-size: 20px 20px;
+        background-repeat: no-repeat;
+        animation: l18 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+    }
+
+@keyframes l18 {
+    33% {
+        inset: -10px;
+        transform: rotate(0deg);
+    }
+
+    66% {
+        inset: -10px;
+        transform: rotate(90deg);
+    }
+
+    100% {
+        inset: 0;
+        transform: rotate(90deg);
+    }
+}
+
+/* Reduced motion (MDN, 2026h). The prefers-reduced-motion media feature
+   detects when the user has asked their operating system to minimise
+   non-essential motion. The fade on the splash screen is switched off.
+   The loader animation is kept, because it is the only sign that the app
+   is still loading; removing it made the screen look frozen on machines
+   with animation effects turned off. WCAG guidance says animation that is
+   essential to the information on the page is allowed, and recommends
+   reducing motion rather than removing it (W3C, 2026; EZUD, 2026). */
+@media (prefers-reduced-motion: reduce) {
+    #splash {
+        transition: none;
+    }
+}
+
+
+
+/* ---- Date and time picker (Topology > Historical telemetry log) ---- */
+/*
+   The popup uses CSS positioning to sit below its trigger, Flexbox for the
+   header and time controls, and CSS Grid for the seven-column calendar
+   (Mozilla Developer Network, 2026d; Mozilla Developer Network, 2026g;
+   Mozilla Developer Network, 2026i).
+   Hover and focus states use CSS pseudo-classes, while the select controls
+   follow Bootstrap form-control conventions (Mozilla Developer Network,
+   2026j; Bootstrap, 2026e).
+*/
+.dtp {
+    position: relative;
+}
+
+.dtp-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: left;
+    cursor: pointer;
+}
+
+    .dtp-toggle i {
+        color: #4dabf7;
+    }
+
+    .dtp-toggle:hover {
+        border-color: #4dabf7 !important;
+    }
+
+.dtp-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dtp-pop {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 1040;
+    width: 18rem;
+    padding: 0.75rem;
+    background: #161b22;
+    border: 1px solid #2f3a48;
+    border-radius: 0.75rem;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+    color: #d7dee6;
+}
+
+    .dtp-pop[hidden] {
+        display: none;
+    }
+
+.dtp-right .dtp-pop {
+    left: auto;
+    right: 0;
+}
+
+.dtp-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.dtp-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.dtp-nav {
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #9fb0c3;
+}
+
+    .dtp-nav:hover {
+        background: rgba(77, 171, 247, 0.15);
+        color: #4dabf7;
+    }
+
+.dtp-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    text-align: center;
+}
+
+.dtp-dow {
+    padding: 0.25rem 0;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #6c7a89;
+}
+
+.dtp-day {
+    aspect-ratio: 1;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    color: #d7dee6;
+    font-size: 0.8rem;
+}
+
+    .dtp-day:hover {
+        background: rgba(77, 171, 247, 0.15);
+    }
+
+    .dtp-day.dtp-other {
+        color: #4b5663;
+    }
+
+    .dtp-day.dtp-today {
+        border-color: #4dabf7;
+    }
+
+    .dtp-day.dtp-selected {
+        background: #4dabf7;
+        border-color: #4dabf7;
+        color: #101318;
+        font-weight: 700;
+    }
+
+.dtp-time {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid #2f3a48;
+}
+
+    .dtp-time i {
+        color: #4dabf7;
+        margin-right: 0.2rem;
+    }
+
+.dtp-select {
+    padding: 0.2rem 0.4rem;
+    border: 1px solid #3a4a5c;
+    border-radius: 0.4rem;
+    background: #0f1319;
+    color: #e9ecef;
+    font-size: 0.85rem;
+}
+
+    .dtp-select:focus {
+        outline: none;
+        border-color: #4dabf7;
+        box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.35);
+    }
+
+.dtp-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.6rem;
+}
+
+.dtp-link {
+    border: 0;
+    background: transparent;
+    color: #4dabf7;
+    font-size: 0.8rem;
+}
+
+    .dtp-link:hover {
+        text-decoration: underline;
+    }
+
+.dtp-done {
+    padding: 0.2rem 0.9rem;
+    border: 0;
+    border-radius: 0.4rem;
+    background: #4dabf7;
+    color: #101318;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+    .dtp-done:hover {
+        background: #74c0fc;
+    }
+
+
+/*
+    References:
+    Afif, T., 2026. The shapes CSS loaders collection. [online] Available at: <https://css-loaders.com/shapes/> [Accessed 13 November 2026].
+    Microsoft, 2026v. Razor syntax reference for ASP.NET Core. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor> [Accessed 9 September 2026].
+    Bootstrap, 2026b. Bootstrap Components. [online] Available at: <https://getbootstrap.com/docs/5.3/components/> [Accessed 8 September 2026].
+    Font Awesome, 2026. Icon search. [online] Available at: <https://fontawesome.com/search> [Accessed 20 April 2026].
+    Designer Who Codes, 2025. How to use Font Awesome with HTML / CSS (2025 Edition). [video online] Available at: <https://www.youtube.com/watch?v=mtA__aN2UJA> [Accessed 20 April 2026].
+    GreatStack, 2022. How To Make Side Navigation Menu Using HTML And CSS | Sidebar Menu Design. [video online] Available at: <https://www.youtube.com/watch?v=Fx_NpAPM-iU> [Accessed 20 April 2026].
+    dev.to (paulallies), 2025. Creating a Responsive Side Navigation Bar with HTML, CSS and JavaScript. [online] Available at: <https://dev.to/paulallies/creating-a-responsive-side-navigation-bar-with-html-css-and-javascript-3538> [Accessed 20 April 2026].
+    Mozilla Developer Network, 2026g. Basic concepts of flexbox. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox> [Accessed 9 September 2026].
+    Mozilla Developer Network, 2026d. position CSS property. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/CSS/position> [Accessed 9 September 2026].
+    Mozilla Developer Network, 2026h. prefers-reduced-motion. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion> [Accessed 13 November 2026].
+    W3C, 2026. Understanding SC 2.3.3: Animation from Interactions (Level AAA). [online] Available at: <https://w3c.github.io/wcag/understanding/animation-from-interactions> [Accessed 13 November 2026].
+    EZUD, 2026. Animation and Motion Accessibility: Designing for Reduced Motion Preferences. [online] Available at: <https://ezud.com/animation-motion-accessibility-reduced-motion> [Accessed 13 November 2026].
+    Bootstrap, 2026e. Form controls. [online] Available at: <https://getbootstrap.com/docs/5.3/forms/form-control/> [Accessed 13 November 2026].
+    Mozilla Developer Network, 2026i. Basic concepts of grid layout. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Basic_concepts> [Accessed 13 November 2026].
+    Mozilla Developer Network, 2026j. Pseudo-classes. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/Pseudo-classes> [Accessed 13 November 2026].
+    W3C, 2026b. Date Picker Dialog Example. [online] Available at: <https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/> [Accessed 13 November 2026].
+    W3Schools, 2025a. CSS Tutorial. [online] Available at: <https://www.w3schools.com/css/> [Accessed 20 April 2026].
+*/

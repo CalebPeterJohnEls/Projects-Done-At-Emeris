@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Declares the languages this app supports so they appear in the system
+  Settings > Apps > GameLibrary > Language screen on Android 13+
+  (Android Developers, 2024j).
+
+  Reference: Android Developers (2024j) Add support for per-app language
+  preferences. Available at:
+  https://developer.android.com/guide/topics/resources/app-languages
+  (Accessed: 20 September 2026).
+-->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en" />
+    <locale android:name="af" />
+    <locale android:name="zu" />
+</locale-config>

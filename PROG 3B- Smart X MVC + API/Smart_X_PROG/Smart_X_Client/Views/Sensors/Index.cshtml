@@ -1,0 +1,682 @@
+﻿@model List<Smart_X_Client.Models.Sensor>
+@using Smart_X_Client.Models
+@inject IConfiguration Configuration
+
+@*
+    The main sensor dashboard displays a live temperature feed and a table
+    containing registered sensors. @inject pulls IConfiguration into the
+    Razor view so that the API base URL can be used to construct direct
+    attachment links (Microsoft, 2026f).
+
+    Razor C# logic is used to conditionally display information and iterate
+    through the collection of registered sensors (W3Schools, 2025d).
+
+    Bootstrap components are used throughout the page to provide consistent
+    interface elements and styling (Bootstrap, 2026b).
+*@
+
+@{
+    ViewData["Title"] = "Sensor Ingestion";
+    var apiBaseUrl = Configuration["ApiBaseUrl"]?.TrimEnd('/');
+}
+
+<style>
+    /*
+                Custom CSS controls the appearance, spacing, positioning and layout
+                of the telemetry and sensor table (W3Schools, 2025a).
+            */
+
+    .zone-bar {
+        position: relative;
+        height: 10px;
+        border-radius: 5px;
+        overflow: hidden;
+        display: flex;
+        flex: 1;
+        min-width: 200px;
+        max-width: 500px;
+    }
+
+        .zone-bar .green {
+            flex: 60;
+            background: #94e280;
+        }
+
+        .zone-bar .amber {
+            flex: 20;
+            background: #f0ad4e;
+        }
+
+        .zone-bar .red {
+            flex: 20;
+            background: #e74c3c;
+        }
+
+        .zone-bar .pointer {
+            position: absolute;
+            top: -3px;
+            width: 2px;
+            height: 16px;
+            background: white;
+            transition: left 0.6s ease;
+        }
+
+    .telemetry-row {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 12px;
+    }
+
+    .telemetry-device {
+        width: 180px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .telemetry-value {
+        width: 120px;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    /*
+                The sensor table is styled using custom CSS to improve readability
+                and presentation (W3Schools, 2025a).
+            */
+
+    .sensor-table-wrap {
+        overflow-x: auto;
+        border-radius: 12px;
+        border: 1px solid #343a40;
+        background-color: #1f2226;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .sensor-table {
+        width: 100%;
+        min-width: 1100px;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 0;
+    }
+
+        .sensor-table thead th {
+            background-color: #2f8fdb;
+            color: white;
+            padding: 14px 16px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            white-space: nowrap;
+        }
+
+            .sensor-table thead th:first-child {
+                border-top-left-radius: 11px;
+            }
+
+            .sensor-table thead th:last-child {
+                border-top-right-radius: 11px;
+            }
+
+        .sensor-table tbody tr {
+            background-color: #1f2226;
+            color: white;
+            transition: background-color 0.2s ease;
+        }
+
+            .sensor-table tbody tr:hover {
+                background-color: #292d32;
+            }
+
+        .sensor-table tbody td {
+            padding: 14px 16px;
+            vertical-align: middle;
+            border: none;
+            border-bottom: 1px solid #343a40;
+            white-space: nowrap;
+        }
+
+        .sensor-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .sensor-table td:nth-child(4) {
+            white-space: normal;
+            min-width: 170px;
+        }
+
+        .sensor-table td:nth-child(7) {
+            white-space: normal;
+            min-width: 180px;
+        }
+
+        .sensor-table td:last-child {
+            min-width: 230px;
+        }
+
+        /*
+                Bootstrap button classes are used together with custom styling to
+                provide consistent interactive controls (Bootstrap, 2026c).
+            */
+
+        .sensor-table .btn-sm {
+            margin: 2px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+            font-size: 0.85rem;
+        }
+
+    /*
+                Badges provide compact visual indicators for categories and statuses
+                (Bootstrap, 2026a).
+            */
+
+    .category-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .status-badge {
+        display: inline-block;
+        min-width: 75px;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .attachment-btn {
+        display: block;
+        width: fit-content;
+        max-width: 100%;
+        margin-bottom: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .no-sensors {
+        padding: 25px !important;
+        color: #adb5bd;
+        text-align: center;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+    <h1>Sensor Data Ingestion &amp; Telemetry</h1>
+
+    <!--
+        Bootstrap button styling is used for the sensor registration control
+        (Bootstrap, 2026c).
+    -->
+    <a asp-action="Create" class="btn btn-success">
+        Register Sensor
+    </a>
+</div>
+
+@if (ViewBag.ApiConnected == false)
+{
+    <div class="alert alert-danger">
+        Could not reach the Smart-X API.
+        Showing an empty list — check that the API is running.
+    </div>
+}
+
+<!--
+    Bootstrap's grid system is used to structure the responsive page layout
+    (Bootstrap, 2026e).
+-->
+<div class="row">
+    <div class="col-12">
+
+        <h4 class="mb-3">
+            Live Temperature Telemetry
+
+            <!--
+                The Bootstrap badge component provides a compact live-status
+                indicator (Bootstrap, 2026a).
+            -->
+            <span class="badge bg-success" id="live-indicator">
+                live
+            </span>
+        </h4>
+
+        <div id="telemetry-feed"></div>
+
+        <hr class="my-4" />
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h4 class="mb-0">
+                Registered Sensors
+            </h4>
+
+            <!--
+                Bootstrap badge used to display the number of registered
+                sensors (Bootstrap, 2026a).
+            -->
+            <span class="badge bg-secondary">
+                @(Model?.Count ?? 0) Sensor(s)
+            </span>
+
+        </div>
+
+        <div class="sensor-table-wrap">
+
+            <!--
+                HTML table elements are used to structure and present the
+                registered sensor information (W3Schools, 2025b).
+            -->
+            <table class="sensor-table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Device</th>
+                        <th>MAC Address</th>
+                        <th>Location</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Attachments</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var sensor in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <strong>#@sensor.Id</strong>
+                                </td>
+
+                                <td>
+                                    <strong>@sensor.DeviceIdentifier</strong>
+                                </td>
+
+                                <td>
+                                    <span class="text-light">
+                                        @sensor.MacAddress
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div>
+                                        <strong>@sensor.Room</strong>
+                                    </div>
+
+                                    <small class="text-secondary">
+                                        @sensor.Zone / @sensor.NodeId
+                                    </small>
+                                </td>
+
+                                <td>
+
+                                    <!--
+                                        Bootstrap badge styling is used for
+                                        the sensor category (Bootstrap, 2026a).
+                                    -->
+                                    <span class="category-badge bg-info text-dark">
+                                        @sensor.Category
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    @if (sensor.Active)
+                                    {
+                                        <span class="status-badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-badge bg-secondary">
+                                            Inactive
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    @if (sensor.AttachmentPaths != null &&
+                                         sensor.AttachmentPaths.Any())
+                                    {
+                                        @*
+                                            Path.GetFileName strips the folder
+                                            portion of each stored attachment
+                                            path so only the filename is shown
+                                            as the link text (Microsoft, 2026t).
+                                        *@
+
+                                        @foreach (var path in sensor.AttachmentPaths)
+                                        {
+                                            <a href="@($"{apiBaseUrl}/{path}")"
+                                               target="_blank"
+                                               class="btn btn-primary btn-sm attachment-btn">
+
+                                                @System.IO.Path.GetFileName(path)
+
+                                            </a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-secondary">
+                                            No document
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <!--
+                                        Bootstrap buttons are used for the
+                                        CRUD actions (Bootstrap, 2026c).
+                                    -->
+
+                                    <a asp-action="Details"
+                                       asp-route-id="@sensor.Id"
+                                       class="btn btn-sm"
+                                       style="background-color:#4dabf7; color:white;">
+                                        Details
+                                    </a>
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@sensor.Id"
+                                       class="btn btn-sm"
+                                       style="background-color:#6c757d; color:white;">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@sensor.Id"
+                                       class="btn btn-sm"
+                                       style="background-color:#e74c3c; color:white;">
+                                        Delete
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="no-sensors">
+                                No sensors registered yet.
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+
+        /*
+            The Fetch API is used to request telemetry data from the MVC
+            endpoint without reloading the entire page (W3Schools, 2025c).
+        */
+
+        function renderTelemetry(readings) {
+
+            const feed =
+                document.getElementById('telemetry-feed');
+
+            feed.innerHTML = '';
+
+            /*
+                JavaScript's forEach() method is used to process each
+                telemetry reading returned by the API.
+            */
+
+            readings.forEach(function(t) {
+
+                // FIX: the feed now also contains the moisture probe (the
+                // simulator's first Environmental sensor). The controller
+                // sends metric and unit so each row is labelled correctly.
+                // Older responses had no metric field, so default to
+                // temperature.
+                const isTemp = (t.metric || 'Temperature') === 'Temperature';
+                const unit = t.unit || '°C';
+
+                const pct =
+                    Math.min(
+                        100,
+                        Math.max(0, t.value)
+                    );
+
+                // The Normal/Warning/Critical bands are temperature bands,
+                // so a moisture reading gets no zone label.
+                const zone =
+                    !isTemp
+                        ? ''
+                        : t.value < 60
+                            ? 'Normal'
+                            : t.value < 80
+                                ? 'Warning'
+                                : 'Critical';
+
+                const zoneColor =
+                    !isTemp
+                        ? '#94e280'
+                        : t.value < 60
+                            ? '#94e280'
+                            : t.value < 80
+                                ? '#f0ad4e'
+                                : '#e74c3c';
+
+                // Only live sensors use the zone colour. Offline and
+                // inactive sensors are greyed out.
+                const isLive = t.status === 'Live';
+
+                const row =
+                    document.createElement('div');
+
+                row.className =
+                    'telemetry-row';
+
+                row.innerHTML =
+                    '<strong class="telemetry-device">' +
+                    t.deviceIdentifier +
+                    '</strong>' +
+
+                    '<div class="zone-bar">' +
+
+                    '<div class="green"></div>' +
+
+                    '<div class="amber"></div>' +
+
+                    '<div class="red"></div>' +
+
+                    '<div class="pointer" style="left:' +
+                    pct +
+                    '%"></div>' +
+
+                    '</div>' +
+
+                    '<span class="telemetry-value" style="color:' +
+                    (isLive ? zoneColor : '#8b949e') +
+                    '">' +
+
+                    t.value.toFixed(1) +
+                    unit +
+                    (zone ? ' — ' + zone : '') +
+                    ' · ' +
+                    t.status +
+
+                    '</span>';
+
+                feed.appendChild(row);
+            });
+        }
+
+
+        /*
+            Fetch is used to retrieve the latest telemetry information.
+            Response.json() converts the response into JavaScript data
+            that can be processed by the page (W3Schools, 2025c).
+        */
+
+        async function pollTelemetry() {
+
+            try {
+
+                const response =
+                    await fetch('/Sensors/TelemetrySnapshot');
+
+                // The controller returns 503 when the API is down. Treat
+                // that as a failure so the indicator turns red instead of
+                // trying to render an error object as readings.
+                if (!response.ok) {
+                    throw new Error('Snapshot failed: ' + response.status);
+                }
+
+                const data =
+                    await response.json();
+
+                renderTelemetry(data);
+
+                document.getElementById('live-indicator')
+                    .className = 'badge bg-success';
+
+            }
+            catch (err) {
+
+                document.getElementById('live-indicator')
+                    .className = 'badge bg-danger';
+
+            }
+        }
+
+
+        /*
+            The telemetry is initially loaded and then refreshed every
+            four seconds using setInterval().
+        */
+        pollTelemetry();
+
+        var pollTimer = setInterval(
+            pollTelemetry,
+            4000
+        );
+
+        window.pageCleanup = function () {
+            clearInterval(pollTimer);
+        };
+
+    </script>
+}
+
+@*
+    REFERENCES
+
+    Bootstrap, 2026a. Badges. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/badge/>
+    [Accessed 9 September 2026].
+
+    Bootstrap, 2026b. Bootstrap Components. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/>
+    [Accessed 8 September 2026].
+
+    Bootstrap, 2026c. Buttons. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/buttons/>
+    [Accessed 9 September 2026].
+
+    Bootstrap, 2026d. Cards. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/card/>
+    [Accessed 10 September 2026].
+
+    Bootstrap, 2026e. Grid system. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/layout/grid/>
+    [Accessed 8 September 2026].
+
+    Microsoft, 2026f. Dependency injection into views in ASP.NET Core.
+    [online] Available at:
+    <https://learn.microsoft.com/en-us/aspnet/core/mvc/views/dependency-injection>
+    [Accessed 9 September 2026].
+
+    Microsoft, 2026t. Path.GetFileName Method (System.IO).
+    [online] Available at:
+    <https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilename>
+    [Accessed 10 September 2026].
+
+    Mozilla Developer Network, 2026a. Conditional (ternary) operator.
+    [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator>
+    [Accessed 9 September 2026].
+
+    Mozilla Developer Network, 2026b. Document: createElement() method.
+    [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement>
+    [Accessed 10 September 2026].
+
+    Mozilla Developer Network, 2026d. position CSS property.
+    [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/CSS/position>
+    [Accessed 9 September 2026].
+
+    Mozilla Developer Network, 2026e. Response.json().
+    [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/API/Response/json>
+    [Accessed 10 September 2026].
+
+    Mozilla Developer Network, 2026f. try...catch.
+    [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch>
+    [Accessed 8 September 2026].
+
+    Mozilla Developer Network, 2026g. Basic concepts of flexbox.
+    [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox>
+    [Accessed 9 September 2026].
+
+    Mozilla Developer Network, 2026h. Window: fetch() method.
+    [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch>
+    [Accessed 10 September 2026].
+
+    Mozilla Developer Network, 2026i. Window: setInterval() method.
+    [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval>
+    [Accessed 8 September 2026].
+
+    W3Schools, 2025a. CSS Tutorial. [online] Available at:
+    <https://www.w3schools.com/css/>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025b. HTML Tutorial. [online] Available at:
+    <https://www.w3schools.com/Html/>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025c. JavaScript Fetch API. [online] Available at:
+    <https://www.w3schools.com/js/js_api_fetch.asp>
+    [Accessed 20 April 2026].
+
+    W3Schools, 2025d. Razor C# Logic. [online] Available at:
+    <https://www.w3schools.com/asp/razor_cs_logic.asp>
+    [Accessed 20 April 2026].
+*@

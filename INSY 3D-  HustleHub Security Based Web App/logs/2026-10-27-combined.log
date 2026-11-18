@@ -1,0 +1,68 @@
+[2026-10-27 13:20:33] [INFO] [APP]: API started on port 3000
+[2026-10-27 13:20:35] [INFO] [HTTP]: GET /api/home/healthCheck 200 (14ms) - IP: ::1
+[2026-10-27 13:21:06] [INFO] [HTTP]: GET /api/home/healthCheck 200 (2ms) - IP: ::1
+[2026-10-27 13:21:36] [INFO] [HTTP]: GET /api/home/healthCheck 200 (2ms) - IP: ::1
+[2026-10-27 13:22:06] [INFO] [HTTP]: GET /api/home/healthCheck 200 (2ms) - IP: ::1
+[2026-10-27 13:22:36] [INFO] [HTTP]: GET /api/home/healthCheck 200 (2ms) - IP: ::1
+[2026-10-27 13:23:06] [INFO] [HTTP]: GET /api/home/healthCheck 200 (2ms) - IP: ::1
+[2026-10-27 13:23:37] [INFO] [HTTP]: GET /api/home/healthCheck 200 (1ms) - IP: ::1
+[2026-10-27 13:24:07] [INFO] [HTTP]: GET /api/home/healthCheck 200 (1ms) - IP: ::1
+[2026-10-27 13:24:27] [INFO] [APP]: API started on port 3000
+[2026-10-27 13:24:29] [INFO] [HTTP]: GET /api/home/healthCheck 200 (16ms) - IP: ::1
+[2026-10-27 13:25:00] [INFO] [HTTP]: GET /api/home/healthCheck 200 (2ms) - IP: ::1
+[2026-10-27 13:25:47] [INFO] [APP]: API started on port 3000
+[2026-10-27 13:25:50] [INFO] [HTTP]: GET /api/home/healthCheck 200 (13ms) - IP: ::1
+[2026-10-27 13:25:58] [INFO] [HTTP]: OPTIONS /api/gigs 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:25:58] [INFO] [HTTP]: GET /api/gigs 200 (453ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:19] [INFO] [HTTP]: OPTIONS /api/auth/login 200 (2ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:19] [INFO] [AUTH]: Password accepted, 2FA required for user 6ade03929c1549fe1a92ff7e from ::ffff:172.21.0.1
+[2026-10-27 13:26:19] [INFO] [HTTP]: POST /api/auth/login 200 (635ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:19] [INFO] [HTTP]: OPTIONS /api/gigs 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:20] [INFO] [HTTP]: GET /api/gigs 304 (360ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:20] [INFO] [HTTP]: GET /api/home/healthCheck 200 (2ms) - IP: ::1
+[2026-10-27 13:26:30] [INFO] [HTTP]: OPTIONS /api/gigs 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:30] [INFO] [HTTP]: GET /api/gigs 304 (363ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:32] [INFO] [HTTP]: GET /api/gigs 304 (457ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:34] [INFO] [HTTP]: GET /api/gigs 304 (692ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:39] [INFO] [HTTP]: OPTIONS /api/gigs 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:39] [INFO] [HTTP]: GET /api/gigs 304 (369ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:43] [INFO] [HTTP]: GET /api/gigs 304 (768ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:50] [INFO] [HTTP]: GET /api/home/healthCheck 200 (1ms) - IP: ::1
+[2026-10-27 13:26:54] [INFO] [HTTP]: OPTIONS /api/gigs 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:55] [INFO] [HTTP]: GET /api/gigs 304 (355ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:57] [INFO] [HTTP]: OPTIONS /api/gigs/6aca51aea6b5e3f5e52b197a 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:26:58] [INFO] [HTTP]: GET /api/gigs/6aca51aea6b5e3f5e52b197a 200 (377ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:27:00] [INFO] [HTTP]: OPTIONS /api/gigs 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:27:00] [INFO] [HTTP]: GET /api/gigs 304 (360ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:27:20] [INFO] [HTTP]: GET /api/home/healthCheck 200 (2ms) - IP: ::1
+[2026-10-27 13:27:50] [INFO] [HTTP]: GET /api/home/healthCheck 200 (2ms) - IP: ::1
+[2026-10-27 13:28:12] [INFO] [HTTP]: OPTIONS /api/gigs 200 (2ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:28:13] [INFO] [HTTP]: GET /api/gigs 304 (358ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:28:17] [INFO] [HTTP]: GET /api/gigs 304 (357ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:28:21] [INFO] [HTTP]: GET /api/home/healthCheck 200 (1ms) - IP: ::1
+[2026-10-27 13:28:51] [INFO] [HTTP]: GET /api/home/healthCheck 200 (1ms) - IP: ::1
+[2026-10-27 13:28:57] [INFO] [HTTP]: OPTIONS /api/auth/login 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:28:57] [INFO] [AUTH]: Password accepted, 2FA required for user 6ade03929c1549fe1a92ff7e from ::ffff:172.21.0.1
+[2026-10-27 13:28:57] [INFO] [HTTP]: POST /api/auth/login 200 (585ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:28:57] [INFO] [HTTP]: OPTIONS /api/gigs 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:28:58] [INFO] [HTTP]: GET /api/gigs 304 (356ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:03] [INFO] [HTTP]: OPTIONS /api/gigs/6aca51aea6b5e3f5e52b197a 200 (2ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:03] [INFO] [HTTP]: GET /api/gigs/6aca51aea6b5e3f5e52b197a 304 (353ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:21] [INFO] [HTTP]: GET /api/home/healthCheck 200 (2ms) - IP: ::1
+[2026-10-27 13:29:29] [INFO] [HTTP]: OPTIONS /api/auth/2fa/login 200 (0ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:29] [INFO] [AUTH]: Login success with 2FA for user 6ade03929c1549fe1a92ff7e (client) from ::ffff:172.21.0.1
+[2026-10-27 13:29:29] [INFO] [HTTP]: POST /api/auth/2fa/login 200 (384ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:29] [INFO] [HTTP]: OPTIONS /api/gigs/6aca51aea6b5e3f5e52b197a 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:30] [INFO] [HTTP]: GET /api/gigs/6aca51aea6b5e3f5e52b197a 304 (409ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:31] [INFO] [HTTP]: OPTIONS /api/gigs 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:32] [INFO] [HTTP]: GET /api/gigs 304 (356ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:32] [INFO] [HTTP]: OPTIONS /api/bookings/mine 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:33] [INFO] [HTTP]: GET /api/bookings/mine 200 (362ms) - IP: ::ffff:172.21.0.1 [User: Caleb | client]
+[2026-10-27 13:29:33] [INFO] [HTTP]: OPTIONS /api/transactions/mine 200 (0ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:33] [INFO] [HTTP]: GET /api/transactions/mine 200 (356ms) - IP: ::ffff:172.21.0.1 [User: Caleb | client]
+[2026-10-27 13:29:34] [INFO] [HTTP]: OPTIONS /api/auth/2fa/status 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:34] [INFO] [HTTP]: GET /api/auth/2fa/status 200 (385ms) - IP: ::ffff:172.21.0.1 [User: Caleb | client]
+[2026-10-27 13:29:37] [INFO] [HTTP]: OPTIONS /api/gigs 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:37] [INFO] [HTTP]: GET /api/gigs 304 (364ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:38] [INFO] [HTTP]: OPTIONS /api/bookings/mine 200 (1ms) - IP: ::ffff:172.21.0.1
+[2026-10-27 13:29:38] [INFO] [HTTP]: GET /api/bookings/mine 304 (352ms) - IP: ::ffff:172.21.0.1 [User: Caleb | client]

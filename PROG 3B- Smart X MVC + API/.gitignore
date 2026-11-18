@@ -1,0 +1,49 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.rsuser
+
+# Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ll]og/
+[Ll]ogs/
+
+# .NET / NuGet
+*.nupkg
+project.lock.json
+artifacts/
+.nuget/
+packages/
+
+# Tests
+TestResults/
+*.trx
+*.coverage
+
+# Secrets and local settings
+secrets.json
+*.pfx
+*.pem
+
+# Docker
+.env
+docker-compose.override.yml
+
+# Node
+node_modules/
+
+# Other editors
+.idea/
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,89 @@
+name: hustlehub_stack
+
+# configure logging for the containers
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  backend:
+    build: ./backend # get the Dockerfile in the backend folder
+    image: hustlehub-backend
+    restart: unless-stopped
+    init: true # this will pass through any error codes from node.js
+    # CONN_STRING, JWT_SECRET, TWOFA_ENC_KEY (and the seed-script values) come from backend/.env
+    env_file:
+      - ./backend/.env
+    environment:
+      # anything set here overrides backend/.env, so only put fixed values here
+      FRONTEND_ORIGIN: https://localhost:5173 # the backend reads FRONTEND_ORIGIN (securityMiddleware.js), NOT CORS_ORIGINS
+      NODE_EXTRA_CA_CERTS: /ca.crt # this one we can just hard code, as it is in the repo anyway
+    ports:
+      - "3000:3000"
+    volumes:
+      # app.js reads path.join(__dirname, "..", "cert.key") -> /app/.. -> /cert.key
+      - ./cert.crt:/cert.crt:ro
+      - ./cert.key:/cert.key:ro
+      - ./ca.crt:/ca.crt:ro
+      # we want to map the logs folder inside the container to our local pc, so we can see them
+      - ./logs:/app/logs
+    extra_hosts:
+      # this will allow the container to connect to MongoDb running locally on the VM/PC
+      - "host.docker.internal:host-gateway"
+    networks:
+      - app-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('https').get('https://localhost:3000/api/home/healthCheck', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    security_opt:
+      # keep the container as a standard user -> don't allow it to become admin
+      - no-new-privileges:true
+    logging: *default-logging
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Vite bakes these in at BUILD time (they are the browser's view of the API,
+        # so they must be localhost:3000, not the Docker service name)
+        VITE_API_URL: ${VITE_API_URL:-https://localhost:3000/api}
+        VITE_API_ORIGIN: ${VITE_API_ORIGIN:-https://localhost:3000}
+    image: hustlehub-frontend
+    restart: unless-stopped
+    # wait for the backend to be running and accepting requests (so giving 200 OK on a healthCheck) before
+    # even attempting to start the frontend application
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./cert.crt:/etc/nginx/certs/cert.crt:ro
+      - ./cert.key:/etc/nginx/certs/cert.key:ro
+    networks:
+      - app-network
+    healthcheck:
+      test:
+        ["CMD", "curl", "-fsk", "-o", "/dev/null", "https://localhost:5173/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
+    logging: *default-logging
+
+networks:
+  app-network:
+    driver: bridge

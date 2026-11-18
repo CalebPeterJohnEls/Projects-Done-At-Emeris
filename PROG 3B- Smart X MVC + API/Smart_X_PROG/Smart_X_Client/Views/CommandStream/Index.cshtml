@@ -1,0 +1,886 @@
+﻿@*
+    The Command Stream page shows live device data, lets the user send
+    manual override commands and shows suggested actions. The page layout
+    uses Bootstrap's 12-column grid (row and col classes), cards and buttons
+    (Bootstrap, 2026e; Bootstrap, 2026d; Bootstrap, 2026c). The four counters
+    at the top open Bootstrap modals, which are pop-up windows that show the
+    detail behind each number, and every suggestion has a "Why?" button that
+    opens one too (Bootstrap, 2026f). The table is empty when the
+    page loads, and JavaScript fills it with data from the API every two
+    seconds using fetch (Mozilla Developer Network, 2026h).
+*@
+
+@{
+    ViewData["Title"] = "Command Stream & History";
+}
+
+<style>
+    .cs-tile {
+        cursor: pointer;
+    }
+
+        .cs-tile:hover {
+            border-color: #4dabf7 !important;
+        }
+</style>
+
+@* cs-root wraps the whole page, so the click handler below can listen in one place. *@
+<div id="cs-root">
+
+    @* Title row with a badge showing whether the page is connected to the API. *@
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 m-0">Real-Time Command Stream</h1>
+        <div>
+            <span id="live-indicator" class="badge bg-secondary">connecting...</span>
+            <small id="updated" class="text-secondary ms-2"></small>
+        </div>
+    </div>
+
+    @* Four counters that come from the queues in the API: standard queue
+       (Queue), priority queue (PriorityQueue), processed readings and the
+       duplicate alerts blocked by the HashSet (Nakov and Kolev et al., 2013;
+       The IIE, 2026). Each one is a button. data-bs-toggle="modal" and
+       data-bs-target make Bootstrap open the modal with that id when the
+       button is clicked, without any extra JavaScript (Bootstrap, 2026f). *@
+    <div class="row g-3 mb-3 text-center">
+        <div class="col">
+            <button type="button" class="card cs-tile bg-dark text-light border-secondary p-2 w-100" data-bs-toggle="modal" data-bs-target="#modal-standard">
+                <span class="fs-4" id="stat-standard">0</span>
+                <small>Standard queue</small>
+                <small class="text-secondary">Click for details</small>
+            </button>
+        </div>
+        <div class="col">
+            <button type="button" class="card cs-tile bg-dark text-light border-secondary p-2 w-100" data-bs-toggle="modal" data-bs-target="#modal-priority">
+                <span class="fs-4" id="stat-alert">0</span>
+                <small>Priority queue</small>
+                <small class="text-secondary">Click for details</small>
+            </button>
+        </div>
+        <div class="col">
+            <button type="button" class="card cs-tile bg-dark text-light border-secondary p-2 w-100" data-bs-toggle="modal" data-bs-target="#modal-processed">
+                <span class="fs-4" id="stat-processed">0</span>
+                <small>Processed</small>
+                <small class="text-secondary">Click for details</small>
+            </button>
+        </div>
+        <div class="col">
+            <button type="button" class="card cs-tile bg-dark text-light border-secondary p-2 w-100" data-bs-toggle="modal" data-bs-target="#modal-dupes">
+                <span class="fs-4" id="stat-dupes">0</span>
+                <small>Duplicates blocked</small>
+                <small class="text-secondary">Click for details</small>
+            </button>
+        </div>
+    </div>
+
+    <div class="row g-3">
+
+        @* Left side: search, filters, device table and timeline. *@
+        <div class="col-lg-8">
+
+            @* The search box and filters let the user find devices by name,
+               category or active alerts (Bootstrap, 2026e). *@
+            <div class="row g-2 mb-3">
+                <div class="col-md-5">
+                    <input id="search" type="text" class="form-control form-control-sm bg-dark text-light border-secondary"
+                           placeholder="Search devices..." />
+                </div>
+                <div class="col-md-4">
+                    <select id="category" class="form-select form-select-sm bg-dark text-light border-secondary">
+                        <option value="">All categories</option>
+                        <option value="Environmental">Environmental</option>
+                        <option value="PowerConsumption">Power consumption</option>
+                        <option value="Actuator">Actuator</option>
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-center">
+                    <input id="alerts-only" class="form-check-input me-2" type="checkbox" />
+                    <label for="alerts-only" class="small">Alerts only</label>
+                </div>
+            </div>
+
+            @* The table body is empty here. JavaScript adds one row per device. *@
+            <table class="table table-dark table-sm table-hover align-middle">
+                <thead>
+                    <tr><th>Device</th><th>Category</th><th>Value</th><th>Status</th><th>Control</th></tr>
+                </thead>
+                <tbody id="device-rows"></tbody>
+            </table>
+
+            @* The timeline graph is drawn here from the sorted history. *@
+            <div class="card bg-dark text-light border-secondary p-3">
+                <div class="small text-secondary mb-1" id="timeline-title">Timeline (click a device)</div>
+                <div id="timeline"></div>
+            </div>
+        </div>
+
+        @* Right side: suggestions and manual commands. The active alerts
+           and the processing log moved into the pop-up windows. *@
+        <div class="col-lg-4">
+
+            @* Suggested Actions: predictions from the pattern engine. A
+               "habit" suggestion also shows a small table of the latest
+               readings of the devices the user keeps searching for. *@
+            <div class="card bg-dark text-light border-secondary p-3 mb-3">
+                <h2 class="h6">Suggested Actions / Automated Insights</h2>
+                <ul class="list-unstyled small mb-0" id="suggestions"><li class="text-secondary">No suggestions yet.</li></ul>
+            </div>
+
+            @* Manual override: the ON/OFF buttons send a command, and Undo
+               reverses the newest one (the Stack in the API). Bootstrap
+               buttons are used for the controls (Bootstrap, 2026c). *@
+            <div class="card bg-dark text-light border-secondary p-3">
+                <h2 class="h6">Manual override</h2>
+                <div class="d-flex gap-2 mb-2">
+                    <select id="cmd-device" class="form-select form-select-sm bg-dark text-light border-secondary"></select>
+                    <button id="cmd-on" class="btn btn-sm btn-success">ON</button>
+                    <button id="cmd-off" class="btn btn-sm btn-danger">OFF</button>
+                </div>
+                <button id="undo" class="btn btn-sm btn-outline-warning mb-2" disabled>Undo last command</button>
+                <ul class="list-unstyled small mb-0" id="command-history"><li class="text-secondary">No commands yet.</li></ul>
+            </div>
+        </div>
+    </div>
+
+    @* ---------- Pop-up windows (Bootstrap modals) ----------
+       Each modal has a header with a Close button and a scrollable body
+       (modal-dialog-scrollable), so long lists scroll inside the pop-up
+       instead of the page (Bootstrap, 2026f). The empty containers are
+       filled by JavaScript every time new data arrives, so an open pop-up
+       stays up to date. *@
+
+    @* Standard queue: normal readings, first in first out. *@
+    <div class="modal fade" id="modal-standard" tabindex="-1" aria-labelledby="modal-standard-title" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
+                    <h2 class="modal-title h5" id="modal-standard-title">Standard queue (normal readings)</h2>
+                    <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-secondary">
+                        First in, first out: the reading at the top is processed first. The worker
+                        empties the queues every half a second, so the waiting list is usually
+                        empty; recently processed readings are shown below it. Severity is Critical
+                        for an alert, Warning when the value is more than 20% away from the device's
+                        recent average, and Normal otherwise.
+                    </p>
+                    <h3 class="h6" id="standard-waiting-title">Waiting now (0)</h3>
+                    <div id="standard-waiting" class="mb-3"></div>
+                    <h3 class="h6">Recently processed (newest first)</h3>
+                    <div id="standard-recent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Priority queue: critical alerts, most urgent first. *@
+    <div class="modal fade" id="modal-priority" tabindex="-1" aria-labelledby="modal-priority-title" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
+                    <h2 class="modal-title h5" id="modal-priority-title">Priority queue (critical alerts)</h2>
+                    <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-secondary">
+                        The most urgent alert is served first, whatever order they arrived in.
+                        Priority 0 (a power spike) is served before priority 1 (high temperature
+                        or low moisture). The worker always empties this queue before the
+                        standard queue, so critical alerts skip the line.
+                    </p>
+                    <h3 class="h6" id="priority-waiting-title">Waiting now (0)</h3>
+                    <div id="priority-waiting" class="mb-3"></div>
+                    <h3 class="h6">Recently processed alerts (newest first)</h3>
+                    <div id="priority-recent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Processed: every reading handled by the worker (replaces the old processing log). *@
+    <div class="modal fade" id="modal-processed" tabindex="-1" aria-labelledby="modal-processed-title" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
+                    <h2 class="modal-title h5" id="modal-processed-title">Processed readings</h2>
+                    <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-secondary">
+                        Every reading is handled by a background worker. The Queue column shows
+                        whether it came from the priority queue or the standard queue. Deviation is
+                        how far the value was from the average of that device's last 10 readings.
+                    </p>
+                    <h3 class="h6">Recently processed (newest first)</h3>
+                    <div id="processed-recent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Duplicates blocked: the HashSet of unique active alerts (replaces the old active alerts card). *@
+    <div class="modal fade" id="modal-dupes" tabindex="-1" aria-labelledby="modal-dupes-title" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
+                    <h2 class="modal-title h5" id="modal-dupes-title">Duplicates blocked</h2>
+                    <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-secondary">
+                        A set only keeps each item once. While an alert is still active, the same
+                        alert arriving again is blocked instead of being processed twice.
+                        <strong id="dupes-total">0</strong> duplicates have been blocked so far.
+                    </p>
+                    <h3 class="h6" id="dupes-active-title">Active alerts (0)</h3>
+                    <div id="dupes-active" class="mb-3"></div>
+                    <h3 class="h6">Duplicates blocked per alert</h3>
+                    <div id="dupes-blocked"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Suggestion details: why one suggested action was made. The text is
+       filled in by showSuggestion() when its "Why?" button is clicked
+       (Bootstrap, 2026f). *@
+    <div class="modal fade" id="modal-why" tabindex="-1" aria-labelledby="modal-why-title" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
+                    <h2 class="modal-title h5" id="modal-why-title"><span id="why-title">Suggestion</span></h2>
+                    <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-secondary">
+                        A Pattern suggestion is learned: the engine counts which events usually
+                        follow each other, and its confidence is how often that follow-up really
+                        happened. An Insight suggestion comes from a fixed rule, such as a device
+                        that stopped sending data or a value outside its normal range. A Habit
+                        suggestion appears when the same search is used three or more times.
+                    </p>
+                    <dl class="row small mb-3">
+                        <dt class="col-sm-3">Kind</dt>
+                        <dd class="col-sm-9" id="why-kind"></dd>
+                        <dt class="col-sm-3">Confidence</dt>
+                        <dd class="col-sm-9" id="why-confidence"></dd>
+                        <dt class="col-sm-3">Device</dt>
+                        <dd class="col-sm-9" id="why-device"></dd>
+                        <dt class="col-sm-3">Why it was suggested</dt>
+                        <dd class="col-sm-9" id="why-reason"></dd>
+                    </dl>
+                    <h3 class="h6" id="why-readings-title">Recent readings from this device (newest first)</h3>
+                    <div id="why-readings"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+
+        // The page remembers the user's filters, selected device and chosen
+        // command device in sessionStorage, so they are still there after
+        // navigating to another page and back (Mozilla Developer Network,
+        // 2026o).
+        var filters = loadFilters();
+        var selectedDevice = filters.selectedDevice;
+        var actuators = [];
+        var lastSuggestions = [];
+        var lastData = null;       // the newest snapshot, used by the Why? pop-up
+
+        // Reads the saved filters. Object.assign fills in default values for
+        // anything that was not saved, and try/catch protects the page if the
+        // saved text is damaged (Mozilla Developer Network, 2026o).
+        function loadFilters() {
+            try {
+                return Object.assign({ search: '', category: '', alertsOnly: false, selectedDevice: '', cmdDevice: '' },
+                    JSON.parse(sessionStorage.getItem('cs-filters') || '{}'));
+            } catch (e) {
+                return { search: '', category: '', alertsOnly: false, selectedDevice: '', cmdDevice: '' };
+            }
+        }
+
+        // Saves the filters as JSON text. sessionStorage only stores text
+        // (Mozilla Developer Network, 2026o).
+        function saveFilters() {
+            sessionStorage.setItem('cs-filters', JSON.stringify(filters));
+        }
+
+        // Makes text safe to place inside HTML. Setting textContent treats the
+        // value as plain text, so reading innerHTML afterwards returns it with
+        // special characters escaped.
+        function esc(text) {
+            var div = document.createElement('div');
+            div.textContent = text === null || text === undefined ? '' : text;
+            return div.innerHTML;
+        }
+
+        // Asks the server for the latest snapshot and redraws the page. fetch
+        // only fails on network errors, not on HTTP errors like 500, so
+        // response.ok is checked as well (Mozilla Developer Network, 2026h).
+        // If anything fails, the badge changes to "reconnecting".
+        async function poll() {
+            if (!document.getElementById('cs-root')) return;
+
+            try {
+                var query = new URLSearchParams({
+                    search: filters.search,
+                    category: filters.category,
+                    alertsOnly: filters.alertsOnly
+                });
+
+                var response = await fetch('/CommandStream/Snapshot?' + query.toString());
+                if (!response.ok) throw new Error('bad response');
+
+                var data = await response.json();
+                if (!document.getElementById('cs-root')) return;
+                render(data);
+
+                document.getElementById('live-indicator').className = 'badge bg-success';
+                document.getElementById('live-indicator').textContent = 'live';
+
+                if (selectedDevice) loadTimeline();
+            }
+            catch (err) {
+                var indicator = document.getElementById('live-indicator');
+                if (!indicator) return;
+                indicator.className = 'badge bg-danger';
+                indicator.textContent = 'reconnecting...';
+            }
+        }
+
+        // ---------- pop-up helpers ----------
+
+        // Coloured label for a severity: Critical is red, Warning is yellow
+        // and Normal is green.
+        function sevBadge(severity) {
+            var cls = severity === 'Critical' ? 'bg-danger'
+                    : severity === 'Warning' ? 'bg-warning text-dark'
+                    : 'bg-success';
+            return '<span class="badge ' + cls + '">' + esc(severity) + '</span>';
+        }
+
+        // Shows a reading's value with its unit. Actuators report "bool", so
+        // 1 and 0 are shown as ON and OFF instead.
+        function valueText(r) {
+            if (r.unit === 'bool') return r.value > 0.5 ? 'ON' : 'OFF';
+            return Number(r.value).toFixed(1) + (r.unit ? ' ' + esc(r.unit) : '');
+        }
+
+        // Table of readings that are still waiting in a queue. The priority
+        // queue also shows the alert name and its priority number.
+        function waitingTable(list, withPriority) {
+            if (!list || !list.length) return '<p class="text-secondary small mb-0">Empty right now.</p>';
+
+            var head = '<th>#</th><th>Device</th><th class="text-end">Value</th>'
+                     + (withPriority ? '<th>Alert</th><th>Priority</th>' : '');
+
+            var rows = list.map(function (r, i) {
+                return '<tr><td>' + (i + 1) + '</td><td>' + esc(r.deviceId) + '</td>'
+                     + '<td class="text-end">' + valueText(r) + '</td>'
+                     + (withPriority ? '<td>' + esc(r.alertType) + '</td><td>' + r.priority + '</td>' : '')
+                     + '</tr>';
+            }).join('');
+
+            return '<table class="table table-dark table-sm align-middle mb-0"><thead><tr>' + head
+                 + '</tr></thead><tbody>' + rows + '</tbody></table>';
+        }
+
+        // Table of processed readings, newest first. The mode decides which
+        // extra columns are shown: 'priority' adds the alert and priority,
+        // and 'all' adds which queue the reading came from.
+        function recentTable(list, mode) {
+            if (!list || !list.length) return '<p class="text-secondary small mb-0">Nothing processed yet.</p>';
+
+            var head = '<th>#</th><th>Device</th><th class="text-end">Value</th>';
+            if (mode === 'priority') head += '<th>Alert</th><th>Priority</th>';
+            if (mode === 'all') head += '<th>Queue</th>';
+            head += '<th>Severity</th><th class="text-end">Deviation</th><th>Processed</th>';
+
+            var rows = list.map(function (r, i) {
+                var extra = '';
+                if (mode === 'priority') extra = '<td>' + esc(r.alertType) + '</td><td>' + r.priority + '</td>';
+                if (mode === 'all') extra = '<td>' + esc(r.source) + '</td>';
+
+                return '<tr><td>' + (i + 1) + '</td><td>' + esc(r.deviceId) + '</td>'
+                     + '<td class="text-end">' + valueText(r) + '</td>' + extra
+                     + '<td>' + sevBadge(r.severity) + '</td>'
+                     + '<td class="text-end">' + Number(r.deviation).toFixed(1) + '%</td>'
+                     + '<td>' + new Date(r.processedAt).toLocaleTimeString() + '</td></tr>';
+            }).join('');
+
+            return '<table class="table table-dark table-sm align-middle mb-0"><thead><tr>' + head
+                 + '</tr></thead><tbody>' + rows + '</tbody></table>';
+        }
+
+        // Table of the latest readings listed inside a "habit" suggestion.
+        // The API fills this list with up to six devices that match the term
+        // the user keeps searching for, so the user sees the answer without
+        // searching again. Bug that was fixed here: the API always sent
+        // these readings, but the page never drew them, so the suggestion
+        // said "Here are the latest readings below:" with nothing below it.
+        // The table is wrapped in Bootstrap's table-responsive so it scrolls
+        // sideways inside the narrow side panel instead of breaking the
+        // layout (Bootstrap, 2026g). valueText() is reused so actuators show
+        // ON and OFF, and esc() keeps every value safe to place in HTML.
+        function suggestionReadingsTable(list) {
+            if (!list || !list.length) return '';
+
+            var rows = list.map(function (r) {
+                var status = r.isOnline
+                    ? '<span class="badge bg-success">ONLINE</span>'
+                    : '<span class="badge bg-secondary">OFFLINE</span>';
+
+                return '<tr><td>' + esc(r.deviceId) + '</td>'
+                     + '<td>' + esc(r.metric) + '</td>'
+                     + '<td class="text-end">' + valueText(r) + '</td>'
+                     + '<td>' + status + '</td>'
+                     + '<td>' + new Date(r.lastSeen).toLocaleTimeString() + '</td></tr>';
+            }).join('');
+
+            return '<div class="table-responsive mt-2">'
+                 + '<table class="table table-dark table-sm align-middle mb-0"><thead><tr>'
+                 + '<th>Device</th><th>Metric</th><th class="text-end">Value</th><th>Status</th><th>Seen</th>'
+                 + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+        }
+
+        // Fills in and opens the pop-up for one suggestion. It uses the data
+        // from the last refresh, so the pop-up shows the moment it was
+        // opened. textContent is used for the text because it never treats
+        // the text as HTML. For a suggestion about one device, the readings
+        // are that device's entries among the newest processed readings the
+        // API sent. A "habit" suggestion has no single device, but it carries
+        // its own list of readings, so that list is shown instead. Any other
+        // suggestion with no device is about a pattern across the system, so
+        // it has no readings. bootstrap.Modal.getOrCreateInstance(...).show()
+        // opens the modal from JavaScript (Bootstrap, 2026f).
+        function showSuggestion(index) {
+            var s = lastSuggestions[index];
+            if (!s || !lastData) return;
+
+            document.getElementById('why-title').textContent = s.title;
+            document.getElementById('why-kind').textContent = s.kind;
+            document.getElementById('why-confidence').textContent = Math.round(s.confidence * 100) + '%';
+            document.getElementById('why-reason').textContent = s.reason;
+
+            var box = document.getElementById('why-readings');
+            var boxTitle = document.getElementById('why-readings-title');
+
+            if (!s.deviceId && s.readings && s.readings.length) {
+                // Habit suggestion: show the devices that match the search term.
+                document.getElementById('why-device').textContent = 'Devices matching "' + s.term + '"';
+                boxTitle.textContent = 'Latest readings of the matching devices';
+                box.innerHTML = suggestionReadingsTable(s.readings);
+            } else if (!s.deviceId) {
+                document.getElementById('why-device').textContent = 'No single device';
+                boxTitle.textContent = 'Recent readings from this device (newest first)';
+                box.innerHTML = '<p class="text-secondary small mb-0">This suggestion is about a pattern across the system, not one device.</p>';
+            } else {
+                var device = lastData.devices.find(function (d) { return d.deviceId === s.deviceId; });
+                document.getElementById('why-device').textContent =
+                    s.deviceId + (device ? ' (now ' + valueText(device) + ')' : '');
+
+                boxTitle.textContent = 'Recent readings from this device (newest first)';
+                var list = lastData.recentAll.filter(function (r) { return r.deviceId === s.deviceId; });
+                box.innerHTML = recentTable(list, 'all');
+            }
+
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('modal-why')).show();
+        }
+
+        // Fills in all four pop-ups from the latest snapshot. This runs on
+        // every refresh, so a pop-up that is open keeps updating.
+        function renderModals(data) {
+
+            // Standard queue.
+            document.getElementById('standard-waiting-title').textContent = 'Waiting now (' + data.standardQueued + ')';
+            document.getElementById('standard-waiting').innerHTML = waitingTable(data.standardWaiting, false);
+            document.getElementById('standard-recent').innerHTML = recentTable(data.recentStandard, 'standard');
+
+            // Priority queue.
+            document.getElementById('priority-waiting-title').textContent = 'Waiting now (' + data.alertQueued + ')';
+            document.getElementById('priority-waiting').innerHTML = waitingTable(data.alertWaiting, true);
+            document.getElementById('priority-recent').innerHTML = recentTable(data.recentPriority, 'priority');
+
+            // Processed readings from both queues.
+            document.getElementById('processed-recent').innerHTML = recentTable(data.recentAll, 'all');
+
+            // Duplicates blocked: the unique active alerts (the HashSet), and
+            // how many repeats were blocked for each alert.
+            document.getElementById('dupes-total').textContent = data.duplicatesBlocked;
+            document.getElementById('dupes-active-title').textContent = 'Active alerts (' + data.activeAlerts.length + ')';
+            document.getElementById('dupes-active').innerHTML = data.activeAlerts.length
+                ? data.activeAlerts.map(function (a) {
+                    return '<span class="badge bg-danger me-1 mb-1">' + esc(a) + '</span>';
+                }).join('')
+                : '<p class="text-secondary small mb-0">No active alerts.</p>';
+
+            document.getElementById('dupes-blocked').innerHTML = data.blockedAlerts.length
+                ? '<table class="table table-dark table-sm align-middle mb-0"><thead><tr><th>Alert</th><th class="text-end">Blocked</th></tr></thead><tbody>'
+                  + data.blockedAlerts.map(function (b) {
+                      return '<tr><td>' + esc(b.alert) + '</td><td class="text-end">' + b.blocked + '</td></tr>';
+                  }).join('') + '</tbody></table>'
+                : '<p class="text-secondary small mb-0">No duplicates blocked yet.</p>';
+        }
+
+        // Draws every part of the page from the data the API returned. The
+        // data uses camelCase names (for example deviceId) because that is how
+        // ASP.NET Core writes JSON.
+        function render(data) {
+
+            // Queue counters.
+            document.getElementById('stat-standard').textContent = data.standardQueued;
+            document.getElementById('stat-alert').textContent = data.alertQueued;
+            document.getElementById('stat-processed').textContent = data.processedCount;
+            document.getElementById('stat-dupes').textContent = data.duplicatesBlocked;
+            document.getElementById('updated').textContent = 'Updated ' + new Date(data.serverTime).toLocaleTimeString();
+
+            // One table row per device. Actuators get ON/OFF buttons and show
+            // their commanded state if a manual command is active; every
+            // other device shows its latest value.
+            var rows = '';
+            data.devices.forEach(function (d) {
+                var status = !d.isOnline ? '<span class="badge bg-secondary">OFFLINE</span>'
+                           : d.hasAlert ? '<span class="badge bg-danger">ALERT</span>'
+                           : '<span class="badge bg-success">OK</span>';
+
+                var value;
+                var control = '';
+                if (d.category === 'Actuator') {
+                    var on = (d.commandedState !== null && d.commandedState !== undefined) ? d.commandedState : d.value > 0.5;
+                    value = on ? 'ON' : 'OFF';
+                    control = '<button class="btn btn-sm btn-outline-success me-1" data-cmd="on" data-id="' + esc(d.deviceId) + '">ON</button>'
+                            + '<button class="btn btn-sm btn-outline-danger" data-cmd="off" data-id="' + esc(d.deviceId) + '">OFF</button>';
+                    if (actuators.indexOf(d.deviceId) === -1) actuators.push(d.deviceId);
+                } else {
+                    value = d.value.toFixed(1) + ' ' + esc(d.unit);
+                }
+
+                rows += '<tr data-device="' + esc(d.deviceId) + '" style="cursor:pointer">'
+                      + '<td>' + esc(d.deviceId) + '</td><td>' + esc(d.category) + '</td>'
+                      + '<td>' + value + '</td><td>' + status + '</td><td>' + control + '</td></tr>';
+            });
+            document.getElementById('device-rows').innerHTML =
+                rows || '<tr><td colspan="5" class="text-secondary">No devices match.</td></tr>';
+
+            // The command dropdown is only rebuilt when a new actuator
+            // appears, so the user's choice is not reset every two seconds.
+            var select = document.getElementById('cmd-device');
+            if (select.options.length !== actuators.length) {
+                var current = select.value || filters.cmdDevice;
+                select.innerHTML = actuators.map(function (id) {
+                    return '<option value="' + esc(id) + '">' + esc(id) + '</option>';
+                }).join('');
+                if (current) select.value = current;
+            }
+
+            // Suggested Actions. Only suggestions that include a command
+            // (a device and ON/OFF) get a "Run" button. A "habit" suggestion
+            // (actionType "filter") gets a button with the label the API
+            // sent, which fills the search box with its term. Every
+            // suggestion gets a "Why?" button that opens a pop-up with the
+            // details. A suggestion that carries readings (the habit
+            // suggestion) also shows them in a small table under its reason.
+            lastSuggestions = data.suggestions;
+            lastData = data;
+            document.getElementById('suggestions').innerHTML = data.suggestions.length
+                ? data.suggestions.map(function (s, i) {
+                    var canRun = s.command !== null && s.command !== undefined && s.deviceId;
+                    var button = canRun
+                        ? '<button class="btn btn-sm btn-outline-info ms-2" data-sug="' + i + '">Run</button>'
+                        : '';
+                    var filterButton = (s.actionType === 'filter' && s.term)
+                        ? '<button class="btn btn-sm btn-outline-info ms-2" data-filter="' + i + '">' + esc(s.actionLabel || 'Show these devices') + '</button>'
+                        : '';
+                    var why = '<button class="btn btn-sm btn-outline-secondary ms-2" data-why="' + i + '">Why?</button>';
+                    return '<li class="mb-2"><span class="badge bg-info text-dark me-1">' + esc(s.kind) + '</span>'
+                         + esc(s.title) + ' (' + Math.round(s.confidence * 100) + '%)' + button + filterButton + why
+                         + '<div class="text-secondary">' + esc(s.reason) + '</div>'
+                         + suggestionReadingsTable(s.readings) + '</li>';
+                }).join('')
+                : '<li class="text-secondary">No suggestions yet.</li>';
+
+            // Command history. The API sends the Stack newest-first, and the
+            // Undo button is disabled when there is nothing to undo.
+            document.getElementById('undo').disabled = data.commandHistory.length === 0;
+            document.getElementById('command-history').innerHTML = data.commandHistory.length
+                ? data.commandHistory.map(function (c) {
+                    return '<li>#' + c.id + ' ' + esc(c.deviceId) + ' &rarr; ' + (c.newState ? 'ON' : 'OFF') + '</li>';
+                }).join('')
+                : '<li class="text-secondary">No commands yet.</li>';
+
+            // The pop-up windows (queues, processed readings, alerts).
+            renderModals(data);
+        }
+
+        // Draws the timeline graph for the selected device. The API sends the
+        // readings already sorted by time, because they come from a
+        // SortedDictionary (Nakov and Kolev et al., 2013). The values are
+        // scaled to fit a 600 x 120 drawing area, then joined by an SVG
+        // polyline, which is a line made of connected points
+        // (Mozilla Developer Network, 2026m).
+        async function loadTimeline() {
+            try {
+                var response = await fetch('/CommandStream/History?deviceId=' + encodeURIComponent(selectedDevice));
+                if (!response.ok) return;
+                var points = await response.json();
+
+                var title = document.getElementById('timeline-title');
+                if (!title) return;
+                title.textContent = 'Timeline: ' + selectedDevice;
+
+                // At least two points are needed to draw a line.
+                if (points.length < 2) {
+                    document.getElementById('timeline').innerHTML = '<span class="text-secondary small">Waiting for data...</span>';
+                    return;
+                }
+
+                // x spreads the points evenly across the width. y scales each
+                // value between the lowest and highest reading. The "|| 1"
+                // avoids dividing by zero when all values are the same.
+                var values = points.map(function (p) { return p.value; });
+                var min = Math.min.apply(null, values);
+                var max = Math.max.apply(null, values);
+                var span = (max - min) || 1;
+
+                var coords = points.map(function (p, i) {
+                    var x = (i / (points.length - 1)) * 600;
+                    var y = 105 - ((p.value - min) / span) * 90;
+                    return x.toFixed(1) + ',' + y.toFixed(1);
+                }).join(' ');
+
+                document.getElementById('timeline').innerHTML =
+                    '<svg viewBox="0 0 600 120" preserveAspectRatio="none" style="width:100%;height:130px">'
+                    + '<polyline fill="none" stroke="#4dabf7" stroke-width="2" vector-effect="non-scaling-stroke" points="' + coords + '"/></svg>'
+                    + '<div class="d-flex justify-content-between small text-secondary">'
+                    + '<span>min ' + min.toFixed(1) + '</span><span>latest ' + values[values.length - 1].toFixed(1) + '</span><span>max ' + max.toFixed(1) + '</span></div>';
+            } catch (err) { }
+        }
+
+        // Sends a manual command with a POST request, then refreshes the page
+        // data straight away so the user sees the result (Mozilla Developer
+        // Network, 2026h).
+        async function sendCommand(deviceId, turnOn) {
+            if (!deviceId) return;
+            await fetch('/CommandStream/Command?deviceId=' + encodeURIComponent(deviceId) + '&turnOn=' + turnOn, { method: 'POST' });
+            poll();
+        }
+
+        // Asks the server to undo the newest command, then refreshes.
+        async function undoCommand() {
+            await fetch('/CommandStream/Undo', { method: 'POST' });
+            poll();
+        }
+
+        // One click listener on the whole page handles every button. This is
+        // called event delegation: the table rows and buttons are recreated
+        // every two seconds, so listening on the parent keeps them working.
+        // closest() finds the nearest parent that matches a selector, which
+        // tells us what was clicked (Mozilla Developer Network, 2026k).
+        document.getElementById('cs-root').addEventListener('click', function (e) {
+
+            // ON/OFF button inside a table row.
+            var cmd = e.target.closest('[data-cmd]');
+            if (cmd) { sendCommand(cmd.dataset.id, cmd.dataset.cmd === 'on'); return; }
+
+            // "Why?" button on a suggestion opens its pop-up.
+            var why = e.target.closest('[data-why]');
+            if (why) { showSuggestion(Number(why.dataset.why)); return; }
+
+            // "Show these devices" button on a habit suggestion. It puts the
+            // suggestion's term into the search box and filters the device
+            // table, and the choice is saved (Mozilla Developer Network,
+            // 2026o). It does not call logSearch(), so using the shortcut
+            // does not count as another search and cannot inflate the habit
+            // count.
+            var filterBtn = e.target.closest('[data-filter]');
+            if (filterBtn) {
+                var f = lastSuggestions[Number(filterBtn.dataset.filter)];
+                if (f && f.term) {
+                    document.getElementById('search').value = f.term;
+                    filters.search = f.term;
+                    saveFilters();
+                    poll();
+                }
+                return;
+            }
+
+            // "Run" button on a suggestion.
+            var sug = e.target.closest('[data-sug]');
+            if (sug) {
+                var s = lastSuggestions[Number(sug.dataset.sug)];
+                if (s) sendCommand(s.deviceId, s.command);
+                return;
+            }
+
+            // Undo and the manual override buttons.
+            if (e.target.closest('#undo')) { undoCommand(); return; }
+            if (e.target.closest('#cmd-on')) { sendCommand(document.getElementById('cmd-device').value, true); return; }
+            if (e.target.closest('#cmd-off')) { sendCommand(document.getElementById('cmd-device').value, false); return; }
+
+            // Clicking a table row selects that device for the timeline, and
+            // the choice is saved (Mozilla Developer Network, 2026o).
+            var row = e.target.closest('tr[data-device]');
+            if (row) {
+                selectedDevice = row.dataset.device;
+                filters.selectedDevice = selectedDevice;
+                saveFilters();
+                loadTimeline();
+            }
+        });
+
+        // Restore the saved search, category and alerts-only choices when the
+        // page opens (Mozilla Developer Network, 2026o).
+        var searchBox = document.getElementById('search');
+        var typingTimer = null;
+
+        searchBox.value = filters.search;
+        document.getElementById('category').value = filters.category;
+        document.getElementById('alerts-only').checked = filters.alertsOnly;
+
+        // Search is "debounced": it waits 300 ms after the user stops typing
+        // before asking the server, so it does not send a request for every
+        // key press.
+        searchBox.addEventListener('input', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(function () {
+                filters.search = searchBox.value.trim();
+                saveFilters();
+                poll();
+            }, 300);
+        });
+
+        // ---------- search logging (feeds the "habit" suggestion) ----------
+        //
+        // Every finished search is sent to the pattern engine in the API,
+        // which counts how many times each term was searched. Once a term
+        // has been searched three times, the engine shows the "I see you have
+        // been searching ..." suggestion with the latest readings.
+        //
+        // Bug that was fixed here: the search used to be sent only from the
+        // "change" event. A text box only fires "change" when its text is
+        // different from what it was when the box got focus (Mozilla
+        // Developer Network, 2026p). Searching the same term again (pressing
+        // Enter with the text unchanged, or returning to a box that already
+        // held the saved term) never fired it, so the API never received the
+        // third search and the suggestion never appeared.
+        //
+        // The fix is to also listen for the Enter key, which is a search
+        // every time it is pressed, and to keep "change" for the case where
+        // the user types a new term and clicks away.
+
+        // lastLogged remembers the term and the time of the newest search
+        // that was sent. Pressing Enter and then leaving the box fires two
+        // events for one search, so without this the same search would be
+        // counted twice.
+        var lastLogged = { term: '', time: 0 };
+
+        // Sends the current text of the search box to the API through the
+        // client controller. The request is a POST because it changes the
+        // data the API holds (Mozilla Developer Network, 2026h).
+        function logSearch() {
+            var term = searchBox.value.trim();
+            if (!term) return;
+
+            // Date.now() gives the current time in milliseconds, so two
+            // events for the same term less than a second apart are treated
+            // as one search (Mozilla Developer Network, 2026r).
+            var now = Date.now();
+            if (term === lastLogged.term && now - lastLogged.time < 1000) return;
+            lastLogged = { term: term, time: now };
+
+            fetch('/CommandStream/LogSearch?term=' + encodeURIComponent(term), { method: 'POST' });
+        }
+
+        // Every Enter press counts as a search, even when the text has not
+        // changed. The key property tells us which key was pressed
+        // (Mozilla Developer Network, 2026q).
+        searchBox.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') logSearch();
+        });
+
+        // Typing a new term and then leaving the box still counts as a
+        // search (Mozilla Developer Network, 2026p).
+        searchBox.addEventListener('change', logSearch);
+
+        // Changing a filter saves it and refreshes the device list.
+        document.getElementById('category').addEventListener('change', function (e) {
+            filters.category = e.target.value;
+            saveFilters();
+            poll();
+        });
+
+        document.getElementById('alerts-only').addEventListener('change', function (e) {
+            filters.alertsOnly = e.target.checked;
+            saveFilters();
+            poll();
+        });
+
+        document.getElementById('cmd-device').addEventListener('change', function (e) {
+            filters.cmdDevice = e.target.value;
+            saveFilters();
+        });
+
+        // Load the data once straight away, then repeat every 2 seconds.
+        poll();
+        var pollTimer = setInterval(poll, 2000);
+
+        // Called when the user leaves this page, so the timers stop and the
+        // page does not keep polling in the background.
+        window.pageCleanup = function () {
+            clearInterval(pollTimer);
+            clearTimeout(typingTimer);
+        };
+
+    </script>
+}
+
+@*
+    REFERENCES:
+
+    Bootstrap, 2026c. Buttons. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/buttons/>
+    [Accessed 9 September 2026].
+
+    Bootstrap, 2026d. Cards. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/card/>
+    [Accessed 10 September 2026].
+
+    Bootstrap, 2026e. Grid system. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/layout/grid/>
+    [Accessed 8 September 2026].
+
+    Bootstrap, 2026f. Modal. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/modal/>
+    [Accessed 10 November 2026].
+
+    Bootstrap, 2026g. Tables. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/content/tables/>
+    [Accessed 13 November 2026].
+
+    Mozilla Developer Network, 2026h. Window: fetch() method. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch> [Accessed 17 October 2026].
+
+    Mozilla Developer Network, 2026k. Element: closest() method. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/API/Element/closest> [Accessed 17 October 2026].
+
+    Mozilla Developer Network, 2026m. <polyline> - SVG. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/polyline> [Accessed 17 October 2026].
+
+    Mozilla Developer Network, 2026o. Window: sessionStorage property. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage> [Accessed 17 October 2026].
+
+    Mozilla Developer Network, 2026p. HTMLElement: change event. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event> [Accessed 13 November 2026].
+
+    Mozilla Developer Network, 2026q. KeyboardEvent: key property. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key> [Accessed 13 November 2026].
+
+    Mozilla Developer Network, 2026r. Date: now() static method. [online] Available at: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now> [Accessed 13 November 2026].
+
+    Nakov, S. and Kolev, V. et al., 2013. Fundamentals of Computer
+    Programming with C#. Sofia. [ebook] Available at:
+    <https://www.introprogramming.info/wp-content/uploads/2013/07/Books/CSharpEn/Fundamentals-of-Computer-Programming-with-CSharp-Nakov-eBook-v2013.pdf>
+    [Accessed 9 September 2026].
+
+    The IIE, 2026. Programming 3B [PROG7311 Module Manual].
+    The Independent Institute of Education: Unpublished.
+*@

@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">GameLibrary</string>
+    <string name="web_client_id" translatable="false">434598467238-lfn3bkpngprq8bl32tlkbjscconssd07.apps.googleusercontent.com</string>
+
+    <!-- Bottom navigation / screen title -->
+    <string name="nav_home">Tuisblad</string>
+    <string name="nav_wishlist">Verlanglys</string>
+    <string name="nav_profile">Profiel</string>
+    <string name="nav_settings">Instellings</string>
+    <string name="app_title">GameLibrary</string>
+
+    <!-- Settings sections -->
+    <string name="section_general">Algemeen</string>
+    <string name="section_appearance">Voorkoms</string>
+    <string name="section_linked_accounts">Gekoppelde Rekeninge</string>
+
+    <!-- Settings row labels -->
+    <string name="label_language">Taal</string>
+    <string name="label_theme">Tema</string>
+    <string name="label_notifications">Kennisgewings</string>
+
+    <!-- Theme option display names -->
+    <string name="theme_light">Lig</string>
+    <string name="theme_dark">Donker</string>
+    <string name="theme_system">Stelsel</string>
+
+    <!-- Language option display names -->
+    <string name="language_en">Engels</string>
+    <string name="language_af">Afrikaans</string>
+    <string name="language_zu">isiZulu</string>
+
+    <!-- Linked accounts -->
+    <string name="linking_in_progress">Koppel tans…</string>
+    <string name="action_link">Koppel</string>
+    <string name="action_unlink">Ontkoppel</string>
+    <string name="action_cancel">Kanselleer</string>
+    <string name="linked_as">Gekoppel as %1$s</string>
+
+    <!-- Unlink confirmation dialog -->
+    <string name="unlink_dialog_title">Ontkoppel %1$s?</string>
+    <string name="unlink_dialog_body">Jy sal weer moet aanmeld om hierdie rekening weer te koppel.</string>
+
+    <!-- PSN simulated consent dialog -->
+    <string name="psn_dialog_title">Simuleer PlayStation Network-aanmelding</string>
+    <string name="psn_dialog_body">PSN bied nie \'n publieke, self-diens-aanmelding vir derdeparty-toepassings soos Steam, Epic en Xbox nie — \'n werklike integrasie benodig \'n geregistreerde PlayStation Vennoot-/PlayFab-ooreenkoms. Dit gaan voort met \'n gesimuleerde gekoppelde rekening vir demonstrasiedoeleindes.</string>
+    <string name="psn_dialog_confirm">Gaan voort (gesimuleer)</string>
+</resources>

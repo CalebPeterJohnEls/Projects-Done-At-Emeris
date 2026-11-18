@@ -1,0 +1,53 @@
+services:
+  smart_x_api:
+    build:
+      context: .
+      dockerfile: Smart_X_PROG/Dockerfile
+    container_name: smart-x-api
+    ports:
+      - "8082:8080"
+    volumes:
+      - smart_x_uploads:/app/wwwroot/uploads
+      - smart_x_data:/app/data
+    restart: unless-stopped
+    networks:
+      - smart-x-network
+
+  smart_x_client:
+    build:
+      context: .
+      dockerfile: Smart_X_Client/Dockerfile
+    container_name: smart-x-client
+    environment:
+      ApiBaseUrl: "http://smart_x_api:8080/"
+      ApiPublicUrl: "http://localhost:8082/"
+    ports:
+      - "8083:8080"
+    depends_on:
+      - smart_x_api
+    restart: unless-stopped
+    networks:
+      - smart-x-network
+
+  smart_x_simulator:
+    build:
+      context: .
+      dockerfile: LiveDataSimulation/Dockerfile
+    container_name: smart-x-simulator
+    environment:
+      API_BASE: "http://smart_x_api:8080/"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - smart_x_api
+    restart: unless-stopped
+    networks:
+      - smart-x-network
+
+volumes:
+  smart_x_uploads:
+  smart_x_data:
+
+networks:
+  smart-x-network:
+    driver: bridge

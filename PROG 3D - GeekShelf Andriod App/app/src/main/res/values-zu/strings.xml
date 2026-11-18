@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">GameLibrary</string>
+    <string name="web_client_id" translatable="false">434598467238-lfn3bkpngprq8bl32tlkbjscconssd07.apps.googleusercontent.com</string>
+
+    <!-- Bottom navigation / screen title -->
+    <string name="nav_home">Ikhaya</string>
+    <string name="nav_wishlist">Uhlu Lwezifiso</string>
+    <string name="nav_profile">Iphrofayela</string>
+    <string name="nav_settings">Izilungiselelo</string>
+    <string name="app_title">GameLibrary</string>
+
+    <!-- Settings sections -->
+    <string name="section_general">Jikelele</string>
+    <string name="section_appearance">Ukubukeka</string>
+    <string name="section_linked_accounts">Ama-akhawunti Ahlanganisiwe</string>
+
+    <!-- Settings row labels -->
+    <string name="label_language">Ulimi</string>
+    <string name="label_theme">Itimu</string>
+    <string name="label_notifications">Izaziso</string>
+
+    <!-- Theme option display names -->
+    <string name="theme_light">Okukhanyayo</string>
+    <string name="theme_dark">Okumnyama</string>
+    <string name="theme_system">Isistimu</string>
+
+    <!-- Language option display names -->
+    <string name="language_en">IsiNgisi</string>
+    <string name="language_af">IsiBhunu</string>
+    <string name="language_zu">IsiZulu</string>
+
+    <!-- Linked accounts -->
+    <string name="linking_in_progress">Iyaxhuma…</string>
+    <string name="action_link">Xhuma</string>
+    <string name="action_unlink">Nqamula</string>
+    <string name="action_cancel">Khansela</string>
+    <string name="linked_as">Ixhunywe njenge-%1$s</string>
+
+    <!-- Unlink confirmation dialog -->
+    <string name="unlink_dialog_title">Nqamula i-%1$s?</string>
+    <string name="unlink_dialog_body">Kuzodingeka ungene kabusha ukuze uphinde uxhume lolu akhawunti.</string>
+
+    <!-- PSN simulated consent dialog -->
+    <string name="psn_dialog_title">Lingisa ukungena kwe-PlayStation Network</string>
+    <string name="psn_dialog_body">I-PSN ayiniki ukungena okuvulelekile emphakathini wezinhlelo zabantu besithathu njengoba kwenza i-Steam, i-Epic, ne-Xbox — ukuhlanganiswa kwangempela kudinga isivumelwano esibhalisiwe se-PlayStation Partner/PlayFab. Lokhu kuqhubeka nge-akhawunti elinganiselwe exhunyiwe ngenhloso yokubonisa.</string>
+    <string name="psn_dialog_confirm">Qhubeka (kulinganiswa)</string>
+</resources>

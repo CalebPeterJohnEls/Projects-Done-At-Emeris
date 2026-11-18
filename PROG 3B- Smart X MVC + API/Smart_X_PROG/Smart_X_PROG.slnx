@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/docker-compose/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Project Path="LiveDataSimulation/LiveDataSimulation.csproj" Id="f46a41dd-7110-4816-abe9-ab4e34c16b4b" />
+  <Project Path="Smart_X_Client/Smart_X_Client.csproj" Id="75c1b636-1a26-4e92-b327-1dd534a3fbed" />
+  <Project Path="Smart_X_PROG/Smart_X_API.csproj" />
+</Solution>

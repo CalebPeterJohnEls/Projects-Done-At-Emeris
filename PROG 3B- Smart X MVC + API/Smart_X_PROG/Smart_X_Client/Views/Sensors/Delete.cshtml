@@ -1,0 +1,68 @@
+﻿@model Smart_X_Client.Models.Sensor
+
+@*
+  a confirmation page shown before a sensor is
+  deleted. asp-route-id generates the correct /Sensors/Delete/{id} URL
+  for the form's action (Microsoft, 2026a; Microsoft, 2026y).
+*@
+
+@{
+    ViewData["Title"] = "Delete Sensor";
+}
+
+<div class="container mt-4">
+
+    <div class="mx-auto" style="max-width: 700px;">
+
+        <h1 class="text-center">Delete Sensor</h1>
+
+        <h4 class="text-danger text-center">
+            Are you sure you want to delete this sensor?
+        </h4>
+
+        <hr />
+
+        <dl class="row">
+
+            <dt class="col-sm-4 text-end">Device Identifier</dt>
+            <dd class="col-sm-8">@Model.DeviceIdentifier</dd>
+
+            <dt class="col-sm-4 text-end">MAC Address</dt>
+            <dd class="col-sm-8">@Model.MacAddress</dd>
+
+            <dt class="col-sm-4 text-end">Location</dt>
+            <dd class="col-sm-8">
+                @Model.Room / @Model.Zone / @Model.NodeId
+            </dd>
+
+        </dl>
+
+        <div class="text-center mt-4">
+
+            <form asp-action="Delete"
+                  asp-route-id="@Model.Id"
+                  method="post"
+                  class="d-inline">
+
+                <input type="submit"
+                       value="Delete"
+                       class="btn btn-danger" />
+
+            </form>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+@*
+    References:
+    Microsoft, 2026a. Anchor Tag Helper in ASP.NET Core. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper> [Accessed 9 September 2026].
+    Microsoft, 2026y. Tag Helpers in ASP.NET Core. [online] Available at: <https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro> [Accessed 8 September 2026].
+*@

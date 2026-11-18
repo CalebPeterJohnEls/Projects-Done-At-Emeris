@@ -1,0 +1,17 @@
+# we will download the modules anyway
+node_modules
+# don't bring the built app in, we build it ourselves
+dist
+dist-ssr
+# don't need to bring in existing logs - waste of space
+logs
+*.log
+# don't bring in .env files (because then people can read them)
+.env
+.env.*
+*.local
+# we don't need any docker files
+Dockerfile
+.dockerignore
+# no git in the container
+.gitignore

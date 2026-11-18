@@ -1,0 +1,1007 @@
+﻿@*
+    The Network Topology page draws the mesh network as an SVG picture. The
+    gateway is in the middle and the sensors are placed in a ring around it.
+    Every link is a line. The links chosen by Prim's algorithm (the minimum
+    spanning tree) are drawn thick and green (Educative, 2026). A sensor that
+    is offline is red, and a sensor that is still on but cut off from the
+    gateway is orange. The user can search for a sensor by identifier or MAC
+    address, or click it in the picture, to see its most power-efficient route
+    (from the minimum spanning tree) and its fewest-hops route (from the
+    breadth-first search) (Interview Kickstart, 2026). The history log below
+    uses the AVL tree in the API to return the readings between two times. The
+    picture is redrawn every three seconds using fetch (Mozilla Developer
+    Network, 2026b). The layout uses Bootstrap's grid, cards, buttons and
+    badges (Bootstrap, 2026a; Bootstrap, 2026b; Bootstrap, 2026c; Bootstrap,
+    2026d).
+*@
+
+@{
+    ViewData["Title"] = "Network Topology & Mesh";
+}
+
+<style>
+    /* The drawing fills the card and keeps its shape. */
+    #topo-svg {
+        width: 100%;
+        height: auto;
+        background-color: #16181b;
+        border-radius: 8px;
+    }
+
+    /* The small coloured dots and lines in the legend. */
+    .legend-dot {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+
+    .legend-line {
+        display: inline-block;
+        width: 22px;
+        height: 0;
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+
+    /* Long lists scroll inside their card. */
+    .hist-scroll {
+        max-height: 320px;
+        overflow-y: auto;
+    }
+</style>
+
+@* topo-root wraps the whole page, so the click handler below can listen in one place. *@
+<div id="topo-root">
+
+    @* Title row with a badge showing whether the page is connected to the API. *@
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 m-0">Network Topology &amp; Mesh Routing</h1>
+        <div>
+            <span id="topo-live" class="badge bg-secondary">connecting...</span>
+            <small id="topo-updated" class="text-secondary ms-2"></small>
+        </div>
+    </div>
+
+    @* Four counters about the network. *@
+    <div class="row g-3 mb-3 text-center">
+        <div class="col">
+            <div class="card bg-dark text-light border-secondary p-2">
+                <span class="fs-4" id="stat-sensors">0</span>
+                <small>Sensors</small>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card bg-dark text-light border-secondary p-2">
+                <span class="fs-4" id="stat-connected">0</span>
+                <small>Connected to gateway</small>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card bg-dark text-light border-secondary p-2">
+                <span class="fs-4" id="stat-down">0</span>
+                <small>Offline or cut off</small>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card bg-dark text-light border-secondary p-2">
+                <span class="fs-4" id="stat-cost">0</span>
+                <small>Spanning tree total cost</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+
+        @* Left side: the network drawing and its legend. *@
+        <div class="col-lg-8">
+            <div class="card bg-dark text-light border-secondary p-3">
+                <svg id="topo-svg" viewBox="0 0 640 480" role="img" aria-label="Mesh network drawing"></svg>
+
+                <div class="small mt-3 d-flex flex-wrap gap-3">
+                    <span><span class="legend-dot" style="background:#0d6efd"></span>Gateway</span>
+                    <span><span class="legend-dot" style="background:#198754"></span>Online</span>
+                    <span><span class="legend-dot" style="background:#dc3545"></span>Offline</span>
+                    <span><span class="legend-dot" style="background:#fd7e14"></span>Cut off</span>
+                    <span><span class="legend-line" style="border-top:3px solid #20c997"></span>Spanning tree link</span>
+                    <span><span class="legend-line" style="border-top:1px solid #6c757d"></span>Other link</span>
+                    <span><span class="legend-line" style="border-top:4px solid #ffc107"></span>Selected route</span>
+                    <span><span class="legend-line" style="border-top:3px dashed #4dabf7"></span>Fewest hops</span>
+                </div>
+            </div>
+        </div>
+
+        @* Right side: route search and the list of down nodes. *@
+        <div class="col-lg-4">
+
+            <div class="card bg-dark text-light border-secondary p-3 mb-3">
+                <h2 class="h6">Track a sensor route</h2>
+                <div class="d-flex gap-2 mb-2">
+                    <input id="route-term" list="sensor-list" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Device ID or MAC address" autocomplete="off" />
+                    <button id="route-go" class="btn btn-sm btn-success">Track</button>
+                </div>
+                <datalist id="sensor-list"></datalist>
+                <div id="route-result" class="small"></div>
+            </div>
+
+            <div class="card bg-dark text-light border-secondary p-3">
+                <h2 class="h6">Down nodes</h2>
+                <ul class="list-unstyled small mb-0" id="down-list"><li class="text-secondary">No data yet.</li></ul>
+            </div>
+
+        </div>
+    </div>
+
+    @* Two cards that show how the algorithms worked: the levels found by
+       the breadth-first search, and the links Prim's algorithm chose. *@
+    <div class="row g-3 mb-3">
+        <div class="col-lg-6">
+            <div class="card bg-dark text-light border-secondary p-3 h-100">
+                <h2 class="h6">Breadth-first search from the gateway</h2>
+                <div class="small text-secondary mb-2">Sensors grouped by how many hops they are from the gateway. Offline sensors are skipped.</div>
+                <div id="bfs-result" class="small hist-scroll"></div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card bg-dark text-light border-secondary p-3 h-100">
+                <h2 class="h6">Minimum spanning tree (Prim's algorithm)</h2>
+                <div class="small text-secondary mb-2">The links in the order Prim's algorithm chose them, always taking the cheapest link to a sensor not yet in the tree.</div>
+                <div class="hist-scroll" id="mst-result"></div>
+            </div>
+        </div>
+    </div>
+
+    @* Historical log: the AVL tree returns the readings between two times. *@
+    <div class="card bg-dark text-light border-secondary p-3 mb-3">
+        <h2 class="h6">Historical telemetry log</h2>
+
+        <div class="row g-2 align-items-end mb-2">
+            <div class="col-md-3">
+                <label class="form-label small mb-1" for="hist-sensor">Sensor</label>
+                <input id="hist-sensor" list="sensor-list" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Device ID or MAC" autocomplete="off" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small mb-1" for="hist-metric">Metric</label>
+                <select id="hist-metric" class="form-select form-select-sm bg-dark text-light border-secondary"></select>
+            </div>
+            @* The custom date/time picker uses an accessible dialog trigger and a popup
+               rather than the browser's unstyled datetime-local control. The calendar
+               follows the WAI-ARIA date picker dialog pattern (W3C, 2026b), while the
+               button and select styling follows Bootstrap form controls (Bootstrap, 2026e). *@
+            <div class="col-md-3">
+                <label class="form-label small mb-1" for="hist-from-btn">From</label>
+                <div class="dtp" data-dtp="hist-from">
+                    <input id="hist-from" type="hidden" />
+                    <button id="hist-from-btn" type="button" class="dtp-toggle form-control form-control-sm bg-dark text-light border-secondary" aria-haspopup="dialog" aria-expanded="false">
+                        <i class="fa-regular fa-calendar"></i><span class="dtp-text">Select date and time</span>
+                    </button>
+                    <div class="dtp-pop" role="dialog" aria-label="Choose date and time" hidden></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small mb-1" for="hist-to-btn">To</label>
+                <div class="dtp dtp-right" data-dtp="hist-to">
+                    <input id="hist-to" type="hidden" />
+                    <button id="hist-to-btn" type="button" class="dtp-toggle form-control form-control-sm bg-dark text-light border-secondary" aria-haspopup="dialog" aria-expanded="false">
+                        <i class="fa-regular fa-calendar"></i><span class="dtp-text">Select date and time</span>
+                    </button>
+                    <div class="dtp-pop" role="dialog" aria-label="Choose date and time" hidden></div>
+                </div>
+            </div>
+            <div class="col-md-1 d-grid">
+                <button id="hist-go" class="btn btn-sm btn-success">Query</button>
+            </div>
+        </div>
+
+        @* Quick buttons that fill in the from and to boxes. *@
+        <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-range="15">Last 15 min</button>
+            <button class="btn btn-sm btn-outline-secondary" data-range="60">Last hour</button>
+            <button class="btn btn-sm btn-outline-secondary" data-range="1440">Last 24 hours</button>
+        </div>
+
+        <div id="hist-summary" class="small mb-2 text-secondary">Choose a sensor, a metric and a time range, then press Query.</div>
+        <div class="hist-scroll" id="hist-table"></div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+
+        // The page remembers the searched sensor and metric in
+        // sessionStorage, so they are still there after navigating to
+        // another page and back. try/catch protects the page if the saved
+        // text is damaged (Mozilla Developer Network, 2026a).
+        var topoState = loadTopoState();
+        var lastSnapshot = null;   // the newest network data from the server
+        var lastRoute = null;      // the route of the sensor being tracked
+        var lastSensorKey = '';    // used to know when the sensor list changed
+        var histMinutes = 60;      // the rolling "last N minutes" range, 0 if typed by hand
+
+        function loadTopoState() {
+            try {
+                return Object.assign({ term: '', metric: '' },
+                    JSON.parse(sessionStorage.getItem('topo-state') || '{}'));
+            } catch (e) {
+                return { term: '', metric: '' };
+            }
+        }
+
+        function saveTopoState() {
+            sessionStorage.setItem('topo-state', JSON.stringify(topoState));
+        }
+
+        // Makes text safe to place inside HTML, including inside quotes.
+        function esc(text) {
+            var value = text === null || text === undefined ? '' : String(text);
+            return value.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // The same text for a link whichever way round its ends are given.
+        function edgeKey(a, b) {
+            return a < b ? a + '|' + b : b + '|' + a;
+        }
+
+        // The circle colour for each status.
+        function statusColor(status) {
+            if (status === 'Gateway') return '#0d6efd';
+            if (status === 'Online') return '#198754';
+            if (status === 'Offline') return '#dc3545';
+            return '#fd7e14';
+        }
+
+        // A small coloured Bootstrap badge for a status (Bootstrap, 2026a).
+        function statusBadge(status) {
+            var cls = status === 'Online' ? 'bg-success'
+                : status === 'Offline' ? 'bg-danger'
+                : status === 'Gateway' ? 'bg-primary'
+                : 'bg-warning text-dark';
+            return '<span class="badge ' + cls + '">' + esc(status) + '</span>';
+        }
+
+        // Asks the server for the network, redraws the page and, if a sensor
+        // is being tracked, refreshes its route too, so the route changes
+        // when a node goes down. response.ok is checked because fetch only
+        // fails on network errors (Mozilla Developer Network, 2026b).
+        async function pollTopology() {
+            // Stop if the user has already left this page.
+            if (!document.getElementById('topo-root')) return;
+
+            try {
+                var response = await fetch('/Topology/Snapshot');
+                if (!response.ok) throw new Error('bad response');
+
+                var data = await response.json();
+                lastSnapshot = data;
+
+                if (topoState.term) {
+                    var route = await fetchRoute(topoState.term);
+                    if (route) lastRoute = route;
+                }
+
+                renderTopology(data);
+                renderRoute(lastRoute);
+
+                // Show that the page is live.
+                var indicator = document.getElementById('topo-live');
+                indicator.className = 'badge bg-success';
+                indicator.textContent = 'live';
+                document.getElementById('topo-updated').textContent = 'updated ' + new Date().toLocaleTimeString();
+            } catch (e) {
+                // The server could not be reached, so show a warning.
+                var badge = document.getElementById('topo-live');
+                if (badge) {
+                    badge.className = 'badge bg-warning text-dark';
+                    badge.textContent = 'reconnecting...';
+                }
+            }
+        }
+
+        // Gets the route of one sensor, or null if the request fails.
+        async function fetchRoute(term) {
+            try {
+                var response = await fetch('/Topology/Route?term=' + encodeURIComponent(term));
+                if (!response.ok) return null;
+                return await response.json();
+            } catch (e) {
+                return null;
+            }
+        }
+
+        // Fills in the counters, the sensor list, the drawing and the cards.
+        function renderTopology(data) {
+            document.getElementById('stat-sensors').textContent = data.sensorCount;
+            document.getElementById('stat-connected').textContent = data.connectedCount;
+            document.getElementById('stat-down').textContent = data.offline.length + data.unreachable.length;
+            document.getElementById('stat-cost').textContent = data.mstCost;
+
+            // The drop-down suggestions are only rebuilt when the sensors
+            // change, so the list does not flicker while the user types.
+            var sensors = data.nodes.filter(function (n) { return !n.isGateway; });
+            var key = sensors.map(function (n) { return n.id; }).join(',');
+            if (key !== lastSensorKey) {
+                lastSensorKey = key;
+                document.getElementById('sensor-list').innerHTML = sensors.map(function (n) {
+                    return '<option value="' + esc(n.id) + '">' + esc(n.macAddress) + '</option>';
+                }).join('');
+            }
+
+            drawNetwork(data);
+            renderBfs(data);
+            renderMst(data);
+
+            // The list of nodes that are offline or cut off.
+            var html = '';
+            data.offline.forEach(function (id) {
+                html += '<li class="mb-1"><span class="badge bg-danger me-1">OFFLINE</span>' + esc(id) + '</li>';
+            });
+            data.unreachable.forEach(function (id) {
+                html += '<li class="mb-1"><span class="badge bg-warning text-dark me-1">CUT OFF</span>' + esc(id)
+                      + ' <span class="text-secondary">every route goes through an offline node</span></li>';
+            });
+            document.getElementById('down-list').innerHTML = html || '<li class="text-secondary">All nodes are connected.</li>';
+        }
+
+        // Shows the breadth-first search result: one line per level, with the
+        // sensors that were found at that number of hops. Sensors the search
+        // could not reach are listed at the end.
+        function renderBfs(data) {
+            var html = '';
+
+            data.bfsLevels.forEach(function (level, i) {
+                var title = i === 0 ? 'Start' : hopText(i);
+                html += '<div class="mb-2"><span class="text-secondary">' + title + ' (' + level.length + ')</span><br>'
+                      + level.map(function (id) {
+                            return '<span class="badge bg-secondary me-1">' + esc(id) + '</span>';
+                        }).join('') + '</div>';
+            });
+
+            var missing = data.offline.concat(data.unreachable);
+            if (missing.length > 0) {
+                html += '<div class="text-warning">Not reached: ' + missing.map(esc).join(', ') + '</div>';
+            }
+
+            document.getElementById('bfs-result').innerHTML = html || '<span class="text-secondary">No data yet.</span>';
+        }
+
+        // Shows the links of the minimum spanning tree in the order Prim's
+        // algorithm chose them, with the total cost underneath.
+        function renderMst(data) {
+            var rows = data.mstEdges.map(function (e, i) {
+                return '<tr><td>' + (i + 1) + '</td><td>' + esc(e.from) + ' &rarr; ' + esc(e.to)
+                     + '</td><td class="text-end">' + e.cost + '</td></tr>';
+            }).join('');
+
+            document.getElementById('mst-result').innerHTML =
+                '<table class="table table-dark table-sm table-hover mb-1">'
+                + '<thead><tr><th>#</th><th>Link</th><th class="text-end">Cost</th></tr></thead>'
+                + '<tbody>' + (rows || '<tr><td colspan="3" class="text-secondary">No links.</td></tr>') + '</tbody></table>'
+                + '<div class="small">Total cost <strong>' + data.mstCost + '</strong> over <strong>'
+                + data.mstEdges.length + '</strong> links</div>';
+        }
+
+        // The gateway goes in the middle and the sensors are spaced round a
+        // circle, sorted by zone so sensors in the same zone sit together.
+        function layoutNodes(nodes) {
+            var cx = 320, cy = 240, radius = 185;
+            var pos = {};
+
+            nodes.filter(function (n) { return n.isGateway; }).forEach(function (n) {
+                pos[n.id] = { x: cx, y: cy };
+            });
+
+            var sensors = nodes.filter(function (n) { return !n.isGateway; }).sort(function (a, b) {
+                return (a.zone || '').localeCompare(b.zone || '') || a.id.localeCompare(b.id);
+            });
+
+            // Each sensor gets an equal slice of the circle. Starting at
+            // minus 90 degrees puts the first sensor at the top.
+            sensors.forEach(function (n, i) {
+                var angle = (i / sensors.length) * 2 * Math.PI - Math.PI / 2;
+                pos[n.id] = { x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) };
+            });
+
+            return pos;
+        }
+
+        // Marks every link along a route, so it can be drawn on top.
+        function markRoute(route, target) {
+            for (var i = 0; i < route.length - 1; i++) {
+                target[edgeKey(route[i], route[i + 1])] = true;
+            }
+        }
+
+        // Makes the text of one SVG line.
+        function line(a, b, color, width, dash) {
+            return '<line x1="' + a.x.toFixed(1) + '" y1="' + a.y.toFixed(1) + '" x2="' + b.x.toFixed(1)
+                 + '" y2="' + b.y.toFixed(1) + '" stroke="' + color + '" stroke-width="' + width + '"'
+                 + (dash ? ' stroke-dasharray="' + dash + '"' : '') + ' stroke-linecap="round" />';
+        }
+
+        function isDown(node) {
+            return node && node.status === 'Offline';
+        }
+
+        // Builds the whole SVG as text and puts it in the page in one step.
+        // Plain links are drawn first, then the spanning tree links, then
+        // the selected routes on top, so the routes are always visible.
+        function drawNetwork(data) {
+            var pos = layoutNodes(data.nodes);
+            var byId = {};
+            data.nodes.forEach(function (n) { byId[n.id] = n; });
+
+            // Work out which links belong to the selected sensor's routes.
+            var mstRoute = {};
+            var hopRoute = {};
+            if (lastRoute && lastRoute.found) {
+                markRoute(lastRoute.mstRoute, mstRoute);
+                markRoute(lastRoute.fewestHopsRoute, hopRoute);
+            }
+
+            var out = '';
+
+            // 1. Plain links. A link to an offline node is drawn dotted.
+            data.edges.forEach(function (e) {
+                if (e.inMst || !pos[e.from] || !pos[e.to]) return;
+                var down = isDown(byId[e.from]) || isDown(byId[e.to]);
+                out += line(pos[e.from], pos[e.to], down ? '#495057' : '#6c757d', 1, down ? '2 4' : '');
+            });
+
+            // 2. Spanning tree links, with their cost written in the middle.
+            data.edges.forEach(function (e) {
+                if (!e.inMst || !pos[e.from] || !pos[e.to]) return;
+                out += line(pos[e.from], pos[e.to], '#20c997', 3, '');
+
+                var mx = (pos[e.from].x + pos[e.to].x) / 2;
+                var my = (pos[e.from].y + pos[e.to].y) / 2;
+                out += '<text x="' + mx.toFixed(1) + '" y="' + my.toFixed(1)
+                     + '" font-size="10" fill="#e9ecef" text-anchor="middle">' + e.cost + '</text>';
+            });
+
+            // 3. The fewest-hops route, dashed blue.
+            data.edges.forEach(function (e) {
+                if (!hopRoute[edgeKey(e.from, e.to)] || !pos[e.from] || !pos[e.to]) return;
+                out += line(pos[e.from], pos[e.to], '#4dabf7', 3, '6 4');
+            });
+
+            // 4. The most power-efficient route, thick yellow, on top.
+            data.edges.forEach(function (e) {
+                if (!mstRoute[edgeKey(e.from, e.to)] || !pos[e.from] || !pos[e.to]) return;
+                out += line(pos[e.from], pos[e.to], '#ffc107', 5, '');
+            });
+
+            // 5. The circles and their labels, drawn last so they sit on top.
+            data.nodes.forEach(function (n) {
+                var p = pos[n.id];
+                if (!p) return;
+
+                var selected = lastRoute && lastRoute.found && lastRoute.deviceId === n.id;
+                var tip = n.isGateway
+                    ? 'Gateway (central server)'
+                    : n.id + ' | ' + n.macAddress + ' | ' + (n.zone || '-') + ' / ' + (n.room || '-') + ' | ' + n.status;
+
+                if (n.isGateway) {
+                    out += '<g><title>' + esc(tip) + '</title><circle cx="' + p.x + '" cy="' + p.y
+                         + '" r="18" fill="' + statusColor('Gateway') + '" stroke="#16181b" stroke-width="2" />'
+                         + '<text x="' + p.x + '" y="' + (p.y + 4) + '" font-size="11" fill="#fff" text-anchor="middle">GW</text></g>';
+                    return;
+                }
+
+                // Put each label just outside its circle, pointing away from the centre.
+                var dx = p.x - 320, dy = p.y - 240;
+                var len = Math.sqrt(dx * dx + dy * dy) || 1;
+                var lx = p.x + dx / len * 18;
+                var ly = p.y + dy / len * 18 + 3;
+                var anchor = dx > 20 ? 'start' : dx < -20 ? 'end' : 'middle';
+
+                // With many sensors the label is shortened so they do not overlap.
+                var name = data.nodes.length > 15
+                    ? n.id.replace(/^ESP32-/, '')
+                    : (n.id.length > 12 ? n.id.substring(0, 11) + '...' : n.id);
+
+                out += '<g data-node="' + esc(n.id) + '" style="cursor:pointer"><title>' + esc(tip) + '</title>'
+                     + '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="10" fill="' + statusColor(n.status)
+                     + '" stroke="' + (selected ? '#ffffff' : '#16181b') + '" stroke-width="' + (selected ? 3 : 2) + '" />'
+                     + '<text x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" font-size="10" fill="#adb5bd" text-anchor="' + anchor + '">'
+                     + esc(name) + '</text></g>';
+            });
+
+            document.getElementById('topo-svg').innerHTML = out;
+        }
+
+        // Shows a route as a row of badges with arrows between them.
+        function routeChips(list) {
+            return list.map(function (id) {
+                return '<span class="badge bg-secondary">' + esc(id) + '</span>';
+            }).join('<span class="text-secondary"> &rarr; </span>');
+        }
+
+        // "1 hop" or "3 hops".
+        function hopText(count) {
+            return count + (count === 1 ? ' hop' : ' hops');
+        }
+
+        // Shows the routes of the tracked sensor in the right-hand card.
+        function renderRoute(r) {
+            var box = document.getElementById('route-result');
+
+            if (!r) {
+                box.innerHTML = '<span class="text-secondary">Enter a device ID or MAC address, or click a node in the picture.</span>';
+                return;
+            }
+
+            if (!r.found) {
+                box.innerHTML = '<div class="text-warning">' + esc(r.message) + '</div>';
+                return;
+            }
+
+            var html = '<div class="mb-2"><strong>' + esc(r.deviceId) + '</strong> ' + statusBadge(r.status)
+                     + '<br><span class="text-secondary">' + esc(r.macAddress) + '</span></div>';
+
+            if (r.mstRoute.length === 0) {
+                html += '<div class="text-warning">' + esc(r.message) + '</div>';
+            } else {
+                html += '<div class="text-secondary">Most power-efficient route (spanning tree)</div>'
+                      + '<div class="mb-1">' + routeChips(r.mstRoute) + '</div>'
+                      + '<div class="mb-2">Cost <strong>' + r.mstCost + '</strong> over <strong>'
+                      + hopText(r.mstRoute.length - 1) + '</strong></div>'
+                      + '<div class="text-secondary">Fewest hops route (breadth-first search)</div>'
+                      + '<div class="mb-1">' + routeChips(r.fewestHopsRoute) + '</div>'
+                      + '<div><strong>' + hopText(r.fewestHopsRoute.length - 1) + '</strong></div>';
+            }
+
+            box.innerHTML = html;
+        }
+
+        // Starts tracking one sensor: remembers it, draws its route and
+        // fills in the history log's sensor and metric list, then runs the
+        // history query for it.
+        async function trackRoute(term) {
+            term = (term || '').trim();
+            if (!term) return;
+
+            topoState.term = term;
+            saveTopoState();
+
+            var route = await fetchRoute(term);
+            if (!route) {
+                document.getElementById('route-result').innerHTML = '<div class="text-warning">Could not reach the server.</div>';
+                return;
+            }
+
+            lastRoute = route;
+            renderRoute(route);
+            if (lastSnapshot) drawNetwork(lastSnapshot);
+
+            if (route.found) {
+                document.getElementById('hist-sensor').value = route.deviceId;
+                await loadMetrics(route.deviceId);
+                queryHistory();
+            }
+        }
+
+        // Fills the metric drop-down with the metrics this sensor has
+        // reported, and selects the saved one if it is still there.
+        async function loadMetrics(term) {
+            var select = document.getElementById('hist-metric');
+            term = (term || '').trim();
+            if (!term) { select.innerHTML = ''; return; }
+
+            try {
+                var response = await fetch('/Topology/Metrics?term=' + encodeURIComponent(term));
+                var metrics = response.ok ? await response.json() : [];
+
+                if (metrics.length === 0) {
+                    select.innerHTML = '<option value="">no data yet</option>';
+                    return;
+                }
+
+                select.innerHTML = metrics.map(function (m) {
+                    return '<option value="' + esc(m) + '">' + esc(m) + '</option>';
+                }).join('');
+
+                if (metrics.indexOf(topoState.metric) >= 0) select.value = topoState.metric;
+            } catch (e) {
+                select.innerHTML = '<option value="">unavailable</option>';
+            }
+        }
+
+        // Adds a leading zero, so 5 becomes 05.
+        function pad(n) {
+            return n < 10 ? '0' + n : '' + n;
+        }
+
+        // Formats a date the way a datetime-local box expects it, in the
+        // user's own time zone.
+        function toLocalInput(d) {
+            return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate())
+                 + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+        }
+
+        // Fills the from and to boxes with the last N minutes. One extra
+        // minute is added to the end, because the boxes only hold whole
+        // minutes and the newest readings would otherwise be missed.
+        function setRange(minutes) {
+            var to = new Date(Date.now() + 60000);
+            var from = new Date(to.getTime() - minutes * 60000);
+            document.getElementById('hist-from').value = toLocalInput(from);
+            document.getElementById('hist-to').value = toLocalInput(to);
+            dtpRefresh('hist-from');
+            dtpRefresh('hist-to');
+        }
+
+        // ---- Custom date and time picker -------------------------------
+        // The browser's own datetime-local calendar cannot be restyled, so
+        // the From and To boxes use this small picker instead. The hidden
+        // input with the original id still holds the value in the same
+        // "yyyy-MM-ddTHH:mm" format, so the query code is unchanged.
+        var dtpOpenId = null;
+
+        // Reads the hidden input as a Date, or null when it is empty.
+        function dtpValue(id) {
+            var d = new Date(document.getElementById(id).value);
+            return isNaN(d.getTime()) ? null : d;
+        }
+
+        // Updates the text on the button to match the hidden input.
+        function dtpRefresh(id) {
+            var root = document.querySelector('[data-dtp="' + id + '"]');
+            if (!root) return;
+            var d = dtpValue(id);
+            root.querySelector('.dtp-text').textContent = d
+                ? d.toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })
+                  + ', ' + pad(d.getHours()) + ':' + pad(d.getMinutes())
+                : 'Select date and time';
+        }
+
+        // Stores a chosen Date. A real user choice also raises "change",
+        // which switches off the rolling "last N minutes" range.
+        function dtpSet(id, d) {
+            var input = document.getElementById(id);
+            input.value = toLocalInput(d);
+            dtpRefresh(id);
+            input.dispatchEvent(new Event('change'));
+        }
+
+        // Draws the month grid and time boxes inside the pop-up. The seven
+        // calendar columns use the CSS Grid layout model (Mozilla Developer
+        // Network, 2026i). The dialog and its calendar controls follow the
+        // WAI-ARIA date picker dialog example (W3C, 2026b). The month being
+        // viewed is kept on the pop-up as data-year and data-month.
+        function dtpRender(id) {
+            var root = document.querySelector('[data-dtp="' + id + '"]');
+            var pop = root.querySelector('.dtp-pop');
+            var sel = dtpValue(id) || new Date();
+            var year = Number(pop.dataset.year);
+            var month = Number(pop.dataset.month);
+            var today = new Date();
+
+            var days = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+            var html = '<div class="dtp-head">'
+                + '<button type="button" class="dtp-nav" data-nav="-1" aria-label="Previous month"><i class="fa-solid fa-chevron-left"></i></button>'
+                + '<span class="dtp-title">' + new Date(year, month, 1).toLocaleDateString(undefined, { month: 'long', year: 'numeric' }) + '</span>'
+                + '<button type="button" class="dtp-nav" data-nav="1" aria-label="Next month"><i class="fa-solid fa-chevron-right"></i></button>'
+                + '</div><div class="dtp-grid">';
+
+            days.forEach(function (n) { html += '<span class="dtp-dow">' + n + '</span>'; });
+
+            // The week starts on Monday, so Sunday (getDay() 0) becomes 6.
+            var offset = (new Date(year, month, 1).getDay() + 6) % 7;
+            for (var i = 0; i < 42; i++) {
+                var d = new Date(year, month, 1 - offset + i);
+                var cls = 'dtp-day';
+                if (d.getMonth() !== month) cls += ' dtp-other';
+                if (d.toDateString() === today.toDateString()) cls += ' dtp-today';
+                if (d.toDateString() === sel.toDateString()) cls += ' dtp-selected';
+                html += '<button type="button" class="' + cls + '" data-y="' + d.getFullYear()
+                      + '" data-m="' + d.getMonth() + '" data-d="' + d.getDate() + '">' + d.getDate() + '</button>';
+            }
+            html += '</div><div class="dtp-time"><i class="fa-regular fa-clock"></i>'
+                  + '<select class="dtp-select" data-part="h" aria-label="Hour">';
+            for (var h = 0; h < 24; h++) html += '<option value="' + h + '"' + (h === sel.getHours() ? ' selected' : '') + '>' + pad(h) + '</option>';
+            html += '</select><span>:</span><select class="dtp-select" data-part="n" aria-label="Minute">';
+            for (var m = 0; m < 60; m++) html += '<option value="' + m + '"' + (m === sel.getMinutes() ? ' selected' : '') + '>' + pad(m) + '</option>';
+            html += '</select></div><div class="dtp-foot">'
+                  + '<button type="button" class="dtp-link" data-act="now">Now</button>'
+                  + '<button type="button" class="dtp-done" data-act="done">Done</button></div>';
+            pop.innerHTML = html;
+        }
+
+        function dtpClose() {
+            if (!dtpOpenId) return;
+            var root = document.querySelector('[data-dtp="' + dtpOpenId + '"]');
+            if (root) {
+                root.querySelector('.dtp-pop').hidden = true;
+                root.querySelector('.dtp-toggle').setAttribute('aria-expanded', 'false');
+            }
+            dtpOpenId = null;
+        }
+
+        function dtpOpen(id) {
+            dtpClose();
+            var root = document.querySelector('[data-dtp="' + id + '"]');
+            var pop = root.querySelector('.dtp-pop');
+            var base = dtpValue(id) || new Date();
+            pop.dataset.year = base.getFullYear();
+            pop.dataset.month = base.getMonth();
+            dtpRender(id);
+            pop.hidden = false;
+            root.querySelector('.dtp-toggle').setAttribute('aria-expanded', 'true');
+            dtpOpenId = id;
+        }
+
+        // Wires up one picker. Clicks inside the pop-up are handled here
+        // with event delegation, because its buttons are redrawn each time.
+        // The visible hover and focus feedback is styled with CSS pseudo-classes
+        // (Mozilla Developer Network, 2026j).
+        function dtpInit(id) {
+            var root = document.querySelector('[data-dtp="' + id + '"]');
+            var pop = root.querySelector('.dtp-pop');
+
+            root.querySelector('.dtp-toggle').addEventListener('click', function () {
+                if (dtpOpenId === id) dtpClose(); else dtpOpen(id);
+            });
+
+            pop.addEventListener('click', function (e) {
+                var nav = e.target.closest('[data-nav]');
+                var day = e.target.closest('.dtp-day');
+                var act = e.target.closest('[data-act]');
+
+                if (nav) {
+                    var v = new Date(Number(pop.dataset.year), Number(pop.dataset.month) + Number(nav.dataset.nav), 1);
+                    pop.dataset.year = v.getFullYear();
+                    pop.dataset.month = v.getMonth();
+                    dtpRender(id);
+                } else if (day) {
+                    var cur = dtpValue(id) || new Date();
+                    dtpSet(id, new Date(Number(day.dataset.y), Number(day.dataset.m), Number(day.dataset.d), cur.getHours(), cur.getMinutes()));
+                    pop.dataset.year = day.dataset.y;
+                    pop.dataset.month = day.dataset.m;
+                    dtpRender(id);
+                } else if (act && act.dataset.act === 'now') {
+                    var now = new Date();
+                    dtpSet(id, now);
+                    pop.dataset.year = now.getFullYear();
+                    pop.dataset.month = now.getMonth();
+                    dtpRender(id);
+                } else if (act && act.dataset.act === 'done') {
+                    dtpClose();
+                }
+            });
+
+            pop.addEventListener('change', function (e) {
+                if (!e.target.classList.contains('dtp-select')) return;
+                var c = dtpValue(id) || new Date();
+                var hh = pop.querySelector('[data-part="h"]').value;
+                var nn = pop.querySelector('[data-part="n"]').value;
+                dtpSet(id, new Date(c.getFullYear(), c.getMonth(), c.getDate(), Number(hh), Number(nn)));
+                // The "change" from the select must not reach the page's
+                // other listeners, only the hidden input's own event does.
+                e.stopPropagation();
+            });
+        }
+
+        // Clicking anywhere else, or pressing Escape, closes the pop-up.
+        function dtpOutside(e) {
+            if (dtpOpenId && !e.target.closest('[data-dtp="' + dtpOpenId + '"]')) dtpClose();
+        }
+        function dtpEscape(e) {
+            if (e.key === 'Escape') dtpClose();
+        }
+
+        // Asks the server for the readings between the two times. When a
+        // "last N minutes" range is chosen, it is counted back from now each
+        // time, so the result is never out of date. The times are converted
+        // to UTC with toISOString(), because the API stores its readings in
+        // UTC.
+        async function queryHistory() {
+            var summary = document.getElementById('hist-summary');
+            var table = document.getElementById('hist-table');
+            if (histMinutes > 0) setRange(histMinutes);
+
+            var term = document.getElementById('hist-sensor').value.trim();
+            var metric = document.getElementById('hist-metric').value;
+            var from = new Date(document.getElementById('hist-from').value);
+            var to = new Date(document.getElementById('hist-to').value);
+
+            // Check the inputs before asking the server.
+            if (!term || !metric) {
+                summary.className = 'small mb-2 text-warning';
+                summary.textContent = 'Choose a sensor that has reported data, and a metric.';
+                return;
+            }
+
+            if (isNaN(from.getTime()) || isNaN(to.getTime())) {
+                summary.className = 'small mb-2 text-warning';
+                summary.textContent = 'Choose a start and an end time.';
+                return;
+            }
+
+            topoState.metric = metric;
+            saveTopoState();
+
+            try {
+                var query = new URLSearchParams({
+                    term: term,
+                    metric: metric,
+                    from: from.toISOString(),
+                    to: to.toISOString()
+                });
+
+                var response = await fetch('/Topology/History?' + query.toString());
+
+                // The API refused the request, so show its message.
+                if (!response.ok) {
+                    var message = 'The request failed.';
+                    try { message = (await response.json()).message || message; } catch (e) { }
+                    summary.className = 'small mb-2 text-warning';
+                    summary.textContent = message;
+                    table.innerHTML = '';
+                    return;
+                }
+
+                var data = await response.json();
+
+                // Only the newest 500 rows are shown, so the page stays fast.
+                var shown = data.readings.slice(-500);
+
+                // The summary line shows how well the AVL tree did.
+                summary.className = 'small mb-2';
+                summary.innerHTML = '<strong>' + data.count.toLocaleString() + '</strong> readings of ' + esc(data.metric) + ' for '
+                    + esc(data.deviceId) + ' between ' + esc(from.toLocaleString()) + ' and ' + esc(to.toLocaleString())
+                    + '. <span class="text-secondary">The AVL tree holds ' + data.treeCount.toLocaleString()
+                    + ' readings and is only ' + data.treeHeight + ' levels tall. The range query visited '
+                    + data.nodesVisited.toLocaleString() + ' nodes in ' + data.elapsedMs.toFixed(3)
+                    + ' ms, where scanning a plain list would check all ' + data.treeCount.toLocaleString() + '.'
+                    + (data.count > shown.length ? ' Showing the newest ' + shown.length + '.' : '') + '</span>';
+
+                var rows = shown.map(function (p, i) {
+                    return '<tr><td>' + (i + 1) + '</td><td>' + esc(new Date(p.time).toLocaleString())
+                         + '</td><td class="text-end">' + Number(p.value).toFixed(2) + '</td></tr>';
+                }).join('');
+
+                table.innerHTML = '<table class="table table-dark table-sm table-hover mb-0">'
+                    + '<thead><tr><th>#</th><th>Time</th><th class="text-end">Value</th></tr></thead>'
+                    + '<tbody>' + (rows || '<tr><td colspan="3" class="text-secondary">No readings in this range.</td></tr>') + '</tbody></table>';
+            } catch (e) {
+                summary.className = 'small mb-2 text-warning';
+                summary.textContent = 'Could not reach the server.';
+            }
+        }
+
+        // One click handler for the whole page. closest() finds which
+        // element, if any, was clicked, even when the click lands on a
+        // shape inside the SVG.
+        document.getElementById('topo-root').addEventListener('click', function (e) {
+            // A click on a circle tracks that sensor.
+            var node = e.target.closest('[data-node]');
+            if (node) {
+                var id = node.getAttribute('data-node');
+                document.getElementById('route-term').value = id;
+                trackRoute(id);
+                return;
+            }
+
+            if (e.target.closest('#route-go')) { trackRoute(document.getElementById('route-term').value); return; }
+            if (e.target.closest('#hist-go')) { queryHistory(); return; }
+
+            // The quick range buttons set the rolling range.
+            var quick = e.target.closest('[data-range]');
+            if (quick) {
+                histMinutes = Number(quick.dataset.range);
+                queryHistory();
+            }
+        });
+
+        // Pressing Enter in the route box does the same as the Track button.
+        document.getElementById('route-term').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') trackRoute(this.value);
+        });
+
+        // Choosing a different sensor reloads its metrics and runs the query.
+        document.getElementById('hist-sensor').addEventListener('change', async function () {
+            await loadMetrics(this.value);
+            queryHistory();
+        });
+
+        // Choosing a different metric runs the query again.
+        document.getElementById('hist-metric').addEventListener('change', function () {
+            topoState.metric = this.value;
+            saveTopoState();
+            queryHistory();
+        });
+
+        // Typing a time by hand switches off the rolling "last N minutes"
+        // range, so the user's own times are kept.
+        ['hist-from', 'hist-to'].forEach(function (id) {
+            document.getElementById(id).addEventListener('change', function () { histMinutes = 0; });
+        });
+
+        // Set up the two date pickers.
+        dtpInit('hist-from');
+        dtpInit('hist-to');
+        document.addEventListener('mousedown', dtpOutside);
+        document.addEventListener('keydown', dtpEscape);
+
+        // Restore the saved sensor and set the default time range of the
+        // last hour.
+        document.getElementById('route-term').value = topoState.term;
+        document.getElementById('hist-sensor').value = topoState.term;
+        setRange(60);
+        if (topoState.term) loadMetrics(topoState.term).then(queryHistory);
+        renderRoute(null);
+
+        // Load the data once straight away, then repeat every 3 seconds
+        // (Mozilla Developer Network, 2026c).
+        pollTopology();
+        var topoTimer = setInterval(pollTopology, 3000);
+
+        // Called when the user leaves this page, so the timer stops and does
+        // not keep running in the background.
+        window.pageCleanup = function () {
+            clearInterval(topoTimer);
+            document.removeEventListener('mousedown', dtpOutside);
+            document.removeEventListener('keydown', dtpEscape);
+        };
+
+    </script>
+}
+
+@*
+    References:
+
+    Bootstrap, 2026a. Badges. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/badge/>
+    [Accessed 9 September 2026].
+
+    Bootstrap, 2026b. Buttons. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/buttons/>
+    [Accessed 9 September 2026].
+
+    Bootstrap, 2026c. Cards. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/components/card/>
+    [Accessed 10 September 2026].
+
+    Bootstrap, 2026d. Grid system. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/layout/grid/>
+    [Accessed 8 September 2026].
+
+    Educative, 2026. Jarník's ("Prim's") algorithm. [online] Available at:
+    <https://www.educative.io/courses/mastering-algorithms-for-problem-solving-in-python/jarniks-prims-algorithm>
+    [Accessed 11 November 2026].
+
+    Interview Kickstart, 2026. Breadth-first search (BFS) algorithm. [online] Available at:
+    <https://www.interviewkickstart.com/blog/learn/breadth-first-search-algorithm>
+    [Accessed 11 November 2026].
+
+    Mozilla Developer Network, 2026a. try...catch. [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch>
+    [Accessed 8 September 2026].
+
+    Mozilla Developer Network, 2026b. Window: fetch() method. [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/API/Window/fetch>
+    [Accessed 10 September 2026].
+
+    Mozilla Developer Network, 2026c. Window: setInterval() method. [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval>
+    [Accessed 8 September 2026].
+
+    Bootstrap, 2026e. Form controls. [online] Available at:
+    <https://getbootstrap.com/docs/5.3/forms/form-control/>
+    [Accessed 13 November 2026].
+
+    Mozilla Developer Network, 2026i. Basic concepts of grid layout. [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Basic_concepts>
+    [Accessed 13 November 2026].
+
+    Mozilla Developer Network, 2026j. Pseudo-classes. [online] Available at:
+    <https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/Pseudo-classes>
+    [Accessed 13 November 2026].
+
+    W3C, 2026b. Date Picker Dialog Example. [online] Available at:
+    <https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/>
+    [Accessed 13 November 2026].
+*@
