@@ -2,6 +2,7 @@
 **A unified collection tracker for gamers and readers.**<br/>
 <img width="250" height="250" alt="GeekShelfLogo" src="https://github.com/user-attachments/assets/29e51512-f600-4a8c-b5c5-1f2424ab2475" /><br/>
 GeekShelf is a mobile-first Android application (Kotlin + Jetpack Compose) that gives users a single place to track their games, comics, manga, anime, movies and TV shows — instead of juggling several single-purpose trackers (e.g. GameTrack, Watchlistfy, Mangayomi).
+Figma link: https://www.figma.com/design/j6FQxlp1NqA51QnuGRX3YE/Untitled?node-id=0-1&t=kJS8aHzMYUk720lZ-1 
 
 ---
 

@@ -6,6 +6,7 @@
 ## 1. Links  
 
 - **GitHub Repository**: https://github.com/EMECPE/vcnmb-prog7313-2026-part-2-3-betterbudget
+- **Figma**: https://www.figma.com/design/8TwjkWrizno3uAkVSW9iBj/BetterBudget-Wireframes?node-id=0-1&t=F4mnH6lBpFXVdZFA-1
 
 
 ---
