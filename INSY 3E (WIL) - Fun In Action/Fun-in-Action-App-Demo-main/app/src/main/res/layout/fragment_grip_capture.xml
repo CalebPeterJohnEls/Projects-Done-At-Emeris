@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.funinactionproto.GripCaptureFragment">
+
+    <!-- Camera preview -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/controlsPanel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stateText" />
+
+    <!-- Skeleton overlay: same bounds as the preview, drawn above it -->
+    <com.example.funinactionproto.SkeletonOverlayView
+        android:id="@+id/skeletonOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/previewView"
+        app:layout_constraintBottom_toBottomOf="@id/previewView"
+        app:layout_constraintStart_toStartOf="@id/previewView"
+        app:layout_constraintEnd_toEndOf="@id/previewView" />
+
+    <!-- Flip button sits ON TOP of the preview as a sibling, not inside it.
+         PreviewView manages its own children (it adds the camera surface itself),
+         so anything placed inside it can be removed or covered. Declared after the
+         PreviewView so it draws above it. -->
+    <Button
+        android:id="@+id/flipCameraBtn"
+        android:layout_width="85dp"
+        android:layout_height="61dp"
+        android:layout_margin="16dp"
+        android:elevation="8dp"
+        android:text="Flip"
+        app:layout_constraintTop_toTopOf="@id/previewView"
+        app:layout_constraintEnd_toEndOf="@id/previewView" />
+
+    <!-- State / prompt -->
+    <TextView
+        android:id="@+id/stateText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Get ready…"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:background="#66000000"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Controls + timer selection -->
+    <LinearLayout
+        android:id="@+id/controlsPanel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@id/scorePanel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose timer:"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/timer3s"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3s" />
+
+            <Button
+                android:id="@+id/timer5s"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="5s"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/timer10s"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="10s" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/captureBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start countdown"
+            android:layout_marginTop="12dp" />
+
+    </LinearLayout>
+
+    <!-- Score + coaching feedback.
+         overallScoreText shows the aggregated 1-7 level, percentage and descriptor.
+         feedbackList shows one row per coaching point (CoachingFeedbackAdapter).
+         The list has a fixed height so a skill with many coaching points can't
+         grow this panel and squash the camera preview - it scrolls instead. -->
+    <LinearLayout
+        android:id="@+id/scorePanel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#F5F5F5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/overallScoreText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Score: —"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/feedbackList"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginTop="8dp"
+            android:overScrollMode="ifContentScrolls" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

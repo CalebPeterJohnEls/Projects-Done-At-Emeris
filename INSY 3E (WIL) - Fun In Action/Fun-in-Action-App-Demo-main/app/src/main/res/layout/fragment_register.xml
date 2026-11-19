@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/card_white"
+    android:fillViewport="true"
+    tools:context=".RegisterFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/imgRegLogo"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/logo_mark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvRegBrand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fun in Action"
+            android:textColor="@color/teal_primary_dark"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/imgRegLogo"
+            app:layout_constraintTop_toTopOf="@id/imgRegLogo"
+            app:layout_constraintBottom_toBottomOf="@id/imgRegLogo"
+            android:layout_marginStart="10dp" />
+
+        <TextView
+            android:id="@+id/tvRegTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create your account"
+            android:textColor="@color/text_dark"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/imgRegLogo"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvRegSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set up a profile to track your progress."
+            android:textColor="@color/text_grey"
+            android:textSize="14sp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/tvRegTitle"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/registerError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Please fill in all fields."
+            android:textColor="@color/error_text"
+            android:textSize="13sp"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tvRegSubtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/lblName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Full name"
+            android:textColor="@color/text_dark"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@id/registerError"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/regName"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_input_field"
+            android:hint="Liam de Wet"
+            android:inputType="textPersonName"
+            android:paddingHorizontal="16dp"
+            android:textColorHint="@color/text_grey"
+            android:textColor="@color/text_dark"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/lblName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/lblRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I am a..."
+            android:textColor="@color/text_dark"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@id/regName"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Spinner
+            android:id="@+id/regRole"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_input_field"
+            android:paddingHorizontal="16dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/lblRole"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/lblRegEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textColor="@color/text_dark"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@id/regRole"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/regEmail"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_input_field"
+            android:hint="you@example.com"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="16dp"
+            android:textColorHint="@color/text_grey"
+            android:textColor="@color/text_dark"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/lblRegEmail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/lblRegPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone"
+            android:textColor="@color/text_dark"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@id/regEmail"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/regPhone"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_input_field"
+            android:hint="082 123 4567"
+            android:inputType="phone"
+            android:paddingHorizontal="16dp"
+            android:textColorHint="@color/text_grey"
+            android:textColor="@color/text_dark"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/lblRegPhone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/lblRegPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textColor="@color/text_dark"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@id/regPhone"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/regPassword"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_input_field"
+            android:hint="••••••••"
+            android:inputType="textPassword"
+            android:paddingHorizontal="16dp"
+            android:textColorHint="@color/text_grey"
+            android:textColor="@color/text_dark"
+            android:layout_marginTop="6dp"
+            app:layout_constraintTop_toBottomOf="@id/lblRegPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_button_pill_gradient"
+            android:text="Create Account"
+            android:textColor="@color/card_white"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/regPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintTop_toBottomOf="@id/btnRegister"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account? "
+                android:textColor="@color/text_grey"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/btnGoToLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log in"
+                android:textColor="@color/teal_primary_dark"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

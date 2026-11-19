@@ -1,0 +1,108 @@
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!-- Main pages -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.funinactionproto.HomeFragment"
+        android:label="Home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_learnFragment"
+            app:destination="@id/learnFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_practiceFragment"
+            app:destination="@id/practiceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/learnFragment"
+        android:name="com.example.funinactionproto.LearnFragment"
+        android:label="Learn">
+
+        <action
+            android:id="@+id/action_learnFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.example.funinactionproto.MenuFragment"
+        android:label="Learn">
+
+        <action
+            android:id="@+id/action_menuFragment_to_gripFragment"
+            app:destination="@id/gripFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_runningFragment"
+            app:destination="@id/runningFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_passingFragment"
+            app:destination="@id/passingFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_receivingFragment"
+            app:destination="@id/receivingFragment" />
+    </fragment>
+
+    <!-- Practice hub -->
+    <fragment
+        android:id="@+id/practiceFragment"
+        android:name="com.example.funinactionproto.PracticeFragment"
+        android:label="Practice">
+
+        <action
+            android:id="@+id/action_practiceFragment_to_gripCaptureFragment"
+            app:destination="@id/gripCaptureFragment" />
+        <action
+            android:id="@+id/action_practiceFragment_to_videoCaptureFragment"
+            app:destination="@id/videoCaptureFragment" />
+    </fragment>
+
+    <!-- Capture fragments -->
+    <fragment
+        android:id="@+id/gripCaptureFragment"
+        android:name="com.example.funinactionproto.GripCaptureFragment"
+        android:label="Grip Practice">
+
+        <argument
+            android:name="skillId"
+            app:argType="string"
+            android:defaultValue='"grip"' />
+    </fragment>
+
+    <fragment
+        android:id="@+id/videoCaptureFragment"
+        android:name="com.example.funinactionproto.VideoCaptureFragment"
+        android:label="Skill Practice">
+
+        <argument
+            android:name="skillId"
+            app:argType="string" />
+    </fragment>
+
+    <!-- Individual lessons (learn flow) -->
+    <fragment
+        android:id="@+id/gripFragment"
+        android:name="com.example.funinactionproto.GripFragment"
+        android:label="Grip" />
+
+    <fragment
+        android:id="@+id/passingFragment"
+        android:name="com.example.funinactionproto.PassingFragment"
+        android:label="Passing" />
+
+    <fragment
+        android:id="@+id/receivingFragment"
+        android:name="com.example.funinactionproto.RecevingFragment"
+        android:label="Receiving" />
+
+    <fragment
+        android:id="@+id/runningFragment"
+        android:name="com.example.funinactionproto.RunningFragment"
+        android:label="Running" />
+
+</navigation>

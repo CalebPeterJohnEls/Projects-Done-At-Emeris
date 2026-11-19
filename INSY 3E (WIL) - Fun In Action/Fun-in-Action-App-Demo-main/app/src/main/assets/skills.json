@@ -1,0 +1,92 @@
+  {
+  "skills": [
+    {
+      "id": "grip",
+      "title": "Grip",
+      "sections": [
+        {
+          "title": "Technique",
+          "points": [
+            "Players should grip their stick with their left hand at the top of the stick",
+            "Their right hand about 1/3 the ways down the stick."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "running",
+      "title": "Running with the ball (Dribbling)",
+      "sections": [
+        {
+          "title": "Technique",
+          "points": [
+            "The players stick should remain on the or as close to ball at all times",
+            "The ball should be carried just outside the line of the right foot and in front of the body.",
+            "The player should keep the ball in front of the body and look in the direction that they are carrying the ball."
+          ]
+        },
+        {
+          "title": "Coaching Points",
+          "points": [
+            "Stick should stay in contact with ball",
+            "Ball should move in a relative straight line",
+            "Ball to be in front of player and in a position where they are able to pass or change direction from",
+            "Player should have their vision forward"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "passing",
+      "title": "Passing – Distribution",
+      "technique_name": "Push",
+      "description": "The quickest and most effective way of moving with the ball",
+      "sections": [
+        {
+          "title": "Technique",
+          "points": [
+            "Player to start with the ball close to line of their right foot, standing side on to the direction they wish to push.",
+            "The stick starts in contact with the ball.",
+            "Players to lunge forward (ideally with left foot out towards the line they wish the ball to go",
+            "The ball should stay in contact with the stick as they push forward.",
+            "On release the right wrist should flex (similar to throwing a ball) to gain power",
+            "The follow through of the stick should be low and around the body."
+          ]
+        },
+        {
+          "title": "Coaching Points",
+          "points": [
+            "Stick in contact with ball for the duration of movement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "receiving",
+      "title": "Receiving (Trapping)",
+      "technique_name": "Fore hand stick receive",
+      "description": "The quickest and most effective way of moving with the ball",
+      "sections": [
+        {
+          "title": "Technique",
+          "points": [
+            "The player should have their feet apart with the head of their stick on the ground and in line with the ball.",
+            "Players should ideally have their left foot forward for balance.",
+            "The stick head should remain on the ground to catch the ball in one movement",
+            "The ball should be received just behind the line of the left foot on the head of the stick.",
+            "The ball should be received on the head of the stick"
+          ]
+        },
+        {
+          "title": "Coaching Points",
+          "points": [
+            "Player moves so head is over the line of the ball when receiving",
+            "Stick should be angled slightly forward to stop ball from bouncing up",
+            "Players are not adjusting right hand on stick for trapping",
+            "Ball should be received on head of stick to allow simple movement to next skill."
+          ]
+        }
+      ]
+    }
+  ]
+}

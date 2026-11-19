@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "68834238859",
+    "project_id": "funinaction-expo",
+    "storage_bucket": "funinaction-expo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68834238859:android:903e8180cf323cafa98f8e",
+        "android_client_info": {
+          "package_name": "com.example.funinactionproto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApdRZRLO7UrbULegCxMH6cx_BusldhT18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

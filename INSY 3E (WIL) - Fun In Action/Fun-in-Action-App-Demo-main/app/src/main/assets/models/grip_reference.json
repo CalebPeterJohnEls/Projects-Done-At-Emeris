@@ -1,0 +1,299 @@
+{
+  "skill": "grip",
+  "features": {
+    "left_elbow_angle_min": {
+      "mean": 109.53382527449037,
+      "std": 18.576786808252976
+    },
+    "left_elbow_angle_max": {
+      "mean": 109.53382527449037,
+      "std": 18.576786808252976
+    },
+    "left_elbow_angle_mean": {
+      "mean": 109.53382527449037,
+      "std": 18.576786808252976
+    },
+    "left_elbow_angle_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "right_elbow_angle_min": {
+      "mean": 167.07436138620412,
+      "std": 9.950531838349658
+    },
+    "right_elbow_angle_max": {
+      "mean": 167.07436138620412,
+      "std": 9.950531838349658
+    },
+    "right_elbow_angle_mean": {
+      "mean": 167.07436138620412,
+      "std": 9.950531838349658
+    },
+    "right_elbow_angle_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "left_knee_angle_min": {
+      "mean": 140.25149399147708,
+      "std": 36.778961036745095
+    },
+    "left_knee_angle_max": {
+      "mean": 140.25149399147708,
+      "std": 36.778961036745095
+    },
+    "left_knee_angle_mean": {
+      "mean": 140.25149399147708,
+      "std": 36.778961036745095
+    },
+    "left_knee_angle_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "right_knee_angle_min": {
+      "mean": 98.96056169998863,
+      "std": 35.59376862036324
+    },
+    "right_knee_angle_max": {
+      "mean": 98.96056169998863,
+      "std": 35.59376862036324
+    },
+    "right_knee_angle_mean": {
+      "mean": 98.96056169998863,
+      "std": 35.59376862036324
+    },
+    "right_knee_angle_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "right_wrist_angle_min": {
+      "mean": 162.5352341627599,
+      "std": 12.644022053396256
+    },
+    "right_wrist_angle_max": {
+      "mean": 162.5352341627599,
+      "std": 12.644022053396256
+    },
+    "right_wrist_angle_mean": {
+      "mean": 162.5352341627599,
+      "std": 12.644022053396256
+    },
+    "right_wrist_angle_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "left_wrist_angle_min": {
+      "mean": 169.0633461789194,
+      "std": 8.45316730894597
+    },
+    "left_wrist_angle_max": {
+      "mean": 169.0633461789194,
+      "std": 8.45316730894597
+    },
+    "left_wrist_angle_mean": {
+      "mean": 169.0633461789194,
+      "std": 8.45316730894597
+    },
+    "left_wrist_angle_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "shoulder_dx_min": {
+      "mean": -1.7693632508562922,
+      "std": 0.9669105425427589
+    },
+    "shoulder_dx_max": {
+      "mean": -1.7693632508562922,
+      "std": 0.9669105425427589
+    },
+    "shoulder_dx_mean": {
+      "mean": -1.7693632508562922,
+      "std": 0.9669105425427589
+    },
+    "shoulder_dx_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "shoulder_dy_min": {
+      "mean": 0.17302762538180816,
+      "std": 0.08935570870799875
+    },
+    "shoulder_dy_max": {
+      "mean": 0.17302762538180816,
+      "std": 0.08935570870799875
+    },
+    "shoulder_dy_mean": {
+      "mean": 0.17302762538180816,
+      "std": 0.08935570870799875
+    },
+    "shoulder_dy_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "stance_width_min": {
+      "mean": 0.9270547494604369,
+      "std": 0.7897966026658615
+    },
+    "stance_width_max": {
+      "mean": 0.9270547494604369,
+      "std": 0.7897966026658615
+    },
+    "stance_width_mean": {
+      "mean": 0.9270547494604369,
+      "std": 0.7897966026658615
+    },
+    "stance_width_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "foot_stagger_min": {
+      "mean": 0.6651512761881972,
+      "std": 0.9070146319850421
+    },
+    "foot_stagger_max": {
+      "mean": 0.6651512761881972,
+      "std": 0.9070146319850421
+    },
+    "foot_stagger_mean": {
+      "mean": 0.6651512761881972,
+      "std": 0.9070146319850421
+    },
+    "foot_stagger_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "hip_center_x_min": {
+      "mean": 0.5816541505711419,
+      "std": 0.054051752086405835
+    },
+    "hip_center_x_max": {
+      "mean": 0.5816541505711419,
+      "std": 0.054051752086405835
+    },
+    "hip_center_x_mean": {
+      "mean": 0.5816541505711419,
+      "std": 0.054051752086405835
+    },
+    "hip_center_x_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "head_offset_min": {
+      "mean": -1.127651363414747,
+      "std": 0.45586993741305226
+    },
+    "head_offset_max": {
+      "mean": -1.127651363414747,
+      "std": 0.45586993741305226
+    },
+    "head_offset_mean": {
+      "mean": -1.127651363414747,
+      "std": 0.45586993741305226
+    },
+    "head_offset_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "wrist_separation_min": {
+      "mean": 1.0516666694029524,
+      "std": 0.6475886331630372
+    },
+    "wrist_separation_max": {
+      "mean": 1.0516666694029524,
+      "std": 0.6475886331630372
+    },
+    "wrist_separation_mean": {
+      "mean": 1.0516666694029524,
+      "std": 0.6475886331630372
+    },
+    "wrist_separation_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "hand_height_diff_min": {
+      "mean": 0.31505190899063634,
+      "std": 0.22909990308493952
+    },
+    "hand_height_diff_max": {
+      "mean": 0.31505190899063634,
+      "std": 0.22909990308493952
+    },
+    "hand_height_diff_mean": {
+      "mean": 0.31505190899063634,
+      "std": 0.22909990308493952
+    },
+    "hand_height_diff_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "left_hand_finger_curl_min": {
+      "mean": 117.30503145001167,
+      "std": 31.52224125490604
+    },
+    "left_hand_finger_curl_max": {
+      "mean": 117.30503145001167,
+      "std": 31.52224125490604
+    },
+    "left_hand_finger_curl_mean": {
+      "mean": 117.30503145001167,
+      "std": 31.52224125490604
+    },
+    "left_hand_finger_curl_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "left_hand_aperture_min": {
+      "mean": 1.3968005542390642,
+      "std": 0.11936999282818071
+    },
+    "left_hand_aperture_max": {
+      "mean": 1.3968005542390642,
+      "std": 0.11936999282818071
+    },
+    "left_hand_aperture_mean": {
+      "mean": 1.3968005542390642,
+      "std": 0.11936999282818071
+    },
+    "left_hand_aperture_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "right_hand_finger_curl_min": {
+      "mean": 94.26294667086083,
+      "std": 29.4382530787853
+    },
+    "right_hand_finger_curl_max": {
+      "mean": 94.26294667086083,
+      "std": 29.4382530787853
+    },
+    "right_hand_finger_curl_mean": {
+      "mean": 94.26294667086083,
+      "std": 29.4382530787853
+    },
+    "right_hand_finger_curl_range": {
+      "mean": 0.0,
+      "std": 0.01
+    },
+    "right_hand_aperture_min": {
+      "mean": 1.0645885407820768,
+      "std": 0.153464854498119
+    },
+    "right_hand_aperture_max": {
+      "mean": 1.0645885407820768,
+      "std": 0.153464854498119
+    },
+    "right_hand_aperture_mean": {
+      "mean": 1.0645885407820768,
+      "std": 0.153464854498119
+    },
+    "right_hand_aperture_range": {
+      "mean": 0.0,
+      "std": 0.01
+    }
+  },
+  "coaching_points": {
+    "wrist_separation_mean": "Hand spacing on the stick",
+    "hand_height_diff_mean": "Right hand positioned below left hand on the grip",
+    "left_hand_finger_curl_mean": "Left hand finger wrap around the grip",
+    "right_hand_finger_curl_mean": "Right hand finger wrap around the grip"
+  }
+}

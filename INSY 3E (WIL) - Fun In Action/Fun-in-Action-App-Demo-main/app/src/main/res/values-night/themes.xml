@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.FunInActionProto" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/teal_primary</item>
+        <item name="colorOnPrimary">@color/teal_deep</item>
+        <item name="colorPrimaryContainer">@color/teal_primary_dark</item>
+        <item name="colorOnPrimaryContainer">@color/card_white</item>
+
+        <item name="colorSecondary">@color/teal_primary</item>
+        <item name="colorOnSecondary">@color/teal_deep</item>
+        <item name="colorSecondaryContainer">@color/teal_deep</item>
+        <item name="colorOnSecondaryContainer">@color/teal_light</item>
+    </style>
+</resources>

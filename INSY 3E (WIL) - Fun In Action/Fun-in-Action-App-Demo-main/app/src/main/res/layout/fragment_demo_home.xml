@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/teal_light"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hockey Report Card"
+        android:textColor="@color/text_dark"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="Test your grip and your push pass. You'll be marked out of 7, just like a school report."
+        android:textColor="@color/text_dark"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/startChallengeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_button_pill_gradient"
+        android:text="Start the challenge"
+        android:textAllCaps="false"
+        android:textColor="@color/card_white"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/viewLeaderboardBtn"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_button_pill_gradient"
+        android:text="View leaderboard"
+        android:textAllCaps="false"
+        android:textColor="@color/card_white"
+        android:textStyle="bold" />
+
+</LinearLayout>

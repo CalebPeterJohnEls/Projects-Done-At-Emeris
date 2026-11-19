@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/teal_light"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick a nickname"
+        android:textColor="@color/text_dark"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="This is what will show on the leaderboard."
+        android:textColor="@color/text_dark"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/nicknameInput"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/card_white"
+        android:hint="Your nickname"
+        android:imeOptions="actionNext"
+        android:inputType="textPersonName"
+        android:maxLength="15"
+        android:paddingHorizontal="16dp"
+        android:singleLine="true"
+        android:textColor="@color/text_dark" />
+
+    <TextView
+        android:id="@+id/nicknameError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#B3261E"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/nicknameNextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_button_pill_gradient"
+        android:text="Next"
+        android:textAllCaps="false"
+        android:textColor="@color/card_white"
+        android:textStyle="bold" />
+
+</LinearLayout>

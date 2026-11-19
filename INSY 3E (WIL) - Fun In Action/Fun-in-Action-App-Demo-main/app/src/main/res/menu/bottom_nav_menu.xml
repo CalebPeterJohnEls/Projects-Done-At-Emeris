@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ic_home"
+        android:icon="@drawable/home_icon"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/ic_practice"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="Practice" />
+
+    <item
+        android:id="@+id/nav_learn"
+        android:icon="@drawable/learn_icon"
+        android:title="Learn" />
+
+    <item
+        android:id="@+id/ic_progress"
+        android:icon="@drawable/progress_icon"
+        android:title="Progress" />
+
+    <item
+        android:id="@+id/ic_profile"
+        android:icon="@drawable/profile_icon"
+        android:title="Profile" />
+
+</menu>

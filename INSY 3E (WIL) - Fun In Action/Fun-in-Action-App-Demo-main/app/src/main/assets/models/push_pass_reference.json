@@ -1,0 +1,235 @@
+{
+  "skill": "push_pass",
+  "features": {
+    "left_elbow_angle_min": {
+      "mean": 1.33880329735684,
+      "std": 0.066940164867842
+    },
+    "left_elbow_angle_max": {
+      "mean": 179.2511404611806,
+      "std": 8.96255702305903
+    },
+    "left_elbow_angle_mean": {
+      "mean": 107.08096495201521,
+      "std": 5.354048247600761
+    },
+    "left_elbow_angle_range": {
+      "mean": 177.91233716382374,
+      "std": 8.895616858191188
+    },
+    "right_elbow_angle_min": {
+      "mean": 3.445533930655788,
+      "std": 0.17227669653278943
+    },
+    "right_elbow_angle_max": {
+      "mean": 179.30380646473972,
+      "std": 8.965190323236987
+    },
+    "right_elbow_angle_mean": {
+      "mean": 124.77653348251204,
+      "std": 6.238826674125602
+    },
+    "right_elbow_angle_range": {
+      "mean": 175.85827253408397,
+      "std": 8.792913626704198
+    },
+    "left_knee_angle_min": {
+      "mean": 83.58488267450147,
+      "std": 4.179244133725073
+    },
+    "left_knee_angle_max": {
+      "mean": 179.41430641865608,
+      "std": 8.970715320932804
+    },
+    "left_knee_angle_mean": {
+      "mean": 154.04615310269156,
+      "std": 7.702307655134579
+    },
+    "left_knee_angle_range": {
+      "mean": 95.8294237441546,
+      "std": 4.79147118720773
+    },
+    "right_knee_angle_min": {
+      "mean": 64.50924903961666,
+      "std": 3.2254624519808335
+    },
+    "right_knee_angle_max": {
+      "mean": 179.29950500368128,
+      "std": 8.964975250184064
+    },
+    "right_knee_angle_mean": {
+      "mean": 145.28244865689754,
+      "std": 7.264122432844878
+    },
+    "right_knee_angle_range": {
+      "mean": 114.79025596406466,
+      "std": 5.739512798203233
+    },
+    "right_wrist_angle_min": {
+      "mean": 13.979478221107096,
+      "std": 0.6989739110553548
+    },
+    "right_wrist_angle_max": {
+      "mean": 178.61678039319943,
+      "std": 8.930839019659972
+    },
+    "right_wrist_angle_mean": {
+      "mean": 160.60620251846018,
+      "std": 8.030310125923009
+    },
+    "right_wrist_angle_range": {
+      "mean": 164.63730217209235,
+      "std": 8.231865108604618
+    },
+    "left_wrist_angle_min": {
+      "mean": 13.22242398332437,
+      "std": 0.6611211991662186
+    },
+    "left_wrist_angle_max": {
+      "mean": 178.9292610454132,
+      "std": 8.94646305227066
+    },
+    "left_wrist_angle_mean": {
+      "mean": 155.98860615342952,
+      "std": 7.799430307671476
+    },
+    "left_wrist_angle_range": {
+      "mean": 165.70683706208882,
+      "std": 8.285341853104441
+    },
+    "shoulder_dx_min": {
+      "mean": -4.831387996673584,
+      "std": 0.2415693998336792
+    },
+    "shoulder_dx_max": {
+      "mean": 1.325974374225988,
+      "std": 0.0662987187112994
+    },
+    "shoulder_dx_mean": {
+      "mean": -1.243699437621012,
+      "std": 0.0621849718810506
+    },
+    "shoulder_dx_range": {
+      "mean": 6.157362370899572,
+      "std": 0.30786811854497864
+    },
+    "shoulder_dy_min": {
+      "mean": -1.376715898513794,
+      "std": 0.0688357949256897
+    },
+    "shoulder_dy_max": {
+      "mean": 0.5694608829662924,
+      "std": 0.02847304414831462
+    },
+    "shoulder_dy_mean": {
+      "mean": 0.0187172470805245,
+      "std": 0.01
+    },
+    "shoulder_dy_range": {
+      "mean": 1.9461767814800863,
+      "std": 0.09730883907400432
+    },
+    "stance_width_min": {
+      "mean": 0.1244646112744669,
+      "std": 0.01
+    },
+    "stance_width_max": {
+      "mean": 8.3887486570807,
+      "std": 0.41943743285403506
+    },
+    "stance_width_mean": {
+      "mean": 1.289131792125627,
+      "std": 0.06445658960628135
+    },
+    "stance_width_range": {
+      "mean": 8.264284045806233,
+      "std": 0.4132142022903117
+    },
+    "foot_stagger_min": {
+      "mean": -2.224256992340088,
+      "std": 0.1112128496170044
+    },
+    "foot_stagger_max": {
+      "mean": 5.273859110567563,
+      "std": 0.2636929555283782
+    },
+    "foot_stagger_mean": {
+      "mean": 0.5442399395287473,
+      "std": 0.027211996976437364
+    },
+    "foot_stagger_range": {
+      "mean": 7.498116102907651,
+      "std": 0.3749058051453826
+    },
+    "hip_center_x_min": {
+      "mean": 0.3782558739185333,
+      "std": 0.018912793695926668
+    },
+    "hip_center_x_max": {
+      "mean": 0.7624222040176392,
+      "std": 0.038121110200881964
+    },
+    "hip_center_x_mean": {
+      "mean": 0.5358406607200493,
+      "std": 0.026792033036002468
+    },
+    "hip_center_x_range": {
+      "mean": 0.3841663300991058,
+      "std": 0.01920831650495529
+    },
+    "head_offset_min": {
+      "mean": -3.3349355126545484,
+      "std": 0.16674677563272744
+    },
+    "head_offset_max": {
+      "mean": 1.5843246569027574,
+      "std": 0.07921623284513787
+    },
+    "head_offset_mean": {
+      "mean": -0.9430747662213834,
+      "std": 0.04715373831106917
+    },
+    "head_offset_range": {
+      "mean": 4.919260169557306,
+      "std": 0.24596300847786534
+    },
+    "wrist_separation_min": {
+      "mean": 0.0330391131949799,
+      "std": 0.01
+    },
+    "wrist_separation_max": {
+      "mean": 3.389881138592981,
+      "std": 0.16949405692964906
+    },
+    "wrist_separation_mean": {
+      "mean": 0.9560274281786837,
+      "std": 0.04780137140893419
+    },
+    "wrist_separation_range": {
+      "mean": 3.3568420253980005,
+      "std": 0.16784210126990004
+    },
+    "hand_height_diff_min": {
+      "mean": -2.1059548147745955,
+      "std": 0.10529774073872977
+    },
+    "hand_height_diff_max": {
+      "mean": 1.096301469252264,
+      "std": 0.0548150734626132
+    },
+    "hand_height_diff_mean": {
+      "mean": 0.005243547754403,
+      "std": 0.01
+    },
+    "hand_height_diff_range": {
+      "mean": 3.202256284026859,
+      "std": 0.16011281420134296
+    }
+  },
+  "coaching_points": {
+    "shoulder_dx_mean": "Side-on stance facing the target",
+    "left_knee_angle_min": "Forward lunge depth",
+    "right_wrist_angle_range": "Wrist flex through the release",
+    "hip_center_x_range": "Weight transfer into the push"
+  }
+}

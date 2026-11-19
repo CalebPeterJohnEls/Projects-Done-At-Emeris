@@ -1,0 +1,234 @@
+{
+  "skill": "receiving_ball",
+  "features": {
+    "left_elbow_angle_min": {
+      "mean": 146.72342706733582,
+      "std": 7.336171353366791
+    },
+    "left_elbow_angle_max": {
+      "mean": 179.45288604509562,
+      "std": 8.972644302254782
+    },
+    "left_elbow_angle_mean": {
+      "mean": 172.82241710855382,
+      "std": 8.641120855427692
+    },
+    "left_elbow_angle_range": {
+      "mean": 32.729458977759805,
+      "std": 1.6364729488879903
+    },
+    "right_elbow_angle_min": {
+      "mean": 119.37377486886136,
+      "std": 5.968688743443068
+    },
+    "right_elbow_angle_max": {
+      "mean": 179.40583884051333,
+      "std": 8.970291942025666
+    },
+    "right_elbow_angle_mean": {
+      "mean": 174.2061831969717,
+      "std": 8.710309159848585
+    },
+    "right_elbow_angle_range": {
+      "mean": 60.03206397165195,
+      "std": 3.0016031985825977
+    },
+    "left_knee_angle_min": {
+      "mean": 32.941009372031395,
+      "std": 1.64705046860157
+    },
+    "left_knee_angle_max": {
+      "mean": 179.44439604099853,
+      "std": 8.972219802049926
+    },
+    "left_knee_angle_mean": {
+      "mean": 158.2430824091229,
+      "std": 7.912154120456146
+    },
+    "left_knee_angle_range": {
+      "mean": 146.50338666896712,
+      "std": 7.325169333448357
+    },
+    "right_knee_angle_min": {
+      "mean": 10.748862550809967,
+      "std": 0.5374431275404984
+    },
+    "right_knee_angle_max": {
+      "mean": 179.52287830287182,
+      "std": 8.976143915143592
+    },
+    "right_knee_angle_mean": {
+      "mean": 167.40397968508157,
+      "std": 8.37019898425408
+    },
+    "right_knee_angle_range": {
+      "mean": 168.77401575206184,
+      "std": 8.438700787603093
+    },
+    "right_wrist_angle_min": {
+      "mean": 39.44719011179769,
+      "std": 1.9723595055898846
+    },
+    "right_wrist_angle_max": {
+      "mean": 178.9409057847711,
+      "std": 8.947045289238556
+    },
+    "right_wrist_angle_mean": {
+      "mean": 174.97860318316444,
+      "std": 8.748930159158222
+    },
+    "right_wrist_angle_range": {
+      "mean": 139.49371567297342,
+      "std": 6.974685783648671
+    },
+    "left_wrist_angle_min": {
+      "mean": 106.34055446334264,
+      "std": 5.317027723167133
+    },
+    "left_wrist_angle_max": {
+      "mean": 178.91425838245812,
+      "std": 8.945712919122906
+    },
+    "left_wrist_angle_mean": {
+      "mean": 172.12789098886455,
+      "std": 8.606394549443229
+    },
+    "left_wrist_angle_range": {
+      "mean": 72.57370391911547,
+      "std": 3.6286851959557738
+    },
+    "shoulder_dx_min": {
+      "mean": -1.4663481712341309,
+      "std": 0.07331740856170654
+    },
+    "shoulder_dx_max": {
+      "mean": -0.0819229962690622,
+      "std": 0.01
+    },
+    "shoulder_dx_mean": {
+      "mean": -0.6970925455384388,
+      "std": 0.03485462727692194
+    },
+    "shoulder_dx_range": {
+      "mean": 1.3844251749650691,
+      "std": 0.06922125874825345
+    },
+    "shoulder_dy_min": {
+      "mean": -0.4894348978996277,
+      "std": 0.024471744894981384
+    },
+    "shoulder_dy_max": {
+      "mean": 1.1149164537478613,
+      "std": 0.055745822687393067
+    },
+    "shoulder_dy_mean": {
+      "mean": 0.6348375709729449,
+      "std": 0.03174187854864725
+    },
+    "shoulder_dy_range": {
+      "mean": 1.604351351647489,
+      "std": 0.08021756758237446
+    },
+    "stance_width_min": {
+      "mean": 0.2495579524199091,
+      "std": 0.012477897620995456
+    },
+    "stance_width_max": {
+      "mean": 2.0829530654377297,
+      "std": 0.10414765327188649
+    },
+    "stance_width_mean": {
+      "mean": 1.3147302201908873,
+      "std": 0.06573651100954436
+    },
+    "stance_width_range": {
+      "mean": 1.8333951130178203,
+      "std": 0.09166975565089103
+    },
+    "foot_stagger_min": {
+      "mean": 0.234756806644043,
+      "std": 0.01173784033220215
+    },
+    "foot_stagger_max": {
+      "mean": 2.0799579405768185,
+      "std": 0.10399789702884094
+    },
+    "foot_stagger_mean": {
+      "mean": 1.2760070702933728,
+      "std": 0.06380035351466865
+    },
+    "foot_stagger_range": {
+      "mean": 1.8452011339327756,
+      "std": 0.09226005669663878
+    },
+    "hip_center_x_min": {
+      "mean": 0.286338061094284,
+      "std": 0.0143169030547142
+    },
+    "hip_center_x_max": {
+      "mean": 0.3969646394252777,
+      "std": 0.019848231971263886
+    },
+    "hip_center_x_mean": {
+      "mean": 0.3522658554565667,
+      "std": 0.017613292772828335
+    },
+    "hip_center_x_range": {
+      "mean": 0.1106265783309936,
+      "std": 0.01
+    },
+    "head_offset_min": {
+      "mean": -0.0552732991103247,
+      "std": 0.01
+    },
+    "head_offset_max": {
+      "mean": 1.2615004113651491,
+      "std": 0.06307502056825746
+    },
+    "head_offset_mean": {
+      "mean": 0.7003898655568381,
+      "std": 0.03501949327784191
+    },
+    "head_offset_range": {
+      "mean": 1.316773710475474,
+      "std": 0.0658386855237737
+    },
+    "wrist_separation_min": {
+      "mean": 0.1749871194150137,
+      "std": 0.01
+    },
+    "wrist_separation_max": {
+      "mean": 2.7916234225565,
+      "std": 0.139581171127825
+    },
+    "wrist_separation_mean": {
+      "mean": 1.3134610226228112,
+      "std": 0.06567305113114057
+    },
+    "wrist_separation_range": {
+      "mean": 2.6166363031414868,
+      "std": 0.13083181515707434
+    },
+    "hand_height_diff_min": {
+      "mean": -2.590658664703369,
+      "std": 0.12953293323516846
+    },
+    "hand_height_diff_max": {
+      "mean": 2.459218350100907,
+      "std": 0.12296091750504534
+    },
+    "hand_height_diff_mean": {
+      "mean": 1.2289127449946995,
+      "std": 0.06144563724973498
+    },
+    "hand_height_diff_range": {
+      "mean": 5.049877014804276,
+      "std": 0.25249385074021385
+    }
+  },
+  "coaching_points": {
+    "foot_stagger_mean": "Left foot forward stance",
+    "head_offset_mean": "Head positioned over the ball",
+    "left_knee_angle_mean": "Knee bend and balance"
+  }
+}
