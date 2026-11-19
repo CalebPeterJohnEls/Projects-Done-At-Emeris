@@ -1,0 +1,23 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+    ViewData["PageCss"] = "style.css";
+    ViewData["ActiveNav"] = "";
+    ViewData["Portal"] = "Coach";
+}
+
+<div class="fia-inner">
+    <section class="fia-page-header">
+        <h1><i class="fa fa-triangle-exclamation"></i> Something went wrong</h1>
+        <p>An unexpected error occurred while processing your request.</p>
+    </section>
+
+    @if (Model.ShowRequestId)
+    {
+        <section class="fia-section" style="margin-top:0;">
+            <p class="fia-note">Request ID: <code>@Model.RequestId</code></p>
+        </section>
+    }
+
+    <a class="fia-btn" href="@Url.Action("Index", "Home")">Back to Home</a>
+</div>

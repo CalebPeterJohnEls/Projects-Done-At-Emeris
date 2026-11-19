@@ -1,0 +1,75 @@
+@model ParentDashboardViewModel
+
+<div class="fia-page">
+
+    <div class="fia-hero">
+        <div class="fia-hero-turf">
+            <div class="fia-turf-stripes"></div>
+            <div class="fia-pitch-circle"></div>
+            <div class="fia-pitch-line"></div>
+        </div>
+        <div class="fia-ball"></div>
+        <svg class="fia-stick" viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M48 6 L20 78 Q14 92 32 90" stroke="#6b4226" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M48 6 L20 78 Q14 92 32 90" stroke="#8a5a35" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="fia-hero-content">
+            <svg class="mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="48" fill="#3ED9DB"/>
+                <path d="M20 62 Q50 25 80 62" stroke="#ffffff" stroke-width="8" fill="none" stroke-linecap="round"/>
+                <path d="M28 72 Q50 42 72 72" stroke="#ffffff" stroke-width="8" fill="none" stroke-linecap="round"/>
+            </svg>
+            <h1>Fun in Action</h1>
+            <div class="subtitle">Modified Sport &amp; Education Training</div>
+            <hr class="fia-rule" />
+        </div>
+    </div>
+
+    <div class="fia-inner">
+
+        <section class="fia-page-header">
+            <h1><i class="fa fa-house"></i> Welcome back</h1>
+            <p>Here's how @Model.ChildName is doing in the Fun in Action programme.</p>
+        </section>
+
+        <section class="fia-section" style="margin-top:0;">
+            <div class="fia-card-grid">
+                <div class="fia-card">
+                    <span class="fia-stat-value">@Model.CurrentLevel</span>
+                    <span class="fia-stat-label">@Model.ChildName's Current Level</span>
+                </div>
+                <div class="fia-card">
+                    <span class="fia-stat-value">@Model.SessionsAttended</span>
+                    <span class="fia-stat-label">Sessions Attended</span>
+                </div>
+                <div class="fia-card">
+                    <span class="fia-stat-value">@Model.NextSession</span>
+                    <span class="fia-stat-label">Next Session</span>
+                </div>
+                <div class="fia-card">
+                    <span class="fia-stat-value">@Model.PaymentStatus</span>
+                    <span class="fia-stat-label">Payment Status</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="fia-section">
+            <h2><i class="fa fa-chart-line"></i> Latest Training Feedback</h2>
+            @foreach (var f in Model.LatestFeedback)
+            {
+                var badgeClass = f.RatingLabel.Equals("Green", StringComparison.OrdinalIgnoreCase) ? "fia-badge-green"
+                                : f.RatingLabel.Equals("Yellow", StringComparison.OrdinalIgnoreCase) ? "fia-badge-yellow"
+                                : "fia-badge-red";
+                <div class="fia-stance-card">
+                    <div class="head">
+                        <strong>@f.Title &mdash; @f.Date</strong>
+                        <span class="fia-badge @badgeClass">@f.RatingLabel</span>
+                    </div>
+                    <p style="margin:0; font-size:13.5px; color:#4c5254;">@f.Comment</p>
+                </div>
+            }
+        </section>
+
+    </div>
+
+</div>

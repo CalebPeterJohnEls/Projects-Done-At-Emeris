@@ -1,0 +1,22 @@
+﻿@model FunInAction.Mvc.Models.LoginViewModel
+@using Microsoft.AspNetCore.Mvc.ModelBinding
+@using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@{
+    Layout = "~/Views/Shared/_AuthSliderLayout.cshtml";
+    ViewData["Title"] = "Login";
+    ViewData["Mode"] = "login";
+}
+
+@section LoginForm {
+    <partial name="_LoginForm" model="Model" />
+}
+
+@section RegisterForm {
+    @await Html.PartialAsync("_RegisterForm", new FunInAction.Mvc.Models.RegisterViewModel(),
+        new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary()))
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

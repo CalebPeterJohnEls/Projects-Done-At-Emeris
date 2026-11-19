@@ -1,0 +1,84 @@
+@model ClientsIndexViewModel
+@{
+    ViewData["PageCss"] = "stylesclients.css";
+}
+
+<section class="fia-view active" id="view-clients">
+    <div class="fia-page-header with-action">
+        <div>
+            <h1><i class="fa-solid fa-users"></i> Clients</h1>
+            <p>An overview of every client on your books, with quick actions to edit or remove records.</p>
+        </div>
+        <a class="fia-btn" href="@Url.Action("Create")"><i class="fa-solid fa-plus"></i> Add client</a>
+    </div>
+
+    <div class="fia-section" style="padding:0 24px; margin-bottom:28px;">
+        <div class="fia-card-grid">
+            <div class="fia-card">
+                <span class="fia-stat-value">@Model.TotalClients</span>
+                <span class="fia-stat-label">Total clients</span>
+            </div>
+            <div class="fia-card">
+                <span class="fia-stat-value">@Model.ActiveClients</span>
+                <span class="fia-stat-label">Active clients</span>
+            </div>
+            <div class="fia-card">
+                <span class="fia-stat-value">@Model.AddedThisMonth</span>
+                <span class="fia-stat-label">Added this month</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="fia-toolbar">
+        <h2>Client list</h2>
+        <div class="fia-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search" placeholder="Search clients" value="@Model.SearchTerm">
+        </div>
+    </div>
+
+    <div class="fia-section" style="padding:0 24px;">
+        <div class="fia-table-wrap">
+            <table class="fia-table">
+                <thead>
+                    <tr>
+                        <th>Client ID</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="client-rows">
+                    @if (!Model.Clients.Any())
+                    {
+                        <tr class="fia-empty-row"><td colspan="7">No clients match your search.</td></tr>
+                    }
+                    @foreach (var c in Model.Clients)
+                    {
+                        var searchBlob = $"{c.Id} {c.FirstName} {c.LastName} {c.Email} {c.Phone}".ToLowerInvariant();
+                        <tr data-search="@searchBlob">
+                            <td><span class="fia-id-chip">@c.Id</span></td>
+                            <td>@c.FirstName</td>
+                            <td>@c.LastName</td>
+                            <td>@c.Email</td>
+                            <td>@c.Phone</td>
+                            <td><span class="fia-badge @(c.Active ? "fia-badge-green" : "fia-badge-yellow")">@(c.Active ? "Active" : "Inactive")</span></td>
+                            <td>
+                                <div class="fia-actions-cell">
+                                    <a class="fia-btn fia-btn-sm fia-btn-edit" href="@Url.Action("Edit", new { id = c.Id })"><i class="fa-solid fa-pen"></i> Edit</a>
+                                    <form asp-action="Delete" asp-route-id="@c.Id" method="post" style="display:inline;" onsubmit="return confirm('Delete @c.FirstName @c.LastName (@c.Id)? This can\'t be undone.');">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="fia-btn fia-btn-sm fia-btn-delete"><i class="fa-solid fa-trash"></i> Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

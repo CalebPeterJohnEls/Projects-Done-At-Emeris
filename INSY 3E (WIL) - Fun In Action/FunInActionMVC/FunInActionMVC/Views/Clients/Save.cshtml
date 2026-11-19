@@ -1,0 +1,85 @@
+@model ClientFormViewModel
+@{
+    ViewData["PageCss"] = "stylesclients.css";
+    var heading = Model.IsEditing ? "Edit client" : "Add new client";
+    var headingIcon = Model.IsEditing ? "fa-pen" : "fa-user-plus";
+    var subHeading = Model.IsEditing ? "Update this client's details below." : "Enter the client's details below to add them to your records.";
+    var formTitle = Model.IsEditing ? "Edit client" : "New client";
+    var formSub = Model.IsEditing ? "Client ID cannot be changed once created." : "All fields are required.";
+    var saveButtonText = Model.IsEditing ? "Save changes" : "Add client";
+    var saveButtonIcon = "fa-check";
+    var action = Model.IsEditing ? "Edit" : "Create";
+}
+
+<section class="fia-view active" id="view-add">
+    <div class="fia-page-header">
+        <a class="fia-back-link" href="@Url.Action("Index")"><i class="fa-solid fa-arrow-left"></i> Back to clients</a>
+        <h1 id="form-heading"><i class="fa-solid @headingIcon"></i> @heading</h1>
+        <p id="form-heading-sub">@subHeading</p>
+    </div>
+
+    <div class="fia-form-wrap">
+        <div class="fia-form-card">
+            <h2 id="form-title">@formTitle</h2>
+            <p class="fia-form-sub" id="form-sub">@formSub</p>
+
+            <form asp-controller="Clients" asp-action="@action" asp-route-id="@(Model.IsEditing ? Model.Client.Id : null)" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+
+                <div class="fia-field">
+                    <label asp-for="Client.Id">Client ID</label>
+                    @if (Model.IsEditing)
+                    {
+                        <input type="text" value="@Model.Client.Id" disabled />
+                        <input type="hidden" asp-for="Client.Id" />
+                    }
+                    else
+                    {
+                        <input asp-for="Client.Id" placeholder="e.g. CL-0148" />
+                    }
+                    <span asp-validation-for="Client.Id" class="fia-field-err field-validation-error"></span>
+                </div>
+                <div class="fia-field">
+                    <label asp-for="Client.FirstName">First name</label>
+                    <input asp-for="Client.FirstName" placeholder="Amara" />
+                    <span asp-validation-for="Client.FirstName" class="fia-field-err field-validation-error"></span>
+                </div>
+                <div class="fia-field">
+                    <label asp-for="Client.LastName">Surname</label>
+                    <input asp-for="Client.LastName" placeholder="Dlamini" />
+                    <span asp-validation-for="Client.LastName" class="fia-field-err field-validation-error"></span>
+                </div>
+                <div class="fia-field">
+                    <label asp-for="Client.Email">Email</label>
+                    <input asp-for="Client.Email" placeholder="amara@company.com" />
+                    <span asp-validation-for="Client.Email" class="fia-field-err field-validation-error"></span>
+                </div>
+                <div class="fia-field">
+                    <label asp-for="Client.Phone">Phone</label>
+                    <input asp-for="Client.Phone" placeholder="+27 82 555 0134" />
+                    <span asp-validation-for="Client.Phone" class="fia-field-err field-validation-error"></span>
+                </div>
+                @if (Model.IsEditing)
+                {
+                    <div class="fia-field">
+                        <label asp-for="Client.Active">Active</label>
+                        <select asp-for="Client.Active" class="form-select" style="width:auto;">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </div>
+                }
+
+                <div class="fia-form-actions">
+                    <button type="submit" class="fia-btn"><i class="fa-solid @saveButtonIcon"></i> @saveButtonText</button>
+                    <a class="fia-btn-outline" href="@Url.Action("Index")">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

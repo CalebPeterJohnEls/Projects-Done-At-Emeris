@@ -1,0 +1,79 @@
+@model CoachDashboardViewModel
+
+<div class="fia-page">
+
+    <div class="fia-hero">
+        <div class="fia-hero-turf">
+            <div class="fia-turf-stripes"></div>
+            <div class="fia-pitch-circle"></div>
+            <div class="fia-pitch-line"></div>
+        </div>
+        <div class="fia-mascot-rig">
+            <img src="~/assets/mascots/athletic_pro_final_transparent.png" alt="" class="fia-mascot" />
+            <div class="fia-stick-pivot">
+                <svg class="fia-stick" viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M48 6 L20 78 Q14 92 32 90" stroke="#6b4226" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M48 6 L20 78 Q14 92 32 90" stroke="#8a5a35" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
+        <div class="fia-ball"></div>
+        <h1>Fun in Action</h1>
+        <div class="subtitle">Modified Sport &amp; Education Training</div>
+        <hr class="fia-rule" />
+    </div>
+
+    <div class="fia-inner">
+
+        <section class="fia-page-header">
+            <h1><i class="fa fa-home"></i> Welcome back, Coach</h1>
+            <p>Here's what's happening across your Fun in Action groups this term.</p>
+        </section>
+
+        <section class="fia-section" style="margin-top:0;">
+            <div class="fia-card-grid">
+                <div class="fia-card">
+                    <span class="fia-stat-value">@Model.ActivePlayers</span>
+                    <span class="fia-stat-label">Active Players</span>
+                </div>
+                <div class="fia-card">
+                    <span class="fia-stat-value">@Model.SessionsThisTerm</span>
+                    <span class="fia-stat-label">Saturday Sessions This Term</span>
+                </div>
+                <div class="fia-card">
+                    <span class="fia-stat-value">@Model.PaymentsPending</span>
+                    <span class="fia-stat-label">Payments Pending</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="fia-section">
+            <h2><i class="fa fa-calendar-days"></i> Upcoming Sessions</h2>
+            <div class="fia-table-wrap">
+                <table class="fia-table">
+                    <thead>
+                        <tr><th>Date</th><th>Time</th><th>Group</th><th>Focus</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var s in Model.UpcomingSessions)
+                        {
+                            var badgeClass = s.Status == "Confirmed" ? "fia-badge-green" : "fia-badge-yellow";
+                            <tr>
+                                <td>@s.Date</td>
+                                <td>@s.Time</td>
+                                <td>@s.Group</td>
+                                <td>@s.Focus</td>
+                                <td><span class="fia-badge @badgeClass">@s.Status</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <p class="fia-note">Test sessions are run in groups of up to 14 players so every coaching point stays focused. Give parents at least a week's notice before each date.</p>
+        </section>
+
+       
+
+    </div>
+
+</div>

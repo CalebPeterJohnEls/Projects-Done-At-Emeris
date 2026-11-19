@@ -1,0 +1,59 @@
+﻿@model Contract
+@using FunInAction.Mvc.Services
+@{
+    var isSigned = Model.Status == ContractStatus.Signed;
+    var badgeClass = isSigned ? "fia-badge-green" : "fia-badge-yellow";
+    var terms = ContractTerms.For(Model.Title);
+}
+
+@section Styles {
+    <style>
+        .fia-terms { background: #fff; border: 1px solid #e3e8f4; border-radius: 12px; padding: 22px 26px; }
+        .fia-terms h3 { font-size: 1.05rem; margin: 18px 0 4px; }
+        .fia-terms h3:first-child { margin-top: 0; }
+        .fia-terms p { margin: 0; color: #444; line-height: 1.55; }
+        .fia-sign-box { margin-top: 18px; padding: 18px 22px; background: #f5f8ff; border: 1px dashed #b9cdf5; border-radius: 12px; }
+        .fia-sign-box label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; margin: 0 0 14px; }
+        .fia-sign-box input[type=checkbox] { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; }
+        .fia-sign-box button:disabled { opacity: .5; cursor: not-allowed; }
+        .fia-back { display: inline-block; margin-bottom: 14px; }
+    </style>
+}
+
+<div class="fia-inner">
+
+    <a asp-action="Index" class="fia-btn-outline fia-back"><i class="fa fa-arrow-left"></i> Back to contracts</a>
+
+    <section class="fia-page-header">
+        <h1><i class="fa @Model.Icon"></i> @Model.Title</h1>
+        <p>@Model.Description <span class="fia-badge @badgeClass">@Model.Status</span></p>
+    </section>
+
+    <section class="fia-terms">
+        @foreach (var (heading, text) in terms)
+        {
+            <h3>@heading</h3>
+            <p>@text</p>
+        }
+    </section>
+
+    @if (!isSigned)
+    {
+        <form asp-action="Sign" method="post" class="fia-sign-box" id="sign">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <label>
+                <input type="checkbox" name="agreed" value="true" id="agree-check" />
+                <span>I have read and agree to the terms of <strong>@Model.Title</strong>.</span>
+            </label>
+            <button type="submit" class="fia-btn" id="sign-btn" disabled>Sign</button>
+        </form>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        var check = document.getElementById('agree-check');
+        var btn = document.getElementById('sign-btn');
+        if (check) check.addEventListener('change', function () { btn.disabled = !check.checked; });
+    </script>
+}

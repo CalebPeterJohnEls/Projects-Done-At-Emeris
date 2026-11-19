@@ -1,0 +1,247 @@
+@model List<PaymentRecord>
+@{
+    ViewData["PageCss"] = "stylepayments.css";
+    var fee = (ProgrammeFeeSummary)ViewBag.FeeSummary;
+    var card = (CardPaymentViewModel)ViewBag.CardPayment;
+    var reopen = ViewBag.ReopenOverlay is true;
+    var feeAmount = "R" + fee.TotalAmount.ToString("N0");
+    var regFeeAmount = "R" + fee.RegistrationFee.ToString("N0");
+}
+
+<div class="fia-inner">
+
+    <section class="fia-page-header">
+        <h1><i class="fa fa-credit-card"></i> My Payments</h1>
+        <p>Registration and session fees for the Fun in Action programme.</p>
+    </section>
+
+    <section class="fia-section" style="margin-top:0;">
+        <div class="fia-payment-top-row">
+
+            <div class="fia-price-card">
+                <div class="label">Programme total</div>
+                <div class="amount">@feeAmount</div>
+                <div class="sub">4 Saturday sessions &middot; 09:00 &ndash; 10:00 &middot; Registration @regFeeAmount included</div>
+                <hr />
+                <div class="sub">Status: @fee.StatusLabel</div>
+            </div>
+
+            @* Clickable bank card; opens the flip overlay below *@
+            <div class="fia-bank-card-wrap" id="open-payment-card"
+                 data-label="@card.ItemLabel" data-amount="@card.ItemAmount"
+                 role="button" tabindex="0">
+                <div class="fia-bank-card">
+                    <i class="fa fa-wifi mock-chip-signal"></i>
+                    <i class="fa fa-microchip mock-chip"></i>
+                    <div class="mock-card-number">&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;</div>
+                    <div class="mock-card-bottom">
+                        <div>
+                            <div class="mock-card-label">Card Holder</div>
+                            <div class="mock-card-value">YOUR NAME</div>
+                        </div>
+                        <div>
+                            <div class="mock-card-label">Expires</div>
+                            <div class="mock-card-value">MM/YY</div>
+                        </div>
+                        <i class="fa-brands fa-cc-visa mock-card-brand"></i>
+                    </div>
+                </div>
+                <div class="pay-hint"><i class="fa fa-credit-card"></i> Click to pay with a card</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="fia-section">
+        <h2><i class="fa fa-clock-rotate-left"></i> Payment History</h2>
+
+        @if (Model.Count == 0)
+        {
+            <div class="fia-note">No payments have been recorded yet.</div>
+        }
+        else
+        {
+            <div class="fia-table-wrap">
+                <table class="fia-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model.OrderByDescending(x => x.Date))
+                        {
+                            var badge = p.Status switch
+                            {
+                                PaymentStatus.Confirmed => "fia-badge-green",
+                                PaymentStatus.Failed    => "fia-badge-red",
+                                _                       => "fia-badge-yellow"
+                            };
+                            <tr>
+                                <td>@p.Date.ToString("dd MMM")</td>
+                                <td>@p.Description</td>
+                                <td>@("R" + p.Amount.ToString("N0"))</td>
+                                <td>@p.Method</td>
+                                <td><span class="fia-badge @badge">@p.Status</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+
+    @* RECONSTRUCTED: replace with your original Upload Proof markup if it differs *@
+    <section class="fia-section">
+        <h2><i class="fa fa-upload"></i> Upload Proof of Payment</h2>
+        <form asp-controller="Portal" asp-action="UploadProof" method="post" enctype="multipart/form-data">
+            <div class="fia-contract-item">
+                <i class="fa fa-file-arrow-up doc-icon"></i>
+                <div class="body">
+                    <strong>Paid by EFT?</strong>
+                    <span>Upload your proof of payment (image or PDF) and we'll confirm it.</span>
+                </div>
+                <input type="file" name="proofFile" accept=".jpg,.jpeg,.png,.pdf" />
+                <button type="submit" class="fia-btn" style="border:none; cursor:pointer;">Upload</button>
+            </div>
+        </form>
+    </section>
+
+</div>
+
+@* ===== Flip-card overlay ===== *@
+<div id="payment-overlay" data-reopen="@(reopen ? "true" : "false")">
+    <div class="payment-flip-card">
+        <div class="flip-inner">
+
+            <div class="face front-face">
+                <button class="overlay-close" type="button" onclick="closePaymentOverlay()" aria-label="Close">
+                    <i class="fa fa-xmark"></i>
+                </button>
+                <div>
+                    <i class="fa fa-wifi mock-chip-signal light"></i>
+                    <i class="fa fa-microchip mock-chip light"></i>
+                </div>
+                <div class="mock-card-number">&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;</div>
+                <div class="mock-card-bottom">
+                    <div>
+                        <div class="mock-card-label">Paying for</div>
+                        <div class="mock-card-value" id="overlay-item-label">@card.ItemLabel</div>
+                    </div>
+                    <div>
+                        <div class="mock-card-label">Amount</div>
+                        <div class="mock-card-value" id="overlay-item-amount">@card.ItemAmount</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="face back-face">
+                <button class="overlay-close dark" type="button" onclick="closePaymentOverlay()" aria-label="Close">
+                    <i class="fa fa-xmark"></i>
+                </button>
+
+                <h2 class="payment-form-title"><i class="fa fa-lock"></i> Enter Card Details</h2>
+                <p class="payment-form-sub">Paying <strong id="overlay-item-amount-2">@card.ItemAmount</strong> for <strong id="overlay-item-label-2">@card.ItemLabel</strong></p>
+
+                @* Posts to PortalController.Pay; the form tag helper adds the anti-forgery token itself *@
+                <form class="payment-form" asp-controller="Portal" asp-action="Pay" method="post">
+                    <input type="hidden" id="CardPayment_ItemLabel" name="ItemLabel" value="@card.ItemLabel" />
+                    <input type="hidden" id="CardPayment_ItemAmount" name="ItemAmount" value="@card.ItemAmount" />
+
+                    <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+
+                    <label class="payment-field">
+                        <span>Cardholder Name</span>
+                        <input type="text" name="CardholderName" value="@card.CardholderName" placeholder="e.g. J Dolly" autocomplete="off" />
+                    </label>
+
+                    <label class="payment-field">
+                        <span>Card Number</span>
+                        <input type="text" name="CardNumber" value="@card.CardNumber" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="off" />
+                    </label>
+
+                    <div class="payment-field-row">
+                        <label class="payment-field">
+                            <span>Expiry Date</span>
+                            <input type="text" name="ExpiryDate" value="@card.ExpiryDate" placeholder="MM/YY" maxlength="5" autocomplete="off" />
+                        </label>
+                        <label class="payment-field">
+                            <span>CVV</span>
+                            <input type="text" name="Cvv" value="@card.Cvv" placeholder="123" maxlength="4" autocomplete="off" />
+                        </label>
+                    </div>
+
+                    <label class="payment-field">
+                        <span>Email for Receipt</span>
+                        <input type="email" name="ReceiptEmail" value="@card.ReceiptEmail" placeholder="you@example.com" autocomplete="off" />
+                    </label>
+
+                    <button type="submit" class="fia-btn payment-submit-btn">
+                        <i class="fa fa-lock"></i> Confirm &amp; Pay
+                    </button>
+                    <div class="payment-form-note">Payment processing isn't connected yet &mdash; this form is a placeholder for the gateway integration.</div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@* Inline script so it runs even if the layout has no Scripts section *@
+<script>
+    function openPaymentOverlay(label, amount) {
+        document.getElementById('overlay-item-label').textContent = label;
+        document.getElementById('overlay-item-amount').textContent = amount;
+        document.getElementById('overlay-item-label-2').textContent = label;
+        document.getElementById('overlay-item-amount-2').textContent = amount;
+        document.getElementById('CardPayment_ItemLabel').value = label;
+        document.getElementById('CardPayment_ItemAmount').value = amount;
+
+        const overlay = document.getElementById('payment-overlay');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Flip on the next frame so the card is visibly "closed" first
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => overlay.classList.add('flipped'));
+        });
+    }
+
+    function closePaymentOverlay() {
+        const overlay = document.getElementById('payment-overlay');
+        overlay.classList.remove('flipped');
+        document.body.style.overflow = '';
+        setTimeout(() => overlay.classList.remove('active'), 400);
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closePaymentOverlay();
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const bankCard = document.getElementById('open-payment-card');
+        if (bankCard) {
+            const open = () => openPaymentOverlay(bankCard.dataset.label, bankCard.dataset.amount);
+            bankCard.addEventListener('click', open);
+            bankCard.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+            });
+        }
+
+        const overlay = document.getElementById('payment-overlay');
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closePaymentOverlay();
+        });
+
+        // Reopen if the form came back with validation errors
+        if (overlay.dataset.reopen === 'true') {
+            openPaymentOverlay(
+                document.getElementById('overlay-item-label').textContent,
+                document.getElementById('overlay-item-amount').textContent);
+        }
+    });
+</script>

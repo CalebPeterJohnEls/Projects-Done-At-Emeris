@@ -1,0 +1,263 @@
+/*
+ * =========================================================
+ * MOBILE / DESKTOP SIDE NAVIGATION
+ * =========================================================
+ */
+
+function toggleSidenav() {
+    const nav = document.getElementById('sidenav');
+    const overlay = document.getElementById('nav-overlay');
+
+
+    if (!nav || !overlay) {
+        return;
+    }
+
+
+    if (window.innerWidth <= 768) {
+        nav .classList.remove('min');
+        nav .classList.toggle('mobile-open');
+        overlay .classList.toggle( 'visible', nav.classList.contains('mobile-open') );
+    }
+
+    else {
+        nav .classList.remove('mobile-open');
+        overlay .classList.remove('visible');
+        nav .classList.toggle('min');
+    }
+}
+
+
+/*
+ * =========================================================
+ * CLOSE MOBILE NAVIGATION
+ * =========================================================
+ */
+
+function closeMobileNav() {
+    const nav = document.getElementById('sidenav');
+    const overlay = document.getElementById('nav-overlay');
+
+
+    if (nav) {
+        nav .classList.remove('mobile-open');
+    }
+
+
+    if (overlay) {
+        overlay .classList.remove('visible');
+    }
+}
+
+
+/*
+ * =========================================================
+ * PROFILE ACCORDION
+ * =========================================================
+ */
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    document
+        .querySelectorAll('.fia-acc-trigger')
+        .forEach(function (trigger) {
+
+            trigger.addEventListener('click', function () {
+
+                const item =
+                    trigger.closest('.fia-acc-item');
+
+
+                if (!item) {
+                    return;
+                }
+
+
+                const wasOpen =
+                    item.classList.contains('open');
+
+
+                /*
+                 * Close all accordion panels.
+                 */
+
+                document
+                    .querySelectorAll('.fia-acc-item')
+                    .forEach(function (element) {
+
+                        element.classList.remove('open');
+
+                    });
+
+
+                /*
+                 * Open the clicked panel if
+                 * it wasn't already open.
+                 */
+
+                if (!wasOpen) {
+
+                    item.classList.add('open');
+
+                }
+
+            });
+
+        });
+
+
+    /*
+     * Automatically open an accordion
+     * containing a validation error.
+     */
+
+    const firstInvalid =
+        document.querySelector(
+            '.fia-acc-panel .input-validation-error, ' +
+            '.fia-acc-panel .validation-summary-errors'
+        );
+
+
+    if (firstInvalid) {
+
+        const panel =
+            firstInvalid.closest('.fia-acc-item');
+
+
+        if (panel) {
+
+            panel.classList.add('open');
+
+        }
+
+    }
+
+});
+/*
+ * =========================================================
+ * IMAGE LIGHTBOX
+ * =========================================================
+ */
+function openLightbox(el) {
+
+    if (!el) {
+        return;
+    }
+
+    const img = el.querySelector('img');
+    const lightbox = document.getElementById('fia-lightbox');
+    const lightboxImg = document.getElementById('fia-lightbox-img');
+
+
+    if (
+        !img ||
+        !lightbox ||
+        !lightboxImg
+    ) {
+        return;
+    }
+
+    lightboxImg .src = img.src;
+    lightbox .classList.add('open');
+}
+
+
+/*
+ * =========================================================
+ * CLOSE IMAGE LIGHTBOX
+ * =========================================================
+ */
+
+function closeLightbox(event) {
+
+    if (event) {
+        event .stopPropagation();
+    }
+
+    const lightbox = document.getElementById('fia-lightbox');
+
+
+    if (lightbox) {
+        lightbox .classList.remove('open');
+    }
+}
+
+
+/*
+ * =========================================================
+ * CLIENT SEARCH
+ * =========================================================
+ */
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const searchEl =
+        document.getElementById('search');
+
+    const rowsEl =
+        document.getElementById('client-rows');
+
+
+    /*
+     * This page doesn't have the client table.
+     * Therefore there is nothing to initialise.
+     */
+
+    if (!searchEl || !rowsEl) {
+
+        return;
+
+    }
+
+
+    searchEl.addEventListener('input', function () {
+
+        const q =
+            searchEl.value
+                .trim()
+                .toLowerCase();
+
+
+        const rows =
+            rowsEl.querySelectorAll(
+                'tr[data-search]'
+            );
+
+
+        let anyVisible = false;
+
+
+        rows.forEach(function (row) {
+
+            const match =
+                !q ||
+                row.dataset.search.includes(q);
+
+
+            row.style.display =
+                match ? '' : 'none';
+
+
+            if (match) {
+
+                anyVisible = true;
+
+            }
+
+        });
+
+
+        const emptyRow =
+            rowsEl.querySelector('.fia-empty-row');
+
+
+        if (emptyRow) {
+
+            emptyRow.style.display =
+                anyVisible ? 'none' : '';
+
+        }
+
+    });
+
+});

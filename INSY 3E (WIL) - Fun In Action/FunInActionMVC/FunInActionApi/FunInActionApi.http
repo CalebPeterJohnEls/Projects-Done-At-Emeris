@@ -1,0 +1,6 @@
+@FunInActionApi_HostAddress = http://localhost:5047
+
+GET {{FunInActionApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,70 @@
+﻿@model FunInAction.Mvc.Models.RegisterViewModel
+
+<form asp-controller="Account" asp-action="Register" method="post" class="auth-form sign-up-form">
+    <img src="~/assets/logo_mark.png" alt="Fun in Action" class="auth-logo" />
+    <h2 class="title">Register</h2>
+    <div asp-validation-summary="ModelOnly" class="auth-summary"></div>
+
+    <div class="auth-row">
+        <div class="auth-field">
+            <div class="input-field">
+                <i class="fa-solid fa-user" aria-hidden="true"></i>
+                <input asp-for="FirstName" id="reg-firstname" placeholder="First name" autocomplete="given-name" aria-label="First name" />
+            </div>
+            <span asp-validation-for="FirstName" class="field-err field-validation-error"></span>
+        </div>
+        <div class="auth-field">
+            <div class="input-field">
+                <i class="fa-solid fa-user" aria-hidden="true"></i>
+                <input asp-for="LastName" id="reg-lastname" placeholder="Last name" autocomplete="family-name" aria-label="Last name" />
+            </div>
+            <span asp-validation-for="LastName" class="field-err field-validation-error"></span>
+        </div>
+    </div>
+
+    <div class="auth-field">
+        <div class="input-field">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+            <input asp-for="Email" id="reg-email" placeholder="Email" autocomplete="email" aria-label="Email" />
+        </div>
+        <span asp-validation-for="Email" class="field-err field-validation-error"></span>
+    </div>
+
+    <div class="auth-row">
+        <div class="auth-field">
+            <div class="input-field">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <input asp-for="Phone" id="reg-phone" placeholder="Phone" autocomplete="tel" aria-label="Phone" />
+            </div>
+            <span asp-validation-for="Phone" class="field-err field-validation-error"></span>
+        </div>
+        <div class="auth-field">
+            <div class="input-field">
+                <i class="fa-solid fa-users" aria-hidden="true"></i>
+                <select asp-for="Role" id="reg-role" aria-label="Role">
+                    <option value="Client">Parent / Client</option>
+                    <option value="Player">Player</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-row">
+        <div class="auth-field">
+            <div class="input-field">
+                <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                <input asp-for="Password" type="password" id="reg-password" placeholder="Password" autocomplete="new-password" aria-label="Password" />
+            </div>
+            <span asp-validation-for="Password" class="field-err field-validation-error"></span>
+        </div>
+        <div class="auth-field">
+            <div class="input-field">
+                <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                <input asp-for="ConfirmPassword" type="password" id="reg-confirm" placeholder="Confirm password" autocomplete="new-password" aria-label="Confirm password" />
+            </div>
+            <span asp-validation-for="ConfirmPassword" class="field-err field-validation-error"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="auth-btn">Register</button>
+</form>

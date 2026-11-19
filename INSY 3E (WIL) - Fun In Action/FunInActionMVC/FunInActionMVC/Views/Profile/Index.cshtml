@@ -1,0 +1,114 @@
+@model ProfilePageViewModel
+@{
+    ViewData["PageCss"] = "styleprofile.css";
+    var portal = ViewData["Portal"] as string ?? "Coach";
+}
+
+<div class="fia-inner">
+
+    <section class="fia-profile-identity">
+        <div class="fia-profile-avatar">
+            <div class="circle"><i class="fa fa-user"></i></div>
+            <button type="button" aria-label="Change photo"><i class="fa fa-camera"></i></button>
+        </div>
+        <div>
+            <div class="greeting">@Model.Profile.FullName</div>
+            <div class="role">@Model.Profile.Role</div>
+        </div>
+    </section>
+
+    <section class="fia-accordion" id="profile-accordion">
+
+        <div class="fia-acc-item" data-panel="personal">
+            <button type="button" class="fia-acc-trigger">
+                <span class="left"><i class="fa fa-id-card"></i>Edit personal information</span>
+                <i class="fa fa-chevron-down chevron"></i>
+            </button>
+            <div class="fia-acc-panel">
+                <form asp-controller="Profile" asp-action="UpdateDetails" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="portal" value="@portal" />
+                    <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+                    <div class="fia-form-grid">
+                        <div class="fia-field">
+                            <label asp-for="Profile.FullName">Full name</label>
+                            <input asp-for="Profile.FullName" />
+                            <span asp-validation-for="Profile.FullName" class="fia-field-err field-validation-error"></span>
+                        </div>
+                        <div class="fia-field">
+                            <label asp-for="Profile.Email">Email</label>
+                            <input asp-for="Profile.Email" />
+                            <span asp-validation-for="Profile.Email" class="fia-field-err field-validation-error"></span>
+                        </div>
+                        <div class="fia-field">
+                            <label asp-for="Profile.Phone">Phone</label>
+                            <input asp-for="Profile.Phone" />
+                            <span asp-validation-for="Profile.Phone" class="fia-field-err field-validation-error"></span>
+                        </div>
+                        <div class="fia-field">
+                            <label>Role</label>
+                            <input type="text" value="@Model.Profile.Role" disabled>
+                        </div>
+                    </div>
+                    <div class="fia-acc-actions">
+                        <a class="fia-btn-outline" href="@Url.Action("Index", new { portal })">Cancel</a>
+                        <button type="submit" class="fia-btn">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="fia-acc-item" data-panel="password">
+            <button type="button" class="fia-acc-trigger">
+                <span class="left"><i class="fa fa-lock"></i>Change password</span>
+                <i class="fa fa-chevron-down chevron"></i>
+            </button>
+            <div class="fia-acc-panel">
+                <form asp-controller="Profile" asp-action="ChangePassword" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="portal" value="@portal" />
+                    <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+                    <div class="fia-form-grid narrow">
+                        <div class="fia-field">
+                            <label asp-for="ChangePassword.CurrentPassword">Current password</label>
+                            <input asp-for="ChangePassword.CurrentPassword" placeholder="Enter current password">
+                            <span asp-validation-for="ChangePassword.CurrentPassword" class="fia-field-err field-validation-error"></span>
+                        </div>
+                        <div class="fia-field">
+                            <label asp-for="ChangePassword.NewPassword">New password</label>
+                            <input asp-for="ChangePassword.NewPassword" placeholder="Enter new password">
+                            <span asp-validation-for="ChangePassword.NewPassword" class="fia-field-err field-validation-error"></span>
+                        </div>
+                        <div class="fia-field">
+                            <label asp-for="ChangePassword.ConfirmPassword">Confirm new password</label>
+                            <input asp-for="ChangePassword.ConfirmPassword" placeholder="Re-enter new password">
+                            <span asp-validation-for="ChangePassword.ConfirmPassword" class="fia-field-err field-validation-error"></span>
+                        </div>
+                    </div>
+                    <div class="fia-acc-actions">
+                        <a class="fia-btn-outline" href="@Url.Action("Index", new { portal })">Cancel</a>
+                        <button type="submit" class="fia-btn">Update password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="fia-profile-footer">
+        <form asp-controller="Account" asp-action="Logout" method="post">
+            <button type="submit" class="fia-btn-outline" id="logout-btn">
+                <i class="fa fa-sign-out-alt" style="margin-right:6px;"></i>Logout
+            </button>
+        </form>
+    </section>
+
+</div>
+
+@section HeadScripts {
+    <script src="~/js/theme-init.js" asp-append-version="true"></script>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,166 @@
+@{
+    var pageCss = ViewData["PageCss"] as string ?? "style.css";
+    var portal = ViewData["Portal"] as string ?? "Coach";
+    var activeNav = ViewData["ActiveNav"] as string ?? "";
+    var userName = Context.Session.GetString("FullName") ?? "Guest";
+
+    // CHANGED: role comes from Session (set at sign-in by AccountController), not the "portal"
+    // ViewData — ViewData is just "which section is this page in" and isn't safe to gate the
+    // portal-switch or nav on its own (a client could hit ?portal=Coach otherwise).
+    var role = Context.Session.GetString("Role") ?? "";
+    var isAdmin = role == "Admin";
+    var isCoach = portal == "Coach";
+
+    string NavClass(string name) => activeNav == name ? "active" : "";
+    string HomeHref = isCoach ? Url.Action("Index", "Home") ?? "/" : Url.Action("Home", "Portal") ?? "/Portal";
+    string PaymentsHref = isCoach ? Url.Action("Index", "Payments") ?? "/Payments" : Url.Action("Payments", "Portal") ?? "/Portal/Payments";
+    string ProfileHref = Url.Action("Index", "Profile", new { portal }) ?? "/Profile";
+    string AboutHref = Url.Action("About", "Home") ?? "/Home/About";   // CHANGED: About no longer takes a portal param
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewData["Title"] ?? "Fun in Action") - Fun in Action</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/@pageCss" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+    @await RenderSectionAsync("HeadScripts", required: false)
+</head>
+<body>
+
+    <div id="nav-overlay" onclick="closeMobileNav()"></div>
+
+    <button id="sidenav-toggle" onclick="toggleSidenav()" aria-label="Toggle navigation">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <header id="top-bar">
+        <a class="brand" href="@HomeHref">
+            <img src="~/assets/logo_mark.png" alt="Fun in Action Logo" style="height:26px;width:26px;object-fit:contain;margin-right:8px;" />
+            Fun in Action
+        </a>
+
+        @* CHANGED: only an Admin account can flip between the two portals — everyone else only
+           ever has the one side that matches their own role, so there's nothing to switch to. *@
+        @if (isAdmin)
+        {
+            <div class="fia-portal-switch">
+                <a href="@Url.Action("Index", "Home")" class="@(isCoach ? "active" : "")">Coach Portal</a>
+                <a href="@Url.Action("Home", "Portal")" class="@(isCoach ? "" : "active")">Parent Portal</a>
+            </div>
+        }
+
+        <div class="user-info">
+            <span>Hello, @userName!</span>
+            <a href="@ProfileHref" class="avatar-link" aria-label="My Profile">
+                <i class="fa fa-user" aria-hidden="true"></i>
+            </a>
+        </div>
+    </header>
+
+    <div id="page-wrapper">
+
+        <nav id="sidenav" aria-label="Main navigation">
+
+            <p class="nav-section-label">Menu</p>
+
+            <ul>
+                <li>
+                    <a href="@HomeHref" class="@NavClass("Home")" data-label="Home">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <span class="nav-label">Home</span>
+                    </a>
+                </li>
+                @if (isCoach)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Clients")" class="@NavClass("Clients")" data-label="Clients">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                            <span class="nav-label">Clients</span>
+                        </a>
+                    </li>
+                }
+                <li>
+                    <a href="@PaymentsHref" class="@NavClass("Payments")" data-label="Payments">
+                        <i class="fa fa-credit-card" aria-hidden="true"></i>
+                        <span class="nav-label">Payments</span>
+                    </a>
+                </li>
+                @* CHANGED: Contracts and About moved to the client/player side — the coach nav no
+                   longer shows either (matches ContractsController / HomeController.About). *@
+                @if (!isCoach)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Contracts")" class="@NavClass("Contracts")" data-label="Contracts">
+                            <i class="fa fa-file-alt" aria-hidden="true"></i>
+                            <span class="nav-label">Contracts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@AboutHref" class="@NavClass("About")" data-label="About">
+                            <i class="fa fa-circle-info" aria-hidden="true"></i>
+                            <span class="nav-label">About</span>
+                        </a>
+                    </li>
+                }
+                <li>
+                    <a href="@ProfileHref" class="@NavClass("Profile")" data-label="My Profile">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span class="nav-label">My Profile</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-spacer"></div>
+            <hr class="nav-divider" />
+            <p class="nav-section-label">Account</p>
+
+            <ul>
+                <li>
+                    <a href="#" data-label="Logout"
+                       onclick="document.getElementById('logout-form').submit(); return false;">
+                        <i class="fa fa-sign-out-alt" aria-hidden="true"></i>
+                        <span class="nav-label">Logout</span>
+                    </a>
+                    <form id="logout-form" asp-controller="Account" asp-action="Logout" method="post" style="display:none;"></form>
+                </li>
+            </ul>
+
+            <div style="height: 16px;"></div>
+
+        </nav>
+
+        <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+
+            <main id="main-content" role="main">
+
+                @if (TempData["ToastMessage"] is string toast)
+                {
+                    var isError = TempData["ToastIsError"] is bool b && b;
+                    <div class="fia-toast-banner @(isError ? "error" : "")">@toast</div>
+                }
+
+                @RenderBody()
+
+            </main>
+
+            <footer class="footer">
+                &copy; 2026 - Fun in Action - Group 7 design
+            </footer>
+
+        </div>
+
+    </div>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

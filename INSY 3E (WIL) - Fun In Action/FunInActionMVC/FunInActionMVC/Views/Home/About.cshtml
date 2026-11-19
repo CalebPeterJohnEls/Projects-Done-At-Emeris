@@ -1,0 +1,163 @@
+@{
+    var portal = ViewData["Portal"] as string ?? "Coach";
+}
+
+<section class="fia-section">
+    <h2><i class="fa fa-circle-info"></i> Introduction</h2>
+    <p>
+        In communities with limited recreational opportunities, and parents with limited
+        financial resources, it is essential that the school promotes physical education and
+        modified junior sport as part of the school curriculum.
+    </p>
+    <p>
+        By removing the obstacles to participation and shifting mind-set, any smooth surface
+        can become a safe, caring environment for physical activity within schools and
+        communities.
+    </p>
+    <p>
+        This pragmatic approach ensures every learner has access to the benefits of physical
+        activity, and helps build a lasting love for recreation, health, and sport.
+    </p>
+</section>
+
+<section class="fia-section">
+    <h2><i class="fa fa-bullseye"></i> Vision, Focus &amp; Motto</h2>
+    <div class="fia-card-grid">
+        <div class="fia-card">
+            <h3>Our Vision</h3>
+            <p>Promotion of fundamental movement skills through participation in modified
+                games during physical education, after school, and holidays.</p>
+        </div>
+        <div class="fia-card">
+            <h3>Our Focus</h3>
+            <ul>
+                <li>Fun</li>
+                <li>Enjoyment</li>
+                <li>Participation</li>
+                <li>Education</li>
+            </ul>
+        </div>
+        <div class="fia-card">
+            <h3>Our Motto</h3>
+            <p>"Organise not formalise."</p>
+        </div>
+    </div>
+</section>
+
+<section class="fia-section">
+    <h2><i class="fa fa-circle-question"></i> What &amp; Why</h2>
+    <div class="fia-card-grid">
+        <div class="fia-card">
+            <h3>What is Fun in Action?</h3>
+            <p>A programme that promotes FUNdamental Movement Skills and life skills through
+                regular participation in modified games. It is age-appropriate and aligned to
+                the physical education curriculum in the Foundation and Intermediate Phase.</p>
+        </div>
+        <div class="fia-card">
+            <h3>Why Fun in Action?</h3>
+            <p>Aligning with school PE outcomes helps more children attain and enjoy optimum
+                health. Success depends on the quality and amount of exposure to fundamental
+                movement skills during the normal school day.</p>
+        </div>
+    </div>
+</section>
+
+<section class="fia-section">
+    <h2><i class="fa fa-list-check"></i> Key Components</h2>
+    <div class="fia-components">
+        <div class="fia-component">
+            <span class="num">1</span>
+            <div class="body">
+                <strong>Early Childhood Development</strong>
+                <span>Gross motor skills and core muscle development through play.</span>
+            </div>
+        </div>
+        <div class="fia-component">
+            <span class="num">2</span>
+            <div class="body">
+                <strong>Promotion of Fundamental Movement Skills</strong>
+                <span>Aligned with the Life Skills curriculum.</span>
+            </div>
+        </div>
+        <div class="fia-component">
+            <span class="num">3</span>
+            <div class="body">
+                <strong>Inter-Class Modified Games</strong>
+                <span>Increases participation, limited cost to implement, improves learner discipline.</span>
+            </div>
+        </div>
+        <div class="fia-component">
+            <span class="num">4</span>
+            <div class="body">
+                <strong>Modified Neighbourhood Leagues</strong>
+                <span>Cost-effective to implement, increases participation, builds better communities.</span>
+            </div>
+        </div>
+        <div class="fia-component">
+            <span class="num">5</span>
+            <div class="body">
+                <strong>Junior Modified Club Sport</strong>
+                <span>The natural progression from school-level participation into club sport.</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="fia-section">
+    <h2><i class="fa fa-images"></i> Gallery</h2>
+    <div class="fia-gallery">
+        <div class="fia-gallery-item" onclick="openLightbox(this)">
+            <img src="~/assets/mascots/athletic_pro_final_transparent.png" alt="Fun in Action gallery photo 1">
+        </div>
+        <div class="fia-gallery-item" onclick="openLightbox(this)">
+            <img src="~/assets/mascots/crane_robot_hockey_front_facing.webp" alt="Fun in Action gallery photo 2">
+        </div>
+        <div class="fia-gallery-item" onclick="openLightbox(this)">
+            <img src="~/assets/mascots/arctic_fox_robot_hockey.webp" alt="Fun in Action gallery photo 3">
+        </div>
+        <div class="fia-gallery-item" onclick="openLightbox(this)">
+            <img src="~/assets/mascots/athletic_pro_final_transparent.png" alt="Fun in Action gallery photo 4">
+        </div>
+    </div>
+</section>
+
+<section class="fia-section">
+    <h2><i class="fa fa-robot"></i> Our Mascot</h2>
+    <p>
+        The team's early idea was a Duolingo-style animated mascot to make the app feel
+        alive for younger players. "Foxy" was the first concept &mdash; but the name
+        turned out to already be trademarked, so the team explored a robot direction
+        instead, still built around a sporty, friendly feel.
+    </p>
+    <div class="fia-card-grid">
+        <div class="fia-card" style="text-align:center;">
+            <img src="~/assets/mascots/arctic_fox_robot_hockey.webp" alt="Arctic fox robot concept" style="width:100%;max-width:200px;margin:0 auto 12px auto;display:block;" />
+            <h3>Concept: Arctic Fox Robot</h3>
+            <p>An early animal-robot hybrid, keeping a nod to the original "Foxy" idea while sitting inside an armoured, robotic body.</p>
+        </div>
+        <div class="fia-card" style="text-align:center;">
+            <img src="~/assets/mascots/crane_robot_hockey_front_facing.webp" alt="Crane robot concept" style="width:100%;max-width:200px;margin:0 auto 12px auto;display:block;" />
+            <h3>Concept: Crane Robot</h3>
+            <p>A tall, bird-inspired build exploring a different silhouette and a sleeker, more mechanical look.</p>
+        </div>
+        <div class="fia-card" style="text-align:center; border-top-color:#1fa3a5;">
+            <img src="~/assets/mascots/athletic_pro_final_transparent.png" alt="Final Fun in Action mascot" style="width:100%;max-width:200px;margin:0 auto 12px auto;display:block;" />
+            <h3>Final Mascot</h3>
+            <p>The friendly, rounded robot design the team settled on &mdash; simple enough to animate, and now used across the app and website.</p>
+        </div>
+    </div>
+</section>
+
+<section class="fia-section">
+    <h2><i class="fa fa-address-card"></i> Contact</h2>
+    <div class="fia-contact">
+        <div class="row"><i class="fa fa-phone"></i> <span>083 252 6321</span></div>
+        <div class="row"><i class="fa fa-envelope"></i> <a href="mailto:funinactionza@gmail.com">funinactionza@gmail.com</a></div>
+    </div>
+</section>
+
+<!-- Gallery Lightbox overlay -->
+<div id="fia-lightbox" class="fia-lightbox" onclick="closeLightbox(event)">
+    <button class="fia-lightbox-close" onclick="closeLightbox(event)" aria-label="Close">&times;</button>
+    <img id="fia-lightbox-img" src="" alt="Enlarged gallery photo">
+</div>

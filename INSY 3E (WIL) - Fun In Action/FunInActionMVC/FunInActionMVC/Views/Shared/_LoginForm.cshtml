@@ -1,0 +1,25 @@
+﻿@model FunInAction.Mvc.Models.LoginViewModel
+
+<form asp-controller="Account" asp-action="Login" method="post" class="auth-form sign-in-form">
+    <img src="~/assets/logo_mark.png" alt="Fun in Action" class="auth-logo" />
+    <h2 class="title">Log in</h2>
+    <div asp-validation-summary="ModelOnly" class="auth-summary"></div>
+
+    <div class="auth-field">
+        <div class="input-field">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+            <input asp-for="Email" id="login-email" placeholder="Email" autocomplete="email" aria-label="Email" />
+        </div>
+        <span asp-validation-for="Email" class="field-err field-validation-error"></span>
+    </div>
+
+    <div class="auth-field">
+        <div class="input-field">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            <input asp-for="Password" type="password" id="login-password" placeholder="Password" autocomplete="current-password" aria-label="Password" />
+        </div>
+        <span asp-validation-for="Password" class="field-err field-validation-error"></span>
+    </div>
+
+    <button type="submit" class="auth-btn">Log in</button>
+</form>
