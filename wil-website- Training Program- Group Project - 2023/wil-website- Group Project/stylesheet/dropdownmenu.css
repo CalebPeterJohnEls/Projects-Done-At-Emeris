@@ -1,0 +1,132 @@
+body{
+    background-image: linear-gradient(to right, #0E61C2, rgb(15, 184, 113),#029B02 );
+}
+.courselist{
+    flex: 1;
+    display: inline-flex;
+    justify-content:space-around;
+    align-items: center;
+    margin-left: 45%;
+    height: 350px;
+    width: 250px;
+}
+.imgpad{
+    flex: 2;
+    border: solid #0E61C2 9px;
+    border-radius: 15%;
+    box-shadow: black 0px 0px 10px 5px;
+    
+    justify-content: space-between;
+    margin: 30px;
+    height: max-content;
+    width: max-content;
+}
+
+.coursename{
+    flex: 3;
+    font-size: medium;
+    font-weight: 600;
+    
+}
+*{margin: 0; padding: 0; box-sizing: border-box;}
+.mains{
+    width: 100%;
+    height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.mains .icons:hover a{
+    background-color: transparent;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: sans-serif;
+    color: white;
+    font-optical-sizing: auto;
+}
+.icons{
+    border: solid 5px rgb(0, 110, 255) ;
+    width: 175px;
+    height: 175px;
+    border-radius: 25px;
+    margin: 20px;
+    text-align: center;
+    font-size: 50px;
+    line-height: 100px;
+    font-family: sans-serif;
+    overflow: hidden;
+    box-shadow: 5px 10px 20px rgba(150, 150, 150, .3);
+    transition: all .3s ease-out;
+    padding-right: 25px;
+}
+
+.icons img{
+    width: 175px;
+    height: 175px;
+}
+.icons:hover{
+    width: 400px;
+    height: 15vh;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 15px;
+    border: black solid 2px;
+}
+
+
+.icons.fa-firstaid:hover{
+    background-color: #029B02;
+    color: white;
+    font-size: larger;
+}
+
+.icons.fa-sewing:hover{
+    background-color: #38A8B6;
+    color: white;
+    font-size: larger;
+}
+.icons.fa-lifeskills:hover{
+    background: #C2DD2F;
+    color: white;
+    font-size: larger;
+}
+.icons.fa-landscaping:hover{
+    background: rgb(94, 51, 51);
+    color: white;
+    font-size: larger;
+}
+
+.icons.fa-firstaid:hover img, .icons.fa-sewing:hover img, .icons.fa-lifeskills:hover img, .icons.fa-landscaping:hover img, .icons.fa-cooking:hover img, .icons.fa-gardening:hover img, .icons.icons.fa-minding:hover img{
+    height: 0;
+    width: 0;
+}
+
+.icons.fa-cooking:hover{
+    background: #FB5A2A;
+    color: white;
+    font-size: larger;
+}
+
+.icons.fa-gardening:hover{
+    background: #4B7B13;
+    color: white;
+    font-size: large;
+}
+
+.icons.fa-minding:hover{
+    background: #6F81B3;
+    color: white;
+    font-size: large;
+}
+/* responsive */
+@media only screen and (min-width: 320px) and (max-width: 991px) {
+    .mains{
+        flex-direction: column;
+    }
+}
+
+ 

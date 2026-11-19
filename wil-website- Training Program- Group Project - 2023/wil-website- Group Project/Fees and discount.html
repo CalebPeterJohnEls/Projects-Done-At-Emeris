@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fees Page</title>
+        <meta charset="UTF-8"> <!--IIE, 2023 -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <link rel="stylesheet" href="style.css" type="text/css">
+        <link rel="stylesheet" href="style1.css" type="text/css">
+        <link rel="stylesheet" href="styles.css">
+    
+        <style>
+            body{
+        background-image: linear-gradient(to right, #0E61C2, rgb(15, 184, 113),#029B02 );
+            }
+            .logo {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 40vh; 
+            }
+    
+            .logo img {
+                width: 250px;
+                height: 250px;
+                
+            }
+
+            .nav {
+            float: none;
+            text-align: center;
+            transition: all 3s ease-in;
+        }
+        .nav a:hover{
+            
+            background: linear-gradient(to right, #41cf3c, rgb(0, 89, 255) )
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-content a + a {
+            border-top: 1px solid #ccc;
+        }
+        </style>
+    </head>
+
+    <body>
+
+        <header>
+            <div class="logo">
+                <img style="width: 250px; height: 250px;" src="Logo.png" alt="Our Logo">
+            </div>
+            <!--IIE, 2023 -->
+            <nav class="nav"> 
+                <a href="Home.html">Home</a>
+                <div class="dropdown">
+                    <a href="javascript:void(0)">Courses</a>
+                    <div class="dropdown-content">
+                        <a href="sixweekcourses.html">Six week courses</a>
+                        <a href="Six month course.html">Six month courses</a>
+                    </div>
+                </div>
+                <a href="Fees and discount.html">Fees and discount</a>
+                <a href="contactus.html">Contact detail</a>
+            </nav>
+        </header>
+
+   
+    <!--IIE, 2023 -->
+    <div id="home" class="back">
+        <div class="wrapper">
+            <div class="title">
+              Registration Form
+            </div>
+            <div class="form">
+                <div class="inputfield">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" required>
+                </div>  
+                <div class="inputfield">
+                    <label>Last Name</label>
+                    <input type="text" id="name" required>
+                </div>  
+                <div class="inputfield">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div> 
+                <div class="inputfield">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                
+                <p class="title">Choose Courses:</p>
+                <div class="cboxes">
+                <label><input type="checkbox" name="courses" value="first-aid" onchange="calculateTotal()"> <span style="color: #000000;">First Aid (+R1500)</span></label><br>
+                <label><input type="checkbox" name="courses" value="sewing" onchange="calculateTotal()"> <span style="color: #000000;">Sewing (+R1500)</span></label><br>
+                <label><input type="checkbox" name="courses" value="landscaping" onchange="calculateTotal()"> <span style="color: #000000;">Landscaping (+R1500)</span></label><br>
+                <label><input type="checkbox" name="courses" value="life-skills" onchange="calculateTotal()"> <span style="color: #000000;">Life Skills (+R1500)</span></label><br>
+                <label><input type="checkbox" name="courses" value="child-minding" onchange="calculateTotal()"> <span style="color: #000000;">Child Minding (+R750)</span></label><br>
+                <label><input type="checkbox" name="courses" value="cooking" onchange="calculateTotal()"> <span style="color: #000000;">Cooking (+R750)</span></label><br>
+                <label><input type="checkbox" name="courses" value="garden-maintenance" onchange="calculateTotal()"> <span style="color: #000000;">Garden Maintenance (+R750)</span></label><br><br>
+                <p id="selected-courses" style="color: #000000;">Selected Courses: None</p><br>
+                </div>
+                <div class="title">
+                    Total Fees
+                </div>
+                <table class="fees-table" style="border: 2px solid #6aff6a; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="color: #000000;">Course</th>
+                            <th style="color: #000000;">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fee-table-body">
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td style="color: #000000;">Total (before discount):</td>
+                            <td id="total-fees-cell" style="color: #000000;">R0.00</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #000000;">Discount:</td>
+                            <td id="discount-cell" style="color: #000000;">R0.00</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #000000;">Total (after discount):</td>
+                            <td id="total-fees-after-discount-cell" style="color: #000000;">R0.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            <div class="inputfield"> <!--IIE, 2023 -->
+                <input type="submit" value="Register" class="btn" onclick="submitForm()">
+                <br><br><br><br>
+                <input type="button" value="Clear" class="btn" onclick="clearForm()">
+            </div>
+        </div>
+            </div>
+        </div>	
+        <script> //IIE, 2023 
+          function calculateTotal() {
+              const nameField = document.getElementById('name');
+              const phoneField = document.getElementById('phone');
+              const emailField = document.getElementById('email');
+              const selectedCourses = document.querySelectorAll('input[name="courses"]:checked');
+              const feeTableBody = document.getElementById('fee-table-body');
+              const totalFeesCell = document.getElementById('total-fees-cell');
+              let totalFees = 0;
+        
+              if (!nameField.value || !phoneField.value || !emailField.value) {
+                  alert('Please fill in all required fields.');
+                  return;
+              }
+        
+              feeTableBody.innerHTML = '';
+        
+              selectedCourses.forEach(course => {
+                  const courseName = course.value;
+                  let coursePrice = 0;
+        
+                  switch (courseName) {
+                      case 'first-aid':
+                      case 'sewing':
+                      case 'landscaping':
+                      case 'life-skills':
+                          coursePrice = 1500;
+                          break;
+                      case 'child-minding':
+                      case 'cooking':
+                      case 'garden-maintenance':
+                          coursePrice = 750;
+                          break;
+                  }
+        
+                  totalFees += coursePrice;
+        
+                  const row = document.createElement('tr');
+                  row.innerHTML = `
+                      <td>${courseName}</td>
+                      <td>R${coursePrice.toFixed(2)}</td>
+                  `;
+                  feeTableBody.appendChild(row);
+              });
+        
+              totalFeesCell.textContent = `R${totalFees.toFixed(2)}`;
+          }
+          //IIE, 2023 
+          function submitForm() {
+            const nameField = document.getElementById('name');
+            const phoneField = document.getElementById('phone');
+            const emailField = document.getElementById('email');
+            const selectedCourses = document.querySelectorAll('input[name="courses"]:checked');
+
+            if (!nameField.value || !phoneField.value || !emailField.value) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            let emailBody = `Name: ${nameField.value}\n`;
+            emailBody += `Phone Number: ${phoneField.value}\n`;
+            emailBody += `Email: ${emailField.value}\n\n`;
+
+            emailBody += 'Selected Courses:\n';
+            selectedCourses.forEach(course => {
+                emailBody += `- ${course.value}\n`;
+            });
+
+            const subject = 'Registration Form Submission';
+            //IIE, 2023 
+            // Create mailto link
+            const mailtoLink = `mailto:farrenkeys7@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+
+            // Open the user's email client
+            window.location.href = mailtoLink;
+        }
+//IIE, 2023      
+    function clearForm() {  
+        const inputFields = document.querySelectorAll('.inputfield input[type="text"]');
+        inputFields.forEach(input => (input.value = ''));
+    }
+    
+        </script>
+        <script src="scripts.js"></script>
+        <br>
+    
+        <div class="footer" style="text-align: center;">
+            <p>&copy; 2023 Empowering the Nation</p>
+        </div>
+</body>
+</html>
+<!-- Reference List -->
+<!-- WEB Module 
+The IIE. 2023. [WEDE5020] The Independent Institute of Education: Unpublished 
+WIL Module
+IIE, 2023. Work Integrated Learning XHAW5112 [Module Manual]. The Independent Institute of Education: Unpublished. -->

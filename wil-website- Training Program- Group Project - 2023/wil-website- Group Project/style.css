@@ -1,0 +1,375 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.instructor img {
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border: 7px solid #84f384;
+  }
+
+  .instructor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    margin: 0;
+    background-color: rgb(106, 106, 231);
+  }
+
+  .instructor h1,
+  .instructor h2 {
+    margin: 10px 0;
+  }
+
+
+.navbar a:link, a:visited {
+    background-color: #71cc6e;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Change the background color on hover for anchor tags */
+.navbar a:hover {
+    background-color: #6ECC83;
+}
+
+/* Apply background color to anchor tags when active (clicked) */
+.navbar a:active {
+    background-color: #6ECC83;
+}
+
+/* Define styles for the body */
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #9FC39E;
+}
+
+/* Styles for the logo */
+.logo {
+    padding: auto;
+    text-align: center;
+}
+
+/* Styles for the navigation and dropdown menu */
+.navbar {
+    text-align: center;
+}
+
+.navbar a {
+    background-color: #6ECC83;
+    color: rgb(194, 194, 194);
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Change background color on hover for navigation links */
+.navbar a:hover {
+    background-color: #6ECC83;
+}
+
+/* Add a line under navigation links on hover */
+.navbar a:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: blue;
+    transition: .5s;
+    height: 2px;
+    margin-top: 5px;
+    width: 0;
+}
+
+.navbar a:hover:after {
+    width: 100%;
+    color: orange;
+}
+
+/* Add styles for active navbar (if needed) */
+.navbar.active {
+    top: 100%;
+}
+
+/* Styles for the dropdown menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Display the dropdown content on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Add a top border to separate dropdown links */
+.dropdown-content a + a {
+    border-top: 1px solid #ccc;
+}
+
+/* Additional styles for your other elements (if any) */
+
+/* Styles for the icon buttons */
+.icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 70px;
+    background: #fff;
+    margin: 20px;
+    text-align: center;
+    font-size: 50px;
+    line-height: 100px;
+    font-family: sans-serif;
+    overflow: hidden;
+    box-shadow: 5px 10px 20px rgba(150, 150, 150, .3);
+    transition: all .3s ease-out;
+}
+
+/* Expand the icon on hover and change color */
+.icon:hover {
+    width: 400px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: #fff;
+}
+.nav {
+    float: none;
+    text-align: center;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown-content a + a {
+    border-top: 1px solid #ccc;
+}
+
+a:hover {
+    background-color: #6ECC83;
+  }
+
+  a:link, a:visited {
+    background-color: #6ECC83;
+    color: white;
+    padding: 24px 35px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+  }
+  
+  a:hover, a:active {
+    background-color: #6ECC83;
+  }
+
+  body {
+    font-family: Arial;
+    margin: 0;
+    background: #9FC39E;
+}
+
+.logo {
+    padding: auto;
+    text-align: center;
+}
+
+.nav, .footer {
+    float: none;
+    text-align: center;
+    padding: 20px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.logo {
+    text-align: left; /* Adjust text alignment to the left */
+    margin-right: auto; /* Push logo to the left side */
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a + a {
+    border-top: 1px solid #ccc;
+}
+
+.table-container-right {
+    float: right;
+    width: 50%;
+}
+
+.fees-table {
+    width: 100%;
+}
+
+.buttons-container {
+    clear: both;
+    text-align: center;
+    margin-top: 20px;
+}
+.bar {
+  background-color: #6ECC83;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: 1.5em;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px; 
+  margin: 0 auto;    
+  padding: 20px;
+}
+
+.form-container {
+  width: 48%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.table-container-left {
+  width: 48%;
+}
+
+.buttons-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.Feesbox {
+  box-sizing: border-box;
+  background: #d9d9d9;
+  width: 244px;
+  height: 150px;
+ 
+}
+
+.Booking_Button {
+  width: 120px;
+  height: 40px;
+  border-radius: 50%;
+  background: #4CAF50;
+  color: #fff;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 50px;
+  text-decoration: none;
+}
+*{margin: 0; padding: 0; box-sizing: border-box;}
+.main{
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(110, 228, 237);
+}
+.icon{
+    width: 70px;
+    height: 70px;
+    border-radius: 70px;
+    background: #fff;
+    margin: 20px;
+    text-align: center;
+    font-size: 50px;
+    line-height: 100px;
+    font-family: sans-serif;
+    overflow: hidden;
+    box-shadow: 5px 10px 20px rgba(150, 150, 150, .3);
+    transition: all .3s ease-out;
+}
+.icon:hover{
+    width: 400px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: #fff;
+}
+.icon:hover i{
+    color: #fff;
+}
+.icon .fa-facebook-f{
+    color: #1A6ED8;
+}
+.fb:hover{
+    background: #1A6ED8;
+}
+.icon .fa-twitter{
+    color: #1DA1F2;
+}
+.twt:hover{
+    background: #1DA1F2;
+}
+.icon .fa-linkedin-in{
+    color: #0077B5;
+}
+.lnk:hover{
+    background: #0077B5;
+}
+.icon .fa-github{
+    color: #0dff00da;
+}
+.git:hover{
+    background: #08db04;
+}
+.icon .fa-youtube{
+    color: #FE0000;
+}
+.yt:hover{
+    background: #FE0000;
+}
+
+
+/* responsive */
+@media only screen and (min-width: 320px) and (max-width: 991px) {
+    .main{
+        flex-direction: column;
+    }
+}
+
+ 
