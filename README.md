@@ -70,7 +70,7 @@ A collection of projects completed throughout my studies at **Emeris** (previous
 |---|---|---|
 | MVC Website – Contract Monthly Claim System (2025 POE) | PROG6212 | C#, ASP.NET MVC, SQL |
 | C# Console Cyber-Security Chatbot (2025 POE) | PROG6221 | C# |
-| [Midland Saga Game (Assignment Q2)](Prog6112%20Assignment%20q2%20-%20Midland%20Saga%20Game) | PROG6112 | — |
+| [Midland Saga Game (Assignment Q2)](Prog6112%20Assignment%20q2%20-%20Midland%20Saga%20Game) | PROG6112 | Java |
 | Student Registration (Java Assignment Q1) | PROG6112 | Java |
 
 ### Year 1 (2024)
